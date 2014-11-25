@@ -24,6 +24,7 @@ namespace CodenameProjectServer
             config.MaximumConnections = 2;
             config.Port = 14242;
             s_server = new NetServer(config);
+            StartServer();
             ServerLoop();
         }
 
@@ -42,7 +43,7 @@ namespace CodenameProjectServer
                         case NetIncomingMessageType.WarningMessage:
                         case NetIncomingMessageType.VerboseDebugMessage:
                             string text = im.ReadString();
-                            Console.WriteLine(text);
+                            Console.WriteLine("d/e/w/v: "+text);
                             break;
 
                         case NetIncomingMessageType.StatusChanged:

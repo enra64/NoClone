@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Lidgren.Network;
+using System.Diagnostics;
 
 namespace CodenameProjectTwo
 {
@@ -20,14 +21,16 @@ namespace CodenameProjectTwo
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             NetPeerConfiguration config = new NetPeerConfiguration("CodenameProjectTwo");
+            config.AutoFlushSendQueue=false;
             netClient = new NetClient(config);
             netClient.RegisterReceivedCallback(new SendOrPostCallback(GotMessage));
+
+            Console.WriteLine("Press something to connect!");
+            Console.ReadKey();
             Connect("localhost", 14242);
-            string input = Console.ReadLine();
-            while (!input.Equals("quit"))
-            {
-                Send(Console.ReadLine());
-            }
+            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected){ }
+            SendGameState();
+            Console.ReadLine();
             Shutdown();
         }
 
@@ -80,15 +83,29 @@ namespace CodenameProjectTwo
         public static void Connect(string host, int port)
         {
             netClient.Start();
-            NetOutgoingMessage hail = netClient.CreateMessage("This is the hail message");
+            NetOutgoingMessage hail = netClient.CreateMessage("Connection success!");
             netClient.Connect(host, port, hail);
+        }
+
+        private static void SendGameState()
+        {
+            Console.WriteLine("debug");
+            NetOutgoingMessage om = netClient.CreateMessage();
+            for (int i = 0; i < 100; i++)
+                om.Write(42f);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            netClient.SendMessage(om, NetDeliveryMethod.Unreliable);
+            sw.Stop();
+            netClient.FlushSendQueue();
+            Console.WriteLine("elapsed: "+sw.ElapsedMilliseconds);
         }
 
         // called by the UI
         public static void Send(string text)
         {
             NetOutgoingMessage om = netClient.CreateMessage(text);
-            netClient.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+            netClient.SendMessage(om, NetDeliveryMethod.Unreliable);
             Console.WriteLine("Sending '" + text + "'");
             netClient.FlushSendQueue();
         }
