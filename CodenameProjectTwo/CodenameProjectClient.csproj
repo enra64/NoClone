@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\lidgren\Lidgren.Network\obj\Debug\Lidgren.Network.dll</HintPath>
+      <HintPath>..\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-audio-2">
       <HintPath>..\..\..\..\Desktop\lib\sfmlnet-audio-2.dll</HintPath>

@@ -12,7 +12,11 @@ namespace CodenameProjectServer
 {
     class Program
     {
+        private const long UNDEFINED_CLIENT=-1;
+
         private static NetServer netServer;
+        private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
+
         static void Main(string[] args)
         {
             //debug, cant distinguish server/client xD
@@ -45,7 +49,7 @@ namespace CodenameProjectServer
                         case NetIncomingMessageType.WarningMessage:
                         case NetIncomingMessageType.VerboseDebugMessage:
                             string text = im.ReadString();
-                            Console.WriteLine("d/e/w/v: "+text);
+                            //Console.WriteLine("d/e/w/v: "+text);
                             break;
 
                         case NetIncomingMessageType.StatusChanged:
@@ -55,11 +59,30 @@ namespace CodenameProjectServer
                             Console.WriteLine(NetUtility.ToHexString(im.SenderConnection.RemoteUniqueIdentifier) + " " + status + ": " + reason);
 
                             if (status == NetConnectionStatus.Connected)
-                                Console.WriteLine("Remote hail: " + im.SenderConnection.RemoteHailMessage.ReadString());
+                            {
+                                //save uid
+                                string hail="";
+                                if (clientIdentifier1 == UNDEFINED_CLIENT){
+                                    clientIdentifier1 = im.SenderConnection.RemoteUniqueIdentifier;
+                                    hail = "Client 1 (" + clientIdentifier1 + ")";
+                                }
+                                else if (clientIdentifier2 == UNDEFINED_CLIENT)
+                                {
+                                    clientIdentifier2 = im.SenderConnection.RemoteUniqueIdentifier;
+                                    hail = "Client 2 (" + clientIdentifier2 + ")";
+                                }
+                                Console.WriteLine(hail);
+                            }
                             break;
                         case NetIncomingMessageType.Data:
                             // incoming chat message from a client
-                            
+                            //debug identifying clients
+                            if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier1)
+                                Console.Write("client 1: ");
+                            else if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier2)
+                                Console.Write("client 2: ");
+                            else
+                                Console.WriteLine("unknown client detected");
                             //identify message
                             switch (im.ReadInt32())
                             {
@@ -70,6 +93,7 @@ namespace CodenameProjectServer
                                     Console.WriteLine("got string message: " + im.ReadString());
                                     break;
                             }
+                            
                             
                             //Console.WriteLine("Broadcasting '" + chat + "'");
                             /*
