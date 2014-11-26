@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodenameProjectTwo
 {
-    static class Global
+    static class CGlobal
     {
         public const int MOUSE_CLICK_MESSAGE=0, STRING_MESSAGE=1;
         /// <summary>

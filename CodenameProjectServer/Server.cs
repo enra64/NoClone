@@ -10,13 +10,13 @@ using SFML.Window;
 
 namespace CodenameProjectServer
 {
-    class Program
+    class Server
     {
         private const long UNDEFINED_CLIENT=-1;
 
         private static NetServer netServer;
         private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
-        private static List<Sendable> Sendlist = new List<Sendable>();
+        private static List<SInterfaces.ISendable> Sendlist = new List<SInterfaces.ISendable>();
 
         static void Main(string[] args)
         {
@@ -116,12 +116,17 @@ namespace CodenameProjectServer
                      */
                     //identify as server broadcast
                     om.Write(SGlobal.GAMESTATE_BROADCAST);
-                    //need to develop a protocol
-                    //idea: WHAT, WHERE, HEALTH (possibly reassigned correlating to WHAT parameter)
-                    //forces each "thing" to be drawn on to the map to have
-                    //a what, where and health attribute, which could be realized
-                    //over an interface
-                    foreach(Sendable s in Sendlist)
+                    //protocol: send the type first, then an unique identifier
+                    //(set when constructing or via a static method), then
+                    foreach (SInterfaces.ISendable s in Sendlist)
+                    {
+                        om.Write(s.Type);
+                        om.Write(s.Subtype);
+                        om.Write(s.ID);
+                        om.Write(s.Position.X);
+                        om.Write(s.Position.Y);
+                        om.Write(s.Health);
+                    }
                     netServer.SendMessage(om, all, NetDeliveryMethod.Unreliable, 0);
                 }
                 Thread.Sleep(1);
