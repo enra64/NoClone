@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SFML.Graphics;
+using SFML.Window;
 
 namespace CodenameProjectServer
 {
     class Program
     {
-        private static NetServer s_server;
+        private static NetServer netServer;
         static void Main(string[] args)
         {
             //debug, cant distinguish server/client xD
@@ -23,7 +25,7 @@ namespace CodenameProjectServer
             NetPeerConfiguration config = new NetPeerConfiguration("CodenameProjectTwo");
             config.MaximumConnections = 2;
             config.Port = 14242;
-            s_server = new NetServer(config);
+            netServer = new NetServer(config);
             StartServer();
             ServerLoop();
         }
@@ -33,7 +35,7 @@ namespace CodenameProjectServer
             while (true)
             {
                 NetIncomingMessage im;
-                while ((im = s_server.ReadMessage()) != null)
+                while ((im = netServer.ReadMessage()) != null)
                 {
                     // handle incoming message
                     switch (im.MessageType)
@@ -57,26 +59,37 @@ namespace CodenameProjectServer
                             break;
                         case NetIncomingMessageType.Data:
                             // incoming chat message from a client
-                            string chat = im.ReadString();
-
-                            Console.WriteLine("Broadcasting '" + chat + "'");
-
+                            
+                            //identify message
+                            switch (im.ReadInt32())
+                            {
+                                case SGlobal.MOUSE_CLICK_MESSAGE:
+                                    Console.WriteLine("Mouseclick at: "+im.ReadFloat()+", "+im.ReadFloat());
+                                    break;
+                                case SGlobal.STRING_MESSAGE:
+                                    Console.WriteLine("got string message: " + im.ReadString());
+                                    break;
+                            }
+                            
+                            //Console.WriteLine("Broadcasting '" + chat + "'");
+                            /*
                             // broadcast this to all connections, except sender
-                            List<NetConnection> all = s_server.Connections; // get copy
+                            List<NetConnection> all = netServer.Connections; // get copy
                             all.Remove(im.SenderConnection);
 
                             if (all.Count > 0)
                             {
-                                NetOutgoingMessage om = s_server.CreateMessage();
+                                NetOutgoingMessage om = netServer.CreateMessage();
                                 om.Write(NetUtility.ToHexString(im.SenderConnection.RemoteUniqueIdentifier) + " said: " + chat);
-                                s_server.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
+                                netServer.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
                             }
+                            */
                             break;
                         default:
                             Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes " + im.DeliveryMethod + "|" + im.SequenceChannel);
                             break;
                     }
-                    s_server.Recycle(im);
+                    netServer.Recycle(im);
                 }
                 Thread.Sleep(1);
             }
@@ -85,13 +98,13 @@ namespace CodenameProjectServer
         // called by the UI
         public static void StartServer()
         {
-            s_server.Start();
+            netServer.Start();
         }
 
         // called by the UI
         public static void Shutdown()
         {
-            s_server.Shutdown("Requested by user");
+            netServer.Shutdown("Requested by user");
         }
     }
 }

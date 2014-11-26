@@ -6,12 +6,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Lidgren.Network;
 using System.Diagnostics;
+using SFML.Graphics;
+using SFML.Window;
 
 namespace CodenameProjectTwo
 {
     class Program
     {
         private static NetClient netClient;
+        //c for current
+        static RenderWindow cRenderWindow;
+        static View cView;
 
         static void Main(string[] args)
         {
@@ -28,10 +33,113 @@ namespace CodenameProjectTwo
             Console.WriteLine("Press something to connect!");
             Console.ReadKey();
             Connect("localhost", 14242);
+            //wait for connection success
             while(netClient.ConnectionStatus!=NetConnectionStatus.Connected){ }
-            SendGameState();
+
+            /*
+             * These calls are done even before Initialize(), because
+             * of a) their importance and b) dont fuck these up.
+             * Do window creation
+             */
+            //ignore at this moment, because we are going to fuck up at first, and doing that in fullscreen is bad
+            //creates fullscreen window at your maximum resolution
+            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
+
+            //create window
+            cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
+            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
+            //sets framerate to a maximum of 45; changing the value will likely result in bad things
+            cRenderWindow.SetFramerateLimit(35);
+            //add event handler for klicking the X icon
+            cRenderWindow.Closed += windowClosed;
+            //vertical sync is enabled, because master graphics n shit
+            cRenderWindow.SetVerticalSyncEnabled(true);
+
+            //add mouse click handling for getting focus
+            cRenderWindow.MouseButtonPressed += mouseClick;
+
+            //first and only call to load content, not mandatory to use
+            LoadContent();
+            //first and only call to init, do everything else there
+            Initialize();
+
+            /*
+             * shit be about to get real... starting main loop.
+             */
+            while (cRenderWindow.IsOpen())
+            {
+                //mandatory update and draw calls
+                Update();
+                Draw();
+                //dispatch things like "i would like to close this window" and "someone clicked me".
+                //only important if you want to close the window. ever.
+                cRenderWindow.DispatchEvents();
+            }
+            
+            
+            
+            //dont immediately shut down
             Console.ReadLine();
             Shutdown();
+        }
+
+        private static void windowClosed(object sender, EventArgs e)
+        {
+            ((RenderWindow)sender).Close();
+        }
+
+        private static void mouseClick(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine(e.X + ": x, y: " + e.Y);
+            NetOutgoingMessage mes = netClient.CreateMessage();
+            //identify message as mouseclick
+            mes.Write(Global.MOUSE_CLICK_MESSAGE);
+            //write x
+            mes.Write(e.X + Global.CURRENT_WINDOW_ORIGIN.X);
+            //write y
+            mes.Write(e.Y + Global.CURRENT_WINDOW_ORIGIN.Y);
+            //send
+            netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
+            netClient.FlushSendQueue();
+        }
+
+        /// <summary>
+        /// Generic send data function, takes the same stuff as lidgren send, so be careful ;)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="_messageType"></param>
+        /// <param name="_data"></param>
+        private static void SendData<T>(int _messageType, T _data)
+        {
+            NetOutgoingMessage mes = netClient.CreateMessage();
+            for (int i = 0; i < 100; i++)
+                mes.Write(42f);
+            netClient.SendMessage(mes, NetDeliveryMethod.ReliableUnordered);
+            netClient.FlushSendQueue();
+        }
+
+        private static void Initialize()
+        {
+            //set beginning view.
+            cView = new View(new FloatRect(0, 0, 1366, 768));
+            //set view origin and current in static global class
+            Global.BEGIN_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
+            Global.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
+        }
+
+        private static void LoadContent()
+        {
+            //throw new NotImplementedException();
+        }
+
+        private static void Draw()
+        {
+            //throw new NotImplementedException();
+        }
+
+        private static void Update()
+        {
+            //throw new NotImplementedException();
         }
 
         public static void GotMessage(object peer)
@@ -85,20 +193,6 @@ namespace CodenameProjectTwo
             netClient.Start();
             NetOutgoingMessage hail = netClient.CreateMessage("Connection success!");
             netClient.Connect(host, port, hail);
-        }
-
-        private static void SendGameState()
-        {
-            Console.WriteLine("debug");
-            NetOutgoingMessage om = netClient.CreateMessage();
-            for (int i = 0; i < 100; i++)
-                om.Write(42f);
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            netClient.SendMessage(om, NetDeliveryMethod.Unreliable);
-            sw.Stop();
-            netClient.FlushSendQueue();
-            Console.WriteLine("elapsed: "+sw.ElapsedMilliseconds);
         }
 
         // called by the UI

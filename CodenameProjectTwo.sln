@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodenameProjectTwo", "CodenameProjectTwo\CodenameProjectTwo.csproj", "{F0C68C8D-7A17-4BBF-B549-167D7CE6DBEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodenameProjectClient", "CodenameProjectTwo\CodenameProjectClient.csproj", "{F0C68C8D-7A17-4BBF-B549-167D7CE6DBEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodenameProjectServer", "CodenameProjectServer\CodenameProjectServer.csproj", "{7612316A-602D-4798-ADB2-F7506F4F0C97}"
 EndProject
