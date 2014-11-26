@@ -16,6 +16,7 @@ namespace CodenameProjectServer
 
         private static NetServer netServer;
         private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
+        private static List<Sendable> Sendlist = new List<Sendable>();
 
         static void Main(string[] args)
         {
@@ -93,27 +94,35 @@ namespace CodenameProjectServer
                                     Console.WriteLine("got string message: " + im.ReadString());
                                     break;
                             }
-                            
-                            
-                            //Console.WriteLine("Broadcasting '" + chat + "'");
-                            /*
-                            // broadcast this to all connections, except sender
-                            List<NetConnection> all = netServer.Connections; // get copy
-                            all.Remove(im.SenderConnection);
-
-                            if (all.Count > 0)
-                            {
-                                NetOutgoingMessage om = netServer.CreateMessage();
-                                om.Write(NetUtility.ToHexString(im.SenderConnection.RemoteUniqueIdentifier) + " said: " + chat);
-                                netServer.SendMessage(om, all, NetDeliveryMethod.ReliableOrdered, 0);
-                            }
-                            */
                             break;
                         default:
                             Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes " + im.DeliveryMethod + "|" + im.SequenceChannel);
                             break;
                     }
                     netServer.Recycle(im);
+                }
+
+                /*
+                 BROADCAST GAME STATE
+                 */
+                List<NetConnection> all = netServer.Connections; // get copy
+                if (all.Count > 0){
+                    NetOutgoingMessage om = netServer.CreateMessage();
+                    /*
+                     Write everything the clients need to know on each update.
+                     * Currently we broadcast everything all the time; this
+                     * gets more and more inefficient the more stuff we need to
+                     * send, prompting a data-identifier if the game begins to lag
+                     */
+                    //identify as server broadcast
+                    om.Write(SGlobal.GAMESTATE_BROADCAST);
+                    //need to develop a protocol
+                    //idea: WHAT, WHERE, HEALTH (possibly reassigned correlating to WHAT parameter)
+                    //forces each "thing" to be drawn on to the map to have
+                    //a what, where and health attribute, which could be realized
+                    //over an interface
+                    foreach(Sendable s in Sendlist)
+                    netServer.SendMessage(om, all, NetDeliveryMethod.Unreliable, 0);
                 }
                 Thread.Sleep(1);
             }

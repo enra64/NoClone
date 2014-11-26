@@ -8,6 +8,6 @@ namespace CodenameProjectServer
 {
     static class SGlobal
     {
-        public const int MOUSE_CLICK_MESSAGE = 0, STRING_MESSAGE = 1;
+        public const int MOUSE_CLICK_MESSAGE = 0, STRING_MESSAGE = 1, GAMESTATE_BROADCAST=2;
     }
 }
