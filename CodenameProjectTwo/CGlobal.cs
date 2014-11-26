@@ -9,7 +9,7 @@ namespace CodenameProjectTwo
 {
     static class CGlobal
     {
-        public const int MOUSE_CLICK_MESSAGE=0, STRING_MESSAGE=1;
+        public const int MOUSE_CLICK_MESSAGE = 0, STRING_MESSAGE = 1, GAMESTATE_BROADCAST = 2;
         /// <summary>
         /// DIS BE OF UTMOST IMPORTANCY. More readable in Global.cs.
         /// On each update and during the Initialization (e.g. dont worry about availability)

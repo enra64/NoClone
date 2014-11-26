@@ -95,20 +95,30 @@ namespace CodenameProjectTwo
             NetIncomingMessage msg;
             while ((msg = netClient.ReadMessage()) != null)
             {
-                //read until message is empty
-                while(msg.PeekInt32()!=null)
-                {
-                    int type = msg.ReadInt32();
-                    int ID = msg.ReadInt32();
-                    Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
-                    float health = msg.ReadFloat();
-                    //if the list size is smaller than the id, we need to increase it
-                    if (cItemlist.Count < ID)
-                        while (cItemlist.Count < ID)
-                            cItemlist.Add(null);
-                    //now assign the new values
-                    cItemlist[ID].Health = health;
-                    cItemlist[ID].Position = position;
+                if (msg.MessageType == NetIncomingMessageType.Data && msg.ReadInt32()==CGlobal.GAMESTATE_BROADCAST){
+                    Console.WriteLine("länge: " + msg.LengthBytes);
+                    //read until message is empty
+                    while (msg.PeekInt32()!=-1)
+                    {
+                        /*
+                        om.Write(s.Type);
+                        om.Write(s.ID);
+                        om.Write(s.Position.X);
+                        om.Write(s.Position.Y);
+                        om.Write(s.Health);
+                        */
+                        int type = msg.ReadInt32();
+                        int ID = msg.ReadInt32();
+                        Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
+                        float health = msg.ReadFloat();
+                        //if the list size is smaller than the id, we need to increase it
+                        if (cItemlist.Count < ID)
+                            while (cItemlist.Count < ID)
+                                cItemlist.Add(null);
+                        //now assign the new values
+                        cItemlist[ID].Health = health;
+                        cItemlist[ID].Position = position;
+                    }
                 }
             }
         }

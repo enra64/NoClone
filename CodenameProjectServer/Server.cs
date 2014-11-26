@@ -28,6 +28,7 @@ namespace CodenameProjectServer
 
             // set up network, name must be the same
             NetPeerConfiguration config = new NetPeerConfiguration("CodenameProjectTwo");
+
             config.MaximumConnections = 2;
             config.Port = 14242;
             netServer = new NetServer(config);
@@ -116,20 +117,30 @@ namespace CodenameProjectServer
                      */
                     //identify as server broadcast
                     om.Write(SGlobal.GAMESTATE_BROADCAST);
-                    //protocol: send the type first, then an unique identifier
-                    //(set when constructing or via a static method), then
+                    //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
                     foreach (SInterfaces.ISendable s in Sendlist)
                     {
+                        Console.WriteLine("server send");
+                        /*
                         om.Write(s.Type);
-                        om.Write(s.Subtype);
                         om.Write(s.ID);
                         om.Write(s.Position.X);
                         om.Write(s.Position.Y);
                         om.Write(s.Health);
+                        */
+                        om.Write(27);
+                        om.Write(42);
+                        om.Write(5f);
+                        om.Write(10f);
+                        om.Write(10f);
                     }
-                    netServer.SendMessage(om, all, NetDeliveryMethod.Unreliable, 0);
+                    //declare message end
+                    Console.WriteLine("server send");
+                    om.Write(-1);
+                    if (Sendlist.Count == 0)
+                        netServer.SendMessage(om, all, NetDeliveryMethod.Unreliable, 0);
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(1000);
             }
         }
 
