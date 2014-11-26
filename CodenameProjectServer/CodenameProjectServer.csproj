@@ -34,16 +34,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network">
-      <HintPath>..\..\..\..\Downloads\lidgren\Lidgren.Network\bin\Debug\Lidgren.Network.dll</HintPath>
+      <HintPath>..\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-audio-2">
-      <HintPath>..\..\..\..\Downloads\lib\sfmlnet-audio-2.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\lib\sfmlnet-audio-2.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-graphics-2">
-      <HintPath>..\..\..\..\Downloads\lib\sfmlnet-graphics-2.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\lib\sfmlnet-graphics-2.dll</HintPath>
     </Reference>
     <Reference Include="sfmlnet-window-2">
-      <HintPath>..\..\..\..\Downloads\lib\sfmlnet-window-2.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\lib\sfmlnet-window-2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,7 +72,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="libsndfile-1.dll" />
-    <Content Include="Lidgren.Network.dll" />
     <Content Include="openal32.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
