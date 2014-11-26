@@ -121,19 +121,20 @@ namespace CodenameProjectServer
                     foreach (SInterfaces.ISendable s in Sendlist)
                     {
                         Console.WriteLine("server send");
-                        /*
                         om.Write(s.Type);
+                        om.Write(s.Faction);
                         om.Write(s.ID);
                         om.Write(s.Position.X);
                         om.Write(s.Position.Y);
                         om.Write(s.Health);
-                        */
-                        om.Write(27);
-                        om.Write(42);
-                        om.Write(5f);
-                        om.Write(10f);
-                        om.Write(10f);
                     }
+
+                    om.Write(27);
+                    om.Write(false);
+                    om.Write(0);//id, should begin with 0
+                    om.Write(5f);
+                    om.Write(10f);
+                    om.Write(10f);
                     //declare message end
                     Console.WriteLine("server send");
                     om.Write(-1);

@@ -13,7 +13,7 @@ namespace CodenameProjectTwo
         /// interface everything you want to send
         /// has to implement
         /// </summary>
-        public interface ISendable
+        public interface IDrawable
         {
             //idea: WHAT, ID (NOT WHAT), WHERE, HEALTH (possibly reassigned correlating to WHAT parameter)
             /// <summary>
@@ -23,7 +23,7 @@ namespace CodenameProjectTwo
             /// <summary>
             /// Used for transmitting state
             /// </summary>
-            int Subtype { get; set; }
+            bool Faction { get; set; }
             /// <summary>
             /// Used for transmitting state
             /// </summary>

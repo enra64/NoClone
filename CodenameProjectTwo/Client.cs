@@ -19,7 +19,7 @@ namespace CodenameProjectTwo
         static View cView;
         //you throw an int in, it throws an object back
         //static Dictionary<int, Interfaces.ISendable> receivedItemsList=new Dictionary<int, Interfaces.ISendable>();
-        static List<CInterfaces.ISendable> cItemlist = new List<CInterfaces.ISendable>();
+        static List<CInterfaces.IDrawable> cItemlist = new List<CInterfaces.IDrawable>();
         static void Main(string[] args)
         {
             //debug, cant distinguish server/client xD
@@ -95,38 +95,59 @@ namespace CodenameProjectTwo
             NetIncomingMessage msg;
             while ((msg = netClient.ReadMessage()) != null)
             {
-                if (msg.MessageType == NetIncomingMessageType.Data && msg.ReadInt32()==CGlobal.GAMESTATE_BROADCAST){
-                    Console.WriteLine("länge: " + msg.LengthBytes);
-                    //read until message is empty
-                    while (msg.PeekInt32()!=-1)
+                if (msg.MessageType == NetIncomingMessageType.Data){
+                    if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
                     {
-                        /*
-                        om.Write(s.Type);
-                        om.Write(s.ID);
-                        om.Write(s.Position.X);
-                        om.Write(s.Position.Y);
-                        om.Write(s.Health);
-                        */
-                        int type = msg.ReadInt32();
-                        int ID = msg.ReadInt32();
-                        Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
-                        float health = msg.ReadFloat();
-                        //if the list size is smaller than the id, we need to increase it
-                        if (cItemlist.Count < ID)
-                            while (cItemlist.Count < ID)
-                                cItemlist.Add(null);
-                        //now assign the new values
-                        cItemlist[ID].Health = health;
-                        cItemlist[ID].Position = position;
+                        Console.WriteLine("länge: " + msg.LengthBytes);
+                        //read until message is empty
+                        while (msg.PeekInt32()!=-1)
+                        {
+                            int type = msg.ReadInt32();
+                            bool faction = msg.ReadBoolean();
+                            int ID = msg.ReadInt32();
+                            Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
+                            float health = msg.ReadFloat();
+                            //if the list size is smaller than the id, we need to instance the correct class, 
+                            if (cItemlist.Count - 1 < ID)
+                                while (cItemlist.Count - 1 < ID)
+                                    cItemlist.Add(null);
+                            //decide whether to instance or update
+                            if (cItemlist[ID] != null)//update
+                            {
+                                //now assign the new values
+                                cItemlist[ID].Health = health;
+                                cItemlist[ID].Position = position;
+                            }
+                            else//instance
+                                InstanceClass(type, faction, ID, position, health);
+                        }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// use this class to divert the types into the appropriate classes
+        /// </summary>
+        /// <param name="_type"></param>
+        /// <param name="_faction"></param>
+        /// <param name="_ID"></param>
+        /// <param name="_position"></param>
+        /// <param name="_health"></param>
+        private static void InstanceClass(int _type, bool _faction, int _ID, Vector2f _position, float _health){
+            Console.WriteLine("instanced a type " + _type + " of player " + _faction);
+            switch (_type)
+            {
+                case 0:default:
+                    cItemlist[_ID]=new Building(_type, _faction, _ID, _position, _health);
+                    break;
             }
         }
 
         private static void Draw()
         {
             //these two lines are why we use interfaces ;)
-            foreach (CInterfaces.ISendable s in cItemlist)
+            foreach (CInterfaces.IDrawable s in cItemlist)
                 s.Draw();
         }
 

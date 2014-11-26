@@ -15,7 +15,7 @@ namespace CodenameProjectServer
             get { throw new NotImplementedException(); }
         }
 
-        public int Subtype
+        public bool Faction
         {
             get { throw new NotImplementedException(); }
         }

@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building.cs" />
     <Compile Include="CGlobal.cs" />
     <Compile Include="CInterfaces.cs" />
     <Compile Include="Client.cs" />

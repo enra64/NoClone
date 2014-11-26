@@ -20,15 +20,18 @@ namespace CodenameProjectServer
             /// Used for transmitting state
             /// </summary>
             int Type { get; }
+
             /// <summary>
-            /// Used for transmitting state
+            /// Used for transmitting state; contains the faction
             /// </summary>
-            int Subtype { get; }
+            bool Faction { get; }
+
             /// <summary>
             /// This _MUST_ be set to the value of SGlobal.ID_COUNTER at time of creation,
             /// which _HAS_ to be increased afterwards for my server protocol to work!
             /// </summary>
             int ID { get; set; }
+
             /// <summary>
             /// Used for transmitting state
             /// </summary>
