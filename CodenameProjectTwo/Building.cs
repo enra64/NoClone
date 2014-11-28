@@ -88,8 +88,7 @@ namespace CodenameProjectTwo
             get { throw new NotImplementedException(); }
         }
 
-        public void Draw()
-        {
+        public void Draw(){
             throw new NotImplementedException();
         }
     }
