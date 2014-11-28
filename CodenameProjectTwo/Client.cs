@@ -38,12 +38,6 @@ namespace CodenameProjectTwo
             //wait for connection success
             while(netClient.ConnectionStatus!=NetConnectionStatus.Connected){ }
 
-            /*
-             * These calls are done even before Initialize(), because
-             * of a) their importance and b) dont fuck these up.
-             * Do window creation
-             */
-            //ignore at this moment, because we are going to fuck up at first, and doing that in fullscreen is bad
             //creates fullscreen window at your maximum resolution
             //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
 
@@ -185,9 +179,12 @@ namespace CodenameProjectTwo
         {
             //set beginning view.
             cView = new View(new FloatRect(0, 0, 1366, 768));
-            //set view origin and current in static global class
+            //set view origin and current in static client global class
             CGlobal.BEGIN_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
+
+            //build tilemap
+
         }
 
         private static void LoadContent()

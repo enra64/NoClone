@@ -9,6 +9,19 @@ namespace CodenameProjectTwo
 {
     static class CGlobal
     {
+        /*
+         * TILE TYPES VS THEIR ID
+         */
+        public const int
+            EARTH_TILE = 0,
+            EARTH_TOP_TILE = 1,
+            AIR_TILE = 2,
+            LAVA_TOP_TILE = 3,
+            LAVATILE = 4,
+            SPAWNTILE_1 = 5,
+            SPAWNTILE_2 = 6,
+            SPAWNTILE_3 = 7,
+            TORCHTILE = 8;
         public const int MOUSE_CLICK_MESSAGE = 0, STRING_MESSAGE = 1, GAMESTATE_BROADCAST = 2;
         /// <summary>
         /// DIS BE OF UTMOST IMPORTANCY. More readable in Global.cs.
