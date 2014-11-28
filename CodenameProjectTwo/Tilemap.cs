@@ -51,7 +51,7 @@ namespace CodenameProjectTwo
             //targetQuadSize = new Vector2f((float)win.Size.X / tilesPerView.X, (float)win.Size.Y / tilesPerView.Y);
             //y is too small
             idealQuadSize = new Vector2f((float)win.Size.Y / tilesPerView.Y, (float)win.Size.Y / tilesPerView.Y);
-            CGlobal.GLOBAL_SCALE = idealQuadSize.X / textureMap.Size.Y;
+            //CGlobal.GLOBAL_SCALE = idealQuadSize.X / textureMap.Size.Y;
             //initialize the current quad size
             currentQuadSize = idealQuadSize;
 
@@ -365,11 +365,12 @@ namespace CodenameProjectTwo
             currentQuadSize.X = idealQuadSize.X * (800f / (float)win.Size.Y);
 
             //sad implication: we have to scale the position of literally everything when we do this
-            CGlobal.GLOBAL_SCALE = currentQuadSize.X / idealQuadSize.X;//returns a smaller value
+            //CGlobal.GLOBAL_SCALE = currentQuadSize.X / idealQuadSize.X;//returns a smaller value
         }
 
         public void Update()
         {
+            return;
             //get x we are at
             uint xOffset = (uint)(CGlobal.CURRENT_WINDOW_ORIGIN.X / currentQuadSize.X);
             Color lavaColor = new Color(207, 128, 16);
@@ -377,8 +378,8 @@ namespace CodenameProjectTwo
             {
                 for (uint x = xOffset; x < tileAmount.X; x++)
                 {
-                    if (tileTypes[x, y] == CGlobal.LAVA_TOP_TILE || tileTypes[x, y] == CGlobal.LAVATILE)
-                        lightEngine.AddLight(new Vector2f(CGlobal.CURRENT_WINDOW_ORIGIN.X + ((x - xOffset) * currentQuadSize.X), y * currentQuadSize.Y), currentQuadSize, new Vector2f(1.5f, 1.5f), lavaColor);
+                    //if (tileTypes[x, y] == CGlobal.LAVA_TOP_TILE || tileTypes[x, y] == CGlobal.LAVATILE)
+                        //lightEngine.AddLight(new Vector2f(CGlobal.CURRENT_WINDOW_ORIGIN.X + ((x - xOffset) * currentQuadSize.X), y * currentQuadSize.Y), currentQuadSize, new Vector2f(1.5f, 1.5f), lavaColor);
                 }
             }
         }

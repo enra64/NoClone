@@ -128,13 +128,6 @@ namespace CodenameProjectServer
                         om.Write(s.Position.Y);
                         om.Write(s.Health);
                     }
-
-                    om.Write(27);
-                    om.Write(false);
-                    om.Write(0);//id, should begin with 0
-                    om.Write(5f);
-                    om.Write(10f);
-                    om.Write(10f);
                     //declare message end
                     Console.WriteLine("server send");
                     om.Write(-1);

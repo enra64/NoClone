@@ -17,8 +17,11 @@ namespace CodenameProjectTwo
         //c for current
         static RenderWindow cRenderWindow;
         static View cView;
-        //you throw an int in, it throws an object back
-        //static Dictionary<int, Interfaces.ISendable> receivedItemsList=new Dictionary<int, Interfaces.ISendable>();
+
+        //initialize map
+        private static TileMap map;
+
+        //list of everything meant to draw
         static List<CInterfaces.IDrawable> cItemlist = new List<CInterfaces.IDrawable>();
         static void Main(string[] args)
         {
@@ -36,22 +39,17 @@ namespace CodenameProjectTwo
             Console.ReadKey();
             Connect("localhost", 14242);
             //wait for connection success
-            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected){ }
-
-            //creates fullscreen window at your maximum resolution
-            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
+            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected)
+            { }
 
             //create window
-            cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
             //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
-            //sets framerate to a maximum of 45; changing the value will likely result in bad things
-            cRenderWindow.SetFramerateLimit(35);
-            //add event handler for klicking the X icon
-            cRenderWindow.Closed += windowClosed;
-            //vertical sync is enabled, because master graphics n shit
+            cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
             cRenderWindow.SetVerticalSyncEnabled(true);
+            cRenderWindow.SetFramerateLimit(35);
 
-            //add mouse click handling for getting focus
+            //event handlers
+            cRenderWindow.Closed += windowClosed;
             cRenderWindow.MouseButtonPressed += mouseClick;
 
             //first and only call to load content, not mandatory to use
@@ -86,14 +84,15 @@ namespace CodenameProjectTwo
 
         private static void Update(){
             // process message here
+            #region NetworkHandling
             NetIncomingMessage msg;
             while ((msg = netClient.ReadMessage()) != null)
             {
                 if (msg.MessageType == NetIncomingMessageType.Data){
                     if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
                     {
-                        Console.WriteLine("länge: " + msg.LengthBytes);
-                        //read until message is empty
+                        //Console.WriteLine("länge: " + msg.LengthBytes);
+                        //read newest message until empty
                         while (msg.PeekInt32()!=-1)
                         {
                             int type = msg.ReadInt32();
@@ -118,6 +117,8 @@ namespace CodenameProjectTwo
                     }
                 }
             }
+            #endregion
+
         }
 
         /// <summary>
@@ -143,6 +144,7 @@ namespace CodenameProjectTwo
             //these two lines are why we use interfaces ;)
             foreach (CInterfaces.IDrawable s in cItemlist)
                 s.Draw();
+            map.Draw();
         }
 
         private static void mouseClick(object sender, MouseButtonEventArgs e)
@@ -184,7 +186,7 @@ namespace CodenameProjectTwo
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
 
             //build tilemap
-
+            map = new TileMap(cRenderWindow, new Vector2u(200, 200), "maps/testOne.oel");
         }
 
         private static void LoadContent()
