@@ -16,9 +16,15 @@ namespace CodenameProjectTwo
         private static NetClient netClient;
         //c for current
         static RenderWindow cRenderWindow;
-        static View cView;
-        //you throw an int in, it throws an object back
-        //static Dictionary<int, Interfaces.ISendable> receivedItemsList=new Dictionary<int, Interfaces.ISendable>();
+        public static View cView{get;private set;}
+
+        //handle right-click-mouse-moving
+        private static Vector2f mouseMovementStartingPoint;
+
+        //declare map
+        private static TileEngine map;
+
+        //list of everything meant to draw
         static List<CInterfaces.IDrawable> cItemlist = new List<CInterfaces.IDrawable>();
         static void Main(string[] args)
         {
@@ -35,24 +41,22 @@ namespace CodenameProjectTwo
             Console.WriteLine("Press something to connect!");
             Console.ReadKey();
             Connect("localhost", 14242);
-            //wait for connection success
-            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected){ }
 
-            //creates fullscreen window at your maximum resolution
-            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
+            //wait for connection success
+            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected)
+                Console.WriteLine("Connection failure");
 
             //create window
+            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen); //fullscreen
             cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
-            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen);
-            //sets framerate to a maximum of 45; changing the value will likely result in bad things
-            cRenderWindow.SetFramerateLimit(35);
-            //add event handler for klicking the X icon
-            cRenderWindow.Closed += windowClosed;
-            //vertical sync is enabled, because master graphics n shit
             cRenderWindow.SetVerticalSyncEnabled(true);
+            cRenderWindow.SetFramerateLimit(35);
 
-            //add mouse click handling for getting focus
+            //event handlers
+            cRenderWindow.Closed += windowClosed;
             cRenderWindow.MouseButtonPressed += mouseClick;
+            cRenderWindow.MouseWheelMoved += Scrolling;
+            cRenderWindow.MouseButtonReleased += mouseRelease;
 
             //first and only call to load content, not mandatory to use
             LoadContent();
@@ -79,22 +83,90 @@ namespace CodenameProjectTwo
             Shutdown();
         }
 
+        private static void mouseRelease(object sender, MouseButtonEventArgs e)
+        {
+            //check whether the mouse moved significantly or not
+            FloatRect checkRect = new FloatRect(mouseMovementStartingPoint.X - 4f, mouseMovementStartingPoint.Y - 4f, 8f, 8f);
+            if (checkRect.Contains(e.X, e.Y))
+                Console.WriteLine("should handle this somehow");
+            else
+                cView.Move(new Vector2f(e.X - mouseMovementStartingPoint.X, e.Y - mouseMovementStartingPoint.Y));
+            Console.WriteLine(checkRect);
+            Console.WriteLine(e.X+" x;y "+e.Y);
+        }
+
+        private static void Scrolling(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta < 0)
+                cView.Zoom(1.02f);
+            else
+                cView.Zoom(0.98f);
+        }
+
+        /// <summary>
+        /// Handle mouse clicks, decide whether to move map
+        /// or send event to server
+        /// </summary>
+        private static void mouseClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Button==Mouse.Button.Left){
+                Console.WriteLine(e.X + ": x, y: " + e.Y);
+                NetOutgoingMessage mes = netClient.CreateMessage();
+                //identify message as mouseclick
+                mes.Write(CGlobal.MOUSE_CLICK_MESSAGE);
+                //write x
+                mes.Write(e.X + CGlobal.CURRENT_WINDOW_ORIGIN.X);
+                //write y
+                mes.Write(e.Y + CGlobal.CURRENT_WINDOW_ORIGIN.Y);
+                //send
+                netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
+                netClient.FlushSendQueue();
+            }
+            else if (Mouse.IsButtonPressed(Mouse.Button.Right))
+            {
+                mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
+            }
+        }
+
         private static void windowClosed(object sender, EventArgs e)
         {
             ((RenderWindow)sender).Close();
         }
 
+        private static void KeyCheck()
+        {
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
+                cRenderWindow.Close();
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+                cView.Move(new Vector2f(0, -20f));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+                cView.Move(new Vector2f(0, 20f));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.A))
+                cView.Move(new Vector2f(-20f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+                cView.Move(new Vector2f(20f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+                cView.Zoom(.99f);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
+                cView.Zoom(1.01f);
+        }
+
         private static void Update(){
-            // process message here
+            KeyCheck();
+        }
+
+        private static void ServerUpdate()
+        {
             NetIncomingMessage msg;
             while ((msg = netClient.ReadMessage()) != null)
             {
-                if (msg.MessageType == NetIncomingMessageType.Data){
+                if (msg.MessageType == NetIncomingMessageType.Data)
+                {
                     if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
                     {
-                        Console.WriteLine("länge: " + msg.LengthBytes);
-                        //read until message is empty
-                        while (msg.PeekInt32()!=-1)
+                        //Console.WriteLine("länge: " + msg.LengthBytes);
+                        //read newest message until empty
+                        while (msg.PeekInt32() != -1)
                         {
                             int type = msg.ReadInt32();
                             bool faction = msg.ReadBoolean();
@@ -140,24 +212,13 @@ namespace CodenameProjectTwo
 
         private static void Draw()
         {
+            cRenderWindow.SetView(cView);
+            cRenderWindow.Clear();
             //these two lines are why we use interfaces ;)
             foreach (CInterfaces.IDrawable s in cItemlist)
                 s.Draw();
-        }
-
-        private static void mouseClick(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine(e.X + ": x, y: " + e.Y);
-            NetOutgoingMessage mes = netClient.CreateMessage();
-            //identify message as mouseclick
-            mes.Write(CGlobal.MOUSE_CLICK_MESSAGE);
-            //write x
-            mes.Write(e.X + CGlobal.CURRENT_WINDOW_ORIGIN.X);
-            //write y
-            mes.Write(e.Y + CGlobal.CURRENT_WINDOW_ORIGIN.Y);
-            //send
-            netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
-            netClient.FlushSendQueue();
+            map.Draw();
+            cRenderWindow.Display();
         }
 
         /// <summary>
@@ -184,7 +245,7 @@ namespace CodenameProjectTwo
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
 
             //build tilemap
-
+            map = new TileEngine(cRenderWindow, new Vector2u(100, 100), "maps/levelTest1.oel");
         }
 
         private static void LoadContent()
@@ -192,7 +253,7 @@ namespace CodenameProjectTwo
             //throw new NotImplementedException();
         }
 
-        public static void GotMessage(object peer)
+        private static void GotMessage(object peer)
         {
             NetIncomingMessage im;
             while ((im = netClient.ReadMessage()) != null)
@@ -219,8 +280,7 @@ namespace CodenameProjectTwo
 
                         break;
                     case NetIncomingMessageType.Data:
-                        string chat = im.ReadString();
-                        Console.WriteLine(chat);
+                        ServerUpdate();
                         break;
                     default:
                         Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes");
@@ -231,14 +291,14 @@ namespace CodenameProjectTwo
         }
 
         //shut down communication
-        public static void Shutdown()
+        private static void Shutdown()
         {
             netClient.Disconnect("Requested by user");
             // s_client.Shutdown("Requested by user");
         }
 
         //connevt to somethinf
-        public static void Connect(string host, int port)
+        private static void Connect(string host, int port)
         {
             netClient.Start();
             NetOutgoingMessage hail = netClient.CreateMessage("Connection success!");
@@ -246,7 +306,7 @@ namespace CodenameProjectTwo
         }
 
         // called by the UI
-        public static void Send(string text)
+        private static void Send(string text)
         {
             NetOutgoingMessage om = netClient.CreateMessage(text);
             netClient.SendMessage(om, NetDeliveryMethod.Unreliable);
