@@ -43,7 +43,7 @@ namespace CodenameProjectTwo
             tileMap = new VertexArray(PrimitiveType.Quads, tileAmount.X * tileAmount.Y * 4);
 
             //randomly set size
-            idealQuadSize = new Vector2f(40f, 40f);
+            idealQuadSize = new Vector2f(64, 64);
 
             //initialize the current quad size
             currentQuadSize = idealQuadSize;
