@@ -1,4 +1,5 @@
-﻿using SFML.Window;
+﻿using SFML.Graphics;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +21,22 @@ namespace CodenameProjectTwo
             /// Used for transmitting state
             /// </summary>
             int Type { get; set; }
+            
             /// <summary>
-            /// Used for transmitting state
+            /// Items faction
             /// </summary>
             bool Faction { get; set; }
+            
             /// <summary>
-            /// Used for transmitting state
+            /// Server-wide unique id
             /// </summary>
             int ID { get; set; }
+            
             /// <summary>
-            /// Used for transmitting state
+            /// X,Y L,T Position
             /// </summary>
             Vector2f Position { get; set; }
+            
             /// <summary>
             /// Used for transmitting state
             /// </summary>
@@ -42,6 +47,12 @@ namespace CodenameProjectTwo
             /// just implement it
             /// </summary>
             Vector2f Center { get; }
+
+            /// <summary>
+            /// Return this rectangle so that the client can
+            /// check for clicks
+            /// </summary>
+            FloatRect BoundingRectangle { get; }
 
             /// <summary>
             /// only the client interface has this

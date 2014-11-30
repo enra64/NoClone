@@ -22,7 +22,7 @@ namespace CodenameProjectTwo
         private static TileEngine map;
 
         //list of everything meant to draw
-        static List<CInterfaces.IDrawable> cItemlist = new List<CInterfaces.IDrawable>();
+        public static List<CInterfaces.IDrawable> cItemList {get; set;}
         static void Main(string[] args)
         {
             //need to create this b/c console app
@@ -36,10 +36,14 @@ namespace CodenameProjectTwo
 
             Console.WriteLine("Write IP and press Enter to connect!");
             Connect(Console.ReadLine(), 14242);
-
+            
+            Console.WriteLine("Waiting for Connection...");
+            
             //wait for connection success
-            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected)
-                Console.WriteLine("Connection failure");
+            while(netClient.ConnectionStatus!=NetConnectionStatus.Connected){}
+
+            //create list of items
+            cItemList=new List<CInterfaces.IDrawable>();
 
             //create window
             //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen); //fullscreen
@@ -103,38 +107,35 @@ namespace CodenameProjectTwo
             KeyCheck();
         }
 
-        private static void UpdateFromServer()
+        private static void UpdateFromServer(NetIncomingMessage msg)
         {
-            NetIncomingMessage msg;
-            while ((msg = netClient.ReadMessage()) != null)
+            if (msg.MessageType == NetIncomingMessageType.Data)
             {
-                if (msg.MessageType == NetIncomingMessageType.Data)
+                if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
                 {
-                    if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
+                    //Console.WriteLine("received game broadcast");
+                    //Console.WriteLine("länge: " + msg.LengthBytes);
+                    //read newest message until empty
+                    while (msg.PeekInt32() != -1)
                     {
-                        //Console.WriteLine("länge: " + msg.LengthBytes);
-                        //read newest message until empty
-                        while (msg.PeekInt32() != -1)
+                        int type = msg.ReadInt32();
+                        bool faction = msg.ReadBoolean();
+                        int ID = msg.ReadInt32();
+                        Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
+                        float health = msg.ReadFloat();
+                        //if the list size is smaller than the id, we need to instance the correct class
+                        if (cItemList.Count - 1 < ID)
+                            while (cItemList.Count - 1 < ID)
+                                cItemList.Add(null);
+                        //decide whether to instance or update
+                        if (cItemList[ID] != null)//update
                         {
-                            int type = msg.ReadInt32();
-                            bool faction = msg.ReadBoolean();
-                            int ID = msg.ReadInt32();
-                            Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
-                            float health = msg.ReadFloat();
-                            //if the list size is smaller than the id, we need to instance the correct class
-                            if (cItemlist.Count - 1 < ID)
-                                while (cItemlist.Count - 1 < ID)
-                                    cItemlist.Add(null);
-                            //decide whether to instance or update
-                            if (cItemlist[ID] != null)//update
-                            {
-                                //now assign the new values
-                                cItemlist[ID].Health = health;
-                                cItemlist[ID].Position = position;
-                            }
-                            else//instance
-                                InstanceClass(type, faction, ID, position, health);
+                            //now assign the new values
+                            cItemList[ID].Health = health;
+                            cItemList[ID].Position = position;
                         }
+                        else//instance
+                            InstanceClass(type, faction, ID, position, health);
                     }
                 }
             }
@@ -148,7 +149,7 @@ namespace CodenameProjectTwo
             switch (_type)
             {
                 case 0:default:
-                    cItemlist[_ID]=new Building(_type, _faction, _ID, _position, _health);
+                    cItemList[_ID]=new Building(_type, _faction, _ID, _position, _health);
                     break;
             }
         }
@@ -158,7 +159,7 @@ namespace CodenameProjectTwo
             cRenderWindow.SetView(cView);
             cRenderWindow.Clear();
             //these two lines are why we use interfaces ;)
-            foreach (CInterfaces.IDrawable s in cItemlist)
+            foreach (CInterfaces.IDrawable s in cItemList)
                 s.Draw();
             map.Draw();
             cRenderWindow.Display();
@@ -203,7 +204,7 @@ namespace CodenameProjectTwo
                         //Console.WriteLine(status.ToString() + ": " + reason);
                         break;
                     case NetIncomingMessageType.Data:
-                        UpdateFromServer();
+                        UpdateFromServer(im);
                         break;
                     default:
                         Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes");

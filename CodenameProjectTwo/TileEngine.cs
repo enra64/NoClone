@@ -80,27 +80,6 @@ namespace CodenameProjectTwo
                             break;
                     }
                     //map vertex positions
-                    /* not isometric
-                    tileMap[currentPosition + 0] = new Vertex(new Vector2f(idealQuadSize.X * x, idealQuadSize.Y * y), new Vector2f(texOffset, 0));//top left vertex
-                    tileMap[currentPosition + 1] = new Vertex(new Vector2f(idealQuadSize.X * (x + 1), idealQuadSize.Y * y), new Vector2f(texOffset + 100, 0));//top right vertex
-                    tileMap[currentPosition + 2] = new Vertex(new Vector2f(idealQuadSize.X * (x + 1), idealQuadSize.Y * (y + 1)), new Vector2f(texOffset + 100, 100));//bot right vertex
-                    tileMap[currentPosition + 3] = new Vertex(new Vector2f(idealQuadSize.X * x, idealQuadSize.Y * (y + 1)), new Vector2f(texOffset + 0, 100));//bot left vertex
-                     */
-                    /*
-                    tileMap[currentPosition + 0] = new Vertex(new Vector2f(idealQuadSize.X * x, idealQuadSize.Y * (y + 0.5f) ), new Vector2f(texOffset, 0));//top left vertex
-                    tileMap[currentPosition + 1] = new Vertex(new Vector2f(idealQuadSize.X * (x + .5f), idealQuadSize.Y * y), new Vector2f(texOffset + 100, 0));//top right vertex
-                    tileMap[currentPosition + 2] = new Vertex(new Vector2f(idealQuadSize.X * (x + 1), idealQuadSize.Y * (y + .5f)), new Vector2f(texOffset + 100, 100));//bot right vertex
-                    tileMap[currentPosition + 3] = new Vertex(new Vector2f(idealQuadSize.X * (x + .5f), idealQuadSize.Y * (y + 1)), new Vector2f(texOffset + 0, 100));//bot left vertex
-                     * 
-                                         tileMap[currentPosition + 0] = new Vertex(new Vector2f(idealQuadSize.X * (0.0f + .5f * x), idealQuadSize.Y * (0.5f + .5f * y)), new Vector2f(texOffset, 0));//top left vertex
-                    tileMap[currentPosition + 1] = new Vertex(new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.0f + .5f * y)), new Vector2f(texOffset + 100, 0));//top right vertex
-                    tileMap[currentPosition + 2] = new Vertex(new Vector2f(idealQuadSize.X * (1.0f + .5f * x), idealQuadSize.Y * (0.5f + .5f * y)), new Vector2f(texOffset + 100, 100));//bot right vertex
-                    tileMap[currentPosition + 3] = new Vertex(new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (1.0f + .5f * y)), new Vector2f(texOffset + 0, 100));//bot left vertex
-                    */
-                    //0+.5*x, .5f-y*05f
-                    //.5+ .5f*x, 0-y*.5f
-                    //1+.5*x, 0.5-y*.5f
-                    //.5+.5x, 1-y*.5f
                     tileMap[currentPosition + 0] = new Vertex(new Vector2f(idealQuadSize.X * (0.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset, 0));//top left vertex
                     tileMap[currentPosition + 1] = new Vertex(new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset + 100, 0));//top right vertex
                     tileMap[currentPosition + 2] = new Vertex(new Vector2f(idealQuadSize.X * (1.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset + 100, 100));//bot right vertex
@@ -139,23 +118,6 @@ namespace CodenameProjectTwo
         public bool GetTileCollidable(int x, int y)
         {
             return Collidable[x, y];
-        }
-
-        /// <summary>
-        /// returns the rectangle of the vertex at position x, y
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        private FloatRect GetRectangle(int x, int y)
-        {
-            return new FloatRect(currentQuadSize.X * x, currentQuadSize.Y * y,
-                currentQuadSize.X, currentQuadSize.Y);
-        }
-
-        public Vector2f GetXY(int x, int y)
-        {
-            return new Vector2f(currentQuadSize.X * x, currentQuadSize.Y * y);
         }
 
         /// <summary>
@@ -199,38 +161,6 @@ namespace CodenameProjectTwo
         }
 
         /// <summary>
-        /// Use this to check for collisions with the tiles that are set to collidable.
-        /// It returns true if the Rectangle created using the position and and size you
-        /// gave intersects with any tile.
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        public bool Collides(Vector2f position, Vector2f size)
-        {
-            //create floatrect from input
-            FloatRect aRect = new FloatRect(position.X, position.Y, size.X, size.Y);
-            //check intersection for each tile
-            for (int y = 0; y < tileAmount.Y; y++)
-                for (int x = 0; x < tileAmount.X; x++)
-                    //check each rectangles' position
-                    if (aRect.Intersects(GetRectangle(x, y)) && Collidable[x, y])
-                        return true;
-            return false;
-        }
-
-        public bool Collides(FloatRect aRect)
-        {
-            //check intersection for each tile
-            for (int y = 0; y < tileAmount.Y; y++)
-                for (int x = 0; x < tileAmount.X; x++)
-                    //check each rectangles' position
-                    if (aRect.Intersects(GetRectangle(x, y)) && Collidable[x, y])
-                        return true;
-            return false;
-        }
-
-        /// <summary>
         /// returns the x and y grid position your given center position lies in
         /// </summary>
         /// <param name="center"></param>
@@ -242,11 +172,29 @@ namespace CodenameProjectTwo
                 for (int x = 0; x < tileAmount.X; x++)
                 {
                     //check each rectangles' position
-                    if (GetRectangle(x, y).Contains(center.X, center.Y))
+                    if (TileContains(center, x, y))
                         return new int[] { x, y };
                 }
             }
             return new int[] { -1, -1 };
+        }
+
+        //semiusable implementation, does not handle the form 
+        private bool TileContains(Vector2f checkPoint, int tileX, int tileY){
+            float x = tileX * idealQuadSize.X, y = tileY * idealQuadSize.Y;
+            /*
+            new Vector2f(idealQuadSize.X * (0.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//top left vertex
+            new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//top right vertex
+            new Vector2f(idealQuadSize.X * (1.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//bot right vertex
+            new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.6f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//bot left vertex
+            */
+            //check for correct x position
+            if ((x < (idealQuadSize.X * (0.0f + .5f * x))) || (x > idealQuadSize.X * (1.0f + .5f * x)))
+               return false;
+            //check y position
+            if ((y < idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f) || (y > (0.6f + .3f * -x) + idealQuadSize.Y * y * 0.6f))
+                return false;
+            return true;
         }
 
         public void UpdateWindowResize()

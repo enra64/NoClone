@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.Window;
+using SFML.Graphics;
 
 namespace CodenameProjectServer
 {
     class Building : SInterfaces.ISendable
     {
         //look at the nonimplementedness
-
         public int Type
         {
             get { throw new NotImplementedException(); }
@@ -45,6 +46,18 @@ namespace CodenameProjectServer
         public SFML.Window.Vector2f Center
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public SFML.Window.Vector2f Target
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public void Update()

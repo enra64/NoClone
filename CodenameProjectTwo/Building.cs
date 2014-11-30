@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFML.Graphics;
 
 namespace CodenameProjectTwo
 {
@@ -22,6 +23,7 @@ namespace CodenameProjectTwo
             position = _position;
             health = _health;
         }
+
 
         public int Type
         {
@@ -59,7 +61,7 @@ namespace CodenameProjectTwo
             }
         }
 
-        public SFML.Window.Vector2f Position
+        public Vector2f Position
         {
             get
             {
@@ -83,12 +85,18 @@ namespace CodenameProjectTwo
             }
         }
 
-        public SFML.Window.Vector2f Center
+        public Vector2f Center
         {
             get { throw new NotImplementedException(); }
         }
 
-        public void Draw(){
+        public FloatRect BoundingRectangle
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Draw()
+        {
             throw new NotImplementedException();
         }
     }
