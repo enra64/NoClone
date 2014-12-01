@@ -87,8 +87,7 @@ namespace CodenameProjectServer
                                     else
                                         Console.WriteLine("unknown client detected");
                                     //identify message
-                                    switch (im.ReadInt32())
-                                    {
+                                    switch (im.ReadInt32()){
                                         case SGlobal.MOUSE_CLICK_MESSAGE:
                                             int item=im.ReadInt32();
                                             //left click: save clicked item
@@ -98,7 +97,8 @@ namespace CodenameProjectServer
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else{
-                                                Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                                if (Sendlist.Count - 1 < lastExecutedClick)
+                                                    Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
                                             }
                                             break;
                                         case SGlobal.STRING_MESSAGE:

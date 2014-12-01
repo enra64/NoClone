@@ -72,8 +72,6 @@ namespace CodenameProjectTwo
                 cRenderWindow.DispatchEvents();
             }
             
-            
-            
             //dont immediately shut down
             Console.ReadLine();
             Shutdown();
@@ -85,8 +83,7 @@ namespace CodenameProjectTwo
             ((RenderWindow)sender).Close();
         }
 
-        private static void KeyCheck()
-        {
+        private static void KeyCheck(){
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
                 cRenderWindow.Close();
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
@@ -97,49 +94,35 @@ namespace CodenameProjectTwo
                 cView.Move(new Vector2f(-20f, 0));
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
                 cView.Move(new Vector2f(20f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
-                cView.Zoom(.99f);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
-                cView.Zoom(1.01f);
         }
 
         private static void Update(){
             KeyCheck();
         }
 
-        private static void UpdateFromServer(NetIncomingMessage msg)
-        {
-            if (msg.MessageType == NetIncomingMessageType.Data)
-            {
-                if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
-                {
-                    //Console.WriteLine("received game broadcast");
-                    //Console.WriteLine("länge: " + msg.LengthBytes);
-                    //read newest message until empty
-                    while (msg.PeekInt32() != -1)
-                    {
-                        int type = msg.ReadInt32();
-                        bool faction = msg.ReadBoolean();
-                        int ID = msg.ReadInt32();
-                        Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
-                        float health = msg.ReadFloat();
-                        //if the list size is smaller than the id, we need to instance the correct class
-                        if (cItemList.Count - 1 < ID)
-                            while (cItemList.Count - 1 < ID)
-                                cItemList.Add(null);
-                        //decide whether to instance or update
-                        if (cItemList[ID] != null)//update
-                        {
-                            //now assign the new values
-                            cItemList[ID].Health = health;
-                            cItemList[ID].Position = position;
-                        }
-                        else//instance
-                            InstanceClass(type, faction, ID, position, health);
-                    }
+        private static void BroadcastUpdate(NetIncomingMessage msg){
+            //read newest message until empty
+            while (msg.PeekInt32() != -1){
+                int type = msg.ReadInt32();
+                bool faction = msg.ReadBoolean();
+                int ID = msg.ReadInt32();
+                Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
+                float health = msg.ReadFloat();
+                //if the list size is smaller than the id, we need to instance the correct class
+                if (cItemList.Count - 1 < ID)
+                    while (cItemList.Count - 1 < ID)
+                        cItemList.Add(null);
+                //decide whether to instance or update
+                if (cItemList[ID] != null){//update
+                    //now assign the new values
+                    cItemList[ID].Health = health;
+                    cItemList[ID].Position = position;
                 }
+                else//instance
+                    InstanceClass(type, faction, ID, position, health);
             }
         }
+        
 
         /// <summary>
         /// use this class to divert the types into the appropriate classes
@@ -204,7 +187,8 @@ namespace CodenameProjectTwo
                         //Console.WriteLine(status.ToString() + ": " + reason);
                         break;
                     case NetIncomingMessageType.Data:
-                        UpdateFromServer(im);
+                        if (im.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
+                            BroadcastUpdate(im);
                         break;
                     default:
                         Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes");

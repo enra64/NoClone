@@ -47,8 +47,7 @@ namespace CodenameProjectTwo
                 //check what we clicked
                 Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
                 //abort if no clicked item was found
-                if (clickedItemId == -1)
-                {
+                if (clickedItemId == -1){
                     Console.WriteLine("no item clicked!");
                     return;
                 }
