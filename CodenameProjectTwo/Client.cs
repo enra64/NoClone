@@ -19,7 +19,7 @@ namespace CodenameProjectTwo
         public static View cView{get;private set;}
 
         //declare map
-        private static TileEngine map;
+        public static TileEngine map;
 
         //list of everything meant to draw
         public static List<CInterfaces.IDrawable> cItemList {get; set;}
@@ -116,8 +116,7 @@ namespace CodenameProjectTwo
                     //Console.WriteLine("received game broadcast");
                     //Console.WriteLine("länge: " + msg.LengthBytes);
                     //read newest message until empty
-                    while (msg.PeekInt32() != -1)
-                    {
+                    while (msg.PeekInt32() != -1){
                         int type = msg.ReadInt32();
                         bool faction = msg.ReadBoolean();
                         int ID = msg.ReadInt32();
