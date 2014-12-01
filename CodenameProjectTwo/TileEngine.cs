@@ -19,7 +19,7 @@ namespace CodenameProjectTwo
 
         //tile specific variables
         private int[,] tileTypes;
-        private bool[,] Collidable;
+        private bool[,] Walkable;
 
         private Texture textureMap = new Texture("maps/spritemap.png");
         //contains target size for quads
@@ -34,7 +34,7 @@ namespace CodenameProjectTwo
             win = _w;
             tileAmount = _tileAmount;
             tileTypes = new int[tileAmount.X, tileAmount.Y];
-            Collidable = new bool[tileAmount.X, tileAmount.Y];
+            Walkable = new bool[tileAmount.X, tileAmount.Y];
 
             //load texture for tilemap
             renderStates.Texture = textureMap;
@@ -59,23 +59,20 @@ namespace CodenameProjectTwo
                     //control textures
                     float texOffset = 0;
                     int tileType = tileTypes[x, y];
-                    switch (tileType)
-                    {
+                    //get tile type, set according texture
+                    switch (tileType){
                         case CGlobal.SAND_TILE:
-                            if (y < tileAmount.Y)
-                                Collidable[x, y] = true;
+                            Walkable[x, y] = true;
                             texOffset = SAND_OFFSET;
                             break;
                         case CGlobal.WATER_TILE:
-                            if (y < tileAmount.Y)
-                                Collidable[x, y] = true;
+                            Walkable[x, y] = false;
                             texOffset = WATER_OFFSET_ONE;
                             break;
                             //default to earth
                         default: 
                         case CGlobal.EARTH_TILE:
-                            if (y < tileAmount.Y)
-                                Collidable[x, y] = true;
+                            Walkable[x, y] = true;
                             texOffset = EARTH_OFFSET;
                             break;
                     }
@@ -117,7 +114,7 @@ namespace CodenameProjectTwo
         /// <returns></returns>
         public bool GetTileCollidable(int x, int y)
         {
-            return Collidable[x, y];
+            return Walkable[x, y];
         }
 
         /// <summary>

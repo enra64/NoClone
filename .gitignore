@@ -185,3 +185,4 @@ FakesAssemblies/
 /CodenameProjectServer/Lidgren.Network.dll
 /CodenameProjectTwo/maps/*.psd
 /CodenameProjectTwo/bin
+/CodenameProjectTwo/obj

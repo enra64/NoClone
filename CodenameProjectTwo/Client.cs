@@ -85,8 +85,7 @@ namespace CodenameProjectTwo
             ((RenderWindow)sender).Close();
         }
 
-        private static void KeyCheck()
-        {
+        private static void KeyCheck(){
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
                 cRenderWindow.Close();
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
@@ -97,24 +96,13 @@ namespace CodenameProjectTwo
                 cView.Move(new Vector2f(-20f, 0));
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
                 cView.Move(new Vector2f(20f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
-                cView.Zoom(.99f);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
-                cView.Zoom(1.01f);
         }
 
         private static void Update(){
             KeyCheck();
         }
 
-        private static void UpdateFromServer(NetIncomingMessage msg)
-        {
-            if (msg.MessageType == NetIncomingMessageType.Data)
-            {
-                if (msg.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
-                {
-                    //Console.WriteLine("received game broadcast");
-                    //Console.WriteLine("länge: " + msg.LengthBytes);
+        private static void BroadcastUpdate(NetIncomingMessage msg){
                     //read newest message until empty
                     while (msg.PeekInt32() != -1){
                         int type = msg.ReadInt32();
@@ -137,8 +125,7 @@ namespace CodenameProjectTwo
                             InstanceClass(type, faction, ID, position, health);
                     }
                 }
-            }
-        }
+
 
         /// <summary>
         /// use this class to divert the types into the appropriate classes
@@ -203,7 +190,8 @@ namespace CodenameProjectTwo
                         //Console.WriteLine(status.ToString() + ": " + reason);
                         break;
                     case NetIncomingMessageType.Data:
-                        UpdateFromServer(im);
+                        if (im.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
+                            BroadcastUpdate(im);
                         break;
                     default:
                         Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes");
