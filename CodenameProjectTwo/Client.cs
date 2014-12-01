@@ -40,15 +40,15 @@ namespace CodenameProjectTwo
 
             Console.WriteLine("Press something to connect!");
             Console.ReadKey();
-            Connect("localhost", 14242);
+            Connect("192.168.0.7", 14242);
 
             //wait for connection success
             while(netClient.ConnectionStatus!=NetConnectionStatus.Connected)
                 Console.WriteLine("Connection failure");
 
             //create window
-            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen); //fullscreen
-            cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
+            cRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen); //fullscreen
+            //cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
             cRenderWindow.SetVerticalSyncEnabled(true);
             cRenderWindow.SetFramerateLimit(35);
 
