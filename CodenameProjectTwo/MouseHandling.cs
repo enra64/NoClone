@@ -49,6 +49,7 @@ namespace CodenameProjectTwo
                 //abort if no clicked item was found
                 if (clickedItemId == -1){
                     Console.WriteLine("no item clicked!");
+                    Console.WriteLine("tile " + Client.map.GetCurrentTile(new Vector2f(e.X, e.Y)));
                     return;
                 }
                 sendMouseMessage(clickedItemId, false);

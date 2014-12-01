@@ -169,12 +169,55 @@ namespace CodenameProjectTwo
                 for (int x = 0; x < tileAmount.X; x++)
                 {
                     //check each rectangles' position
-                    if (TileContains(center, x, y))
+                    if (IsInPolygon(center, x, y))
                         return new int[] { x, y };
                 }
             }
             return new int[] { -1, -1 };
         }
+
+        public bool IsInPolygon(Vector2f polygonPosition, float x, float y)
+        {
+            //define the polygon
+            Vector2f[] poly = new Vector2f[4];
+            poly[0]=new Vector2f(currentQuadSize.X * (0.0f + .5f * x), currentQuadSize.Y * (0.3f + .3f * -x) + currentQuadSize.Y * y * 0.6f);//top left vertex
+            poly[1]=new Vector2f(currentQuadSize.X * (0.5f + .5f * x), currentQuadSize.Y * (0.0f + .3f * -x) + currentQuadSize.Y * y * 0.6f);//top right vertex
+            poly[2]=new Vector2f(currentQuadSize.X * (1.0f + .5f * x), currentQuadSize.Y * (0.3f + .3f * -x) + currentQuadSize.Y * y * 0.6f);//bot right vertex
+            poly[3] = new Vector2f(currentQuadSize.X * (0.5f + .5f * x), currentQuadSize.Y * (0.6f + .3f * -x) + currentQuadSize.Y * y * 0.6f);//bot left vertex
+            
+            Vector2f pointOne, pointTwo;
+            bool inside = false;
+            if (poly.Length < 3)
+                return inside;
+
+            var oldPoint = new Vector2f(poly[poly.Length - 1].X, poly[poly.Length - 1].Y);
+
+
+            for (int i = 0; i < poly.Length; i++){
+                Vector2f newPoint = new Vector2f(poly[i].X, poly[i].Y);
+
+                if (newPoint.X > oldPoint.X){
+                    pointOne = oldPoint;
+                    pointTwo = newPoint;
+                }
+
+                else{
+                    pointOne = newPoint;
+                    pointTwo = oldPoint;
+                }
+
+
+                if ((newPoint.X < x) == (x <= oldPoint.X)
+                    && (y - (long)pointOne.Y) * (pointTwo.X - pointOne.X)
+                    < (pointTwo.Y - (long)pointOne.Y) * (x - pointOne.X)){
+                    inside = !inside;
+                }
+                oldPoint = newPoint;
+            }
+            return inside;
+        }
+
+
 
         //semiusable implementation, does not handle the form 
         private bool TileContains(Vector2f checkPoint, int tileX, int tileY){

@@ -19,7 +19,7 @@ namespace CodenameProjectTwo
         public static View cView{get;private set;}
 
         //declare map
-        private static TileEngine map;
+        public static TileEngine map;
 
         //list of everything meant to draw
         public static List<CInterfaces.IDrawable> cItemList {get; set;}
@@ -72,6 +72,8 @@ namespace CodenameProjectTwo
                 cRenderWindow.DispatchEvents();
             }
             
+            
+            
             //dont immediately shut down
             Console.ReadLine();
             Shutdown();
@@ -101,28 +103,29 @@ namespace CodenameProjectTwo
         }
 
         private static void BroadcastUpdate(NetIncomingMessage msg){
-            //read newest message until empty
-            while (msg.PeekInt32() != -1){
-                int type = msg.ReadInt32();
-                bool faction = msg.ReadBoolean();
-                int ID = msg.ReadInt32();
-                Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
-                float health = msg.ReadFloat();
-                //if the list size is smaller than the id, we need to instance the correct class
-                if (cItemList.Count - 1 < ID)
-                    while (cItemList.Count - 1 < ID)
-                        cItemList.Add(null);
-                //decide whether to instance or update
-                if (cItemList[ID] != null){//update
-                    //now assign the new values
-                    cItemList[ID].Health = health;
-                    cItemList[ID].Position = position;
+                    //read newest message until empty
+                    while (msg.PeekInt32() != -1){
+                        int type = msg.ReadInt32();
+                        bool faction = msg.ReadBoolean();
+                        int ID = msg.ReadInt32();
+                        Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
+                        float health = msg.ReadFloat();
+                        //if the list size is smaller than the id, we need to instance the correct class
+                        if (cItemList.Count - 1 < ID)
+                            while (cItemList.Count - 1 < ID)
+                                cItemList.Add(null);
+                        //decide whether to instance or update
+                        if (cItemList[ID] != null)//update
+                        {
+                            //now assign the new values
+                            cItemList[ID].Health = health;
+                            cItemList[ID].Position = position;
+                        }
+                        else//instance
+                            InstanceClass(type, faction, ID, position, health);
+                    }
                 }
-                else//instance
-                    InstanceClass(type, faction, ID, position, health);
-            }
-        }
-        
+
 
         /// <summary>
         /// use this class to divert the types into the appropriate classes
