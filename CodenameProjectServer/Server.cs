@@ -98,7 +98,7 @@ namespace CodenameProjectServer
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else{
-                                                Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                               // Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
                                             }
                                             break;
                                         case SGlobal.STRING_MESSAGE:
