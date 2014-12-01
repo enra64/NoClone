@@ -48,6 +48,13 @@ namespace CodenameProjectServer
             Vector2f Center{ get; }
 
             /// <summary>
+            /// If the server gets notified about the unit being supposed to move,
+            /// it uses the setter of target, so do what needs to be done to start
+            /// the movement there
+            /// </summary>
+            Vector2f Target { get; set; }
+
+            /// <summary>
             /// generic function for updating.
             /// the server will later send the four send-parameters to each client
             /// </summary>
