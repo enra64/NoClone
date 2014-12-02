@@ -72,8 +72,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\graphics\buildings\hqred.png" />
-    <Content Include="assets\graphics\buildings\hqblue.png" />
+    <Content Include="assets\graphics\buildings\hqred.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\buildings\hqblue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="csfml-audio-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
