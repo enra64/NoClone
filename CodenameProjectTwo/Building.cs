@@ -24,7 +24,6 @@ namespace CodenameProjectTwo
             health = _health;
         }
 
-
         public int Type
         {
             get
@@ -35,6 +34,16 @@ namespace CodenameProjectTwo
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public string Description
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Name
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public bool Faction
@@ -85,6 +94,11 @@ namespace CodenameProjectTwo
             }
         }
 
+        public float MaxHealth
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public Vector2f Center
         {
             get { throw new NotImplementedException(); }
@@ -98,6 +112,55 @@ namespace CodenameProjectTwo
         public void Draw()
         {
             throw new NotImplementedException();
+        }
+
+
+        string CInterfaces.IDrawable.Description
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        string CInterfaces.IDrawable.Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Texture Texture
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        float CInterfaces.IDrawable.MaxHealth
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

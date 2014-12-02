@@ -15,8 +15,9 @@ namespace CodenameProjectTwo
     {
         public static NetClient netClient {get;private set;}
         //c for current
-        static RenderWindow cRenderWindow;
+        public static RenderWindow cRenderWindow { get; private set; }
         public static View cView{get;private set;}
+        public static Interface cInterface { get; private set; }
 
         //declare map
         public static TileEngine map;
@@ -100,6 +101,8 @@ namespace CodenameProjectTwo
 
         private static void Update(){
             KeyCheck();
+            CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
+            cInterface.Update();
         }
 
         private static void BroadcastUpdate(NetIncomingMessage msg){
@@ -148,6 +151,7 @@ namespace CodenameProjectTwo
             foreach (CInterfaces.IDrawable s in cItemList)
                 s.Draw();
             map.Draw();
+            cInterface.Draw();
             cRenderWindow.Display();
         }
 
@@ -156,8 +160,10 @@ namespace CodenameProjectTwo
             //set beginning view.
             cView = new View(new FloatRect(0, 0, 1366, 768));
             //set view origin and current in static client global class
-            CGlobal.BEGIN_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
-            CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center;
+            CGlobal.BEGIN_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
+            CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
+
+            cInterface= new Interface();
 
             //build tilemap
             map = new TileEngine(cRenderWindow, new Vector2u(100, 100), "maps/levelTest1.oel");

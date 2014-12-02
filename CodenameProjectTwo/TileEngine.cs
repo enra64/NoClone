@@ -27,7 +27,8 @@ namespace CodenameProjectTwo
         //vertex drawing stuff
         private VertexArray tileMap;
         private RenderStates renderStates = RenderStates.Default;
-        private const int EARTH_OFFSET = 0, SAND_OFFSET = 100, WATER_OFFSET_ONE = 200, WATER_OFFSET_TWO = 300;
+        private const int EARTH_OFFSET = 0, SAND_OFFSET = 100, WATER_OFFSET_ONE = 200, WATER_OFFSET_TWO = 300, 
+            LEFT_EDGE_OFFSET=400, BOTTOM_EDGE_OFFSET=500, RIGHT_EDGE_OFFSET=600, KEEP_EMPTY_OFFSET=700;
 
         public TileEngine(RenderWindow _w, Vector2u _tileAmount, string _levelLocation)
         {
@@ -76,6 +77,21 @@ namespace CodenameProjectTwo
                             texOffset = EARTH_OFFSET;
                             break;
                     }
+                    //if at edge, change to edge - tile
+                    if (x == 0){
+                        Walkable[x, y] = false;
+                        texOffset = LEFT_EDGE_OFFSET;
+                    }
+                    else if (y == tileAmount.Y - 1){
+                        Walkable[x, y] = false;
+                        texOffset = BOTTOM_EDGE_OFFSET;
+                    }
+                    else if (x == tileAmount.X - 1){
+                        Walkable[x, y] = false;
+                        texOffset = RIGHT_EDGE_OFFSET;
+                    }
+                    if ((y == tileAmount.Y - 1) && (x == 0))
+                        texOffset = KEEP_EMPTY_OFFSET;
                     //map vertex positions
                     tileMap[currentPosition + 0] = new Vertex(new Vector2f(idealQuadSize.X * (0.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset, 0));//top left vertex
                     tileMap[currentPosition + 1] = new Vertex(new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset + 100, 0));//top right vertex

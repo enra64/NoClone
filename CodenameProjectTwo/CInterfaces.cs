@@ -21,6 +21,22 @@ namespace CodenameProjectTwo
             /// Used for transmitting state
             /// </summary>
             int Type { get; set; }
+
+            /// <summary>
+            /// Description, for UI. Not updated by server
+            /// </summary>
+            string Description { get; set; }
+
+            /// <summary>
+            /// Unit Name (e.g. Archer, Swordsman, Idiot swinging an axe).
+            /// Not updated by server
+            /// </summary>
+            string Name { get; set; }
+
+            /// <summary>
+            /// Unit texture, for UI
+            /// </summary>
+            Texture Texture { get; set; }
             
             /// <summary>
             /// Items faction
@@ -41,6 +57,11 @@ namespace CodenameProjectTwo
             /// Used for transmitting state
             /// </summary>
             float Health { get; set; }
+
+            /// <summary>
+            /// Needed for UI, does not need to be updated by server
+            /// </summary>
+            float MaxHealth { get; set; }
 
             /// <summary>
             /// was pretty useful in the past,
