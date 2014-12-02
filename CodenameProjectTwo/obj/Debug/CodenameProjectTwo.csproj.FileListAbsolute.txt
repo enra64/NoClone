@@ -1,9 +1,0 @@
-c:\users\arne\documents\visual studio 2013\Projects\CodenameProjectTwo\CodenameProjectTwo\bin\Debug\CodenameProjectTwo.exe.config
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\bin\Debug\CodenameProjectTwo.exe.config
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\obj\Debug\CodenameProjectTwo.csprojResolveAssemblyReference.cache
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\bin\Debug\CodenameProjectTwo.exe
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\bin\Debug\CodenameProjectTwo.pdb
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\bin\Debug\Lidgren.Network.dll
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\bin\Debug\Lidgren.Network.pdb
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\obj\Debug\CodenameProjectTwo.exe
-C:\Users\Arne\Source\Repos\NoClone\CodenameProjectTwo\obj\Debug\CodenameProjectTwo.pdb
