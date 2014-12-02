@@ -3,3 +3,5 @@
 /CodenameProjectTwo/obj
 /CodenameProjectServer/bin
 /CodenameProjectServer/obj
+*.psd
+[T|t]humbs.db
