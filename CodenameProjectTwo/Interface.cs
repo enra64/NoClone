@@ -14,15 +14,16 @@ namespace CodenameProjectTwo
          private RectangleShape mainBox, textureBox, descriptionBox, infoBox;
          private Text descriptionText = new Text(), infoText=new Text();
          private View menuView;
+         public float menuPortScale { get; private set; }
          
          private int cItem=-1;
 
-        public Interface()
-        {
+        public Interface(){
             win = Client.cRenderWindow;
 
-            menuView = new View(new FloatRect(0, 0, (float) win.Size.X / 5f, win.Size.Y));
-            menuView.Viewport = new FloatRect(0, 0, .2f, 1);
+            menuPortScale = .2f;
+            menuView = new View(new FloatRect(0, 0, (float) win.Size.X * menuPortScale, win.Size.Y));
+            menuView.Viewport = new FloatRect(0, 0, menuPortScale, 1);
 
             mainBox = new RectangleShape(new Vector2f((float)win.Size.X / 5f, win.Size.Y));
             textureBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.X - 10f)));
@@ -45,9 +46,7 @@ namespace CodenameProjectTwo
             MoveToCurrentPosition();
         }
 
-        private  void MoveToCurrentPosition()
-        {
-            
+        private  void MoveToCurrentPosition(){
             //mainbox position is exactly at top left corner
             mainBox.Position = new Vector2f(0,0);
 
@@ -65,10 +64,9 @@ namespace CodenameProjectTwo
             infoText.Position = new Vector2f(infoBox.Position.X + 5f, infoBox.Position.Y + 5f);
         }
 
-        public  void Update()
-        {
+        public  void Update(){
             //move menu to current offset
-            MoveToCurrentPosition();
+            //MoveToCurrentPosition();
         }
 
         public  void Draw(){
@@ -119,6 +117,11 @@ namespace CodenameProjectTwo
             .Range(0, input.Length / maximumLength)
             .Select(i => input.Substring(i * maximumLength, maximumLength));
             return string.Join("\n", list);
+        }
+
+        internal void CheckHover(MouseMoveEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

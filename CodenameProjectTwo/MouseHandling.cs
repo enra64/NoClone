@@ -37,27 +37,43 @@ namespace CodenameProjectTwo
                 Client.cView.Zoom(0.98f);
         }
 
+        private static bool IsInMenu(float x){
+            return ((Client.cRenderWindow.Size.X * Client.cInterface.menuPortScale) > x);
+        }
+
         /// <summary>
         /// Handle mouse clicks, decide whether to move map
         /// or send event to server
         /// </summary>
         public static void mouseClick(object sender, MouseButtonEventArgs e){
-            if (e.Button == Mouse.Button.Left){
-                rightButtonClicked = false;
-                //check what we clicked
-                Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
-                //abort if no clicked item was found
-                if (clickedItemId == -1){
-                    Console.WriteLine("no item clicked!");
-                    Console.WriteLine("tile " + Client.map.GetCurrentTile(new Vector2f(e.X, e.Y)));
-                    return;
-                }
-                sendMouseMessage(clickedItemId, false);
+            //decide whether menu or game screen
+            //menu
+            if (IsInMenu(e.X)){
+
+                Console.WriteLine("Menu click");
             }
-            else if (Mouse.IsButtonPressed(Mouse.Button.Right))
+            else//game view
             {
-                rightButtonClicked = true;
-                mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
+                if (e.Button == Mouse.Button.Left)
+                {
+                    rightButtonClicked = false;
+                    //check what we clicked
+                    Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
+                    //abort if no clicked item was found
+                    if (clickedItemId == -1)
+                    {
+                        Console.WriteLine("no item clicked!");
+                        Console.WriteLine("tile " + Client.map.GetCurrentTile(new Vector2f(e.X, e.Y)));
+                        return;
+                    }
+                    sendMouseMessage(clickedItemId, false);
+                    Client.cInterface.ShowItem(clickedItemId);
+                }
+                else if (Mouse.IsButtonPressed(Mouse.Button.Right))
+                {
+                    rightButtonClicked = true;
+                    mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
+                }
             }
         }
 
@@ -89,6 +105,18 @@ namespace CodenameProjectTwo
             Client.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
             //like, really, send now
             Client.netClient.FlushSendQueue();
+        }
+
+        internal static void MouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            if (!IsInMenu(e.X))
+                return;
+            else
+            {
+                //check whether we are hovering over an item
+                Client.cInterface.CheckHover(e);
+            }
+
         }
     }
 }

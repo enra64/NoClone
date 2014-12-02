@@ -1,4 +1,5 @@
-﻿using SFML.Window;
+﻿using SFML.Graphics;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,5 +32,18 @@ namespace CodenameProjectTwo
         /// calculations
         /// </summary>
         public static Vector2f BEGIN_WINDOW_ORIGIN;
+
+        /// <summary>
+        /// Count of items buildable. Increase whenever you add one
+        /// </summary>
+        public static int ITEM_TYPE_COUNT=1;
+        /// <summary>
+        /// Add a description to your item
+        /// </summary>
+        public static string[] ITEM_DESCRIPTIONS = new string[] {"Schwertkämpfer, stark gegen irgendwas"};
+        /// <summary>
+        /// Save the texture of your item here
+        /// </summary>
+        public static Texture[] ITEM_TEXTURES = new Texture[ITEM_TYPE_COUNT];
     }
 }

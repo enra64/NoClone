@@ -57,6 +57,7 @@ namespace CodenameProjectTwo
             cRenderWindow.MouseButtonPressed += MouseHandling.mouseClick;
             cRenderWindow.MouseWheelMoved += MouseHandling.Scrolling;
             cRenderWindow.MouseButtonReleased += MouseHandling.mouseRelease;
+            cRenderWindow.MouseMoved += MouseHandling.MouseMoved;
 
             //first and only call to load content, not mandatory to use
             LoadContent();
@@ -172,7 +173,7 @@ namespace CodenameProjectTwo
 
         private static void LoadContent()
         {
-            //throw new NotImplementedException();
+            CGlobal.ITEM_TEXTURES[0] = new Texture("items/whatever.png");
         }
 
         private static void GotMessage(object peer)
