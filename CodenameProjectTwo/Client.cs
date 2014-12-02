@@ -18,6 +18,7 @@ namespace CodenameProjectTwo
         public static RenderWindow cRenderWindow { get; private set; }
         public static View cView{get;private set;}
         public static Interface cInterface { get; private set; }
+        public static Sprite cMouseSprite { get; set; }
 
         //declare map
         public static TileEngine map;
@@ -153,6 +154,8 @@ namespace CodenameProjectTwo
                 s.Draw();
             map.Draw();
             cInterface.Draw();
+            if(cMouseSprite!=null)
+                cRenderWindow.Draw(cMouseSprite);
             cRenderWindow.Display();
             cRenderWindow.SetMouseCursorVisible(true);
         }

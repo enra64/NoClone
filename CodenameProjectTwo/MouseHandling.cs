@@ -14,12 +14,19 @@ namespace CodenameProjectTwo
         //handle right-click-mouse-moving
         private static Vector2f mouseMovementStartingPoint;
         private static bool rightButtonClicked = false;
+        public static int buildingChosen = -1;
+        private static Sprite cChosenBuilding;
 
         public static void mouseRelease(object sender, MouseButtonEventArgs e)
         {
             //only do for right mouse button
             if (rightButtonClicked == false)
                 return;
+            //abort building choosing
+            if (buildingChosen != -1){
+                buildingChosen = -1;
+                return;
+            }
             //check whether the mouse moved significantly or not
             FloatRect checkRect = new FloatRect(mouseMovementStartingPoint.X - 4f, mouseMovementStartingPoint.Y - 4f, 8f, 8f);
             if (checkRect.Contains(e.X, e.Y))
@@ -49,28 +56,31 @@ namespace CodenameProjectTwo
             //decide whether menu or game screen
             //menu
             if (IsInMenu(e.X)){
-
+                Client.cInterface.Click(e.X, e.Y);
                 Console.WriteLine("Menu click");
             }
-            else//game view
-            {
-                if (e.Button == Mouse.Button.Left)
-                {
-                    rightButtonClicked = false;
-                    //check what we clicked
-                    Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
-                    //abort if no clicked item was found
-                    if (clickedItemId == -1)
-                    {
-                        Console.WriteLine("no item clicked!");
-                        Console.WriteLine("tile " + Client.map.GetCurrentTile(new Vector2f(e.X, e.Y)));
-                        return;
+            else{//game view
+                if (e.Button == Mouse.Button.Left){
+                    if(buildingChosen!=-1){
+                        //send message to server for planting the building
+                        buildingChosen = -1;
                     }
-                    sendMouseMessage(clickedItemId, false);
-                    Client.cInterface.ShowItem(clickedItemId);
+                    else{
+                        rightButtonClicked = false;
+                        //check what we clicked
+                        Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
+                        //abort if no clicked item was found
+                        if (clickedItemId == -1){
+                            Console.WriteLine("no item clicked!");
+                            Console.WriteLine("tile " + Client.map.GetCurrentTile(new Vector2f(e.X, e.Y)));
+                            return;
+                        }
+                        sendMouseMessage(clickedItemId, false);
+                        Client.cInterface.ShowItem(clickedItemId);
+                    }
                 }
-                else if (Mouse.IsButtonPressed(Mouse.Button.Right))
-                {
+                //right mouse button
+                else if (Mouse.IsButtonPressed(Mouse.Button.Right)){
                     rightButtonClicked = true;
                     mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
                 }
@@ -107,16 +117,25 @@ namespace CodenameProjectTwo
             Client.netClient.FlushSendQueue();
         }
 
-        internal static void MouseMoved(object sender, MouseMoveEventArgs e)
-        {
-            if (!IsInMenu(e.X))
+        internal static void MouseMoved(object sender, MouseMoveEventArgs e){
+            if (!IsInMenu(e.X) && buildingChosen != -1){
+                cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[buildingChosen]);
+                cChosenBuilding.Color = new Color(255, 255, 255, 120);
+                cChosenBuilding.Position = MapCoords((int)e.X, (int)e.Y);
+                Client.cMouseSprite = cChosenBuilding;
                 return;
+            }
             else
             {
                 //check whether we are hovering over an item
                 Client.cInterface.CheckHover(e);
             }
 
+        }
+
+        private static Vector2f MapCoords(int x, int y)
+        {
+            return Client.cRenderWindow.MapPixelToCoords(new Vector2i(x, y));
         }
     }
 }

@@ -15,7 +15,8 @@ namespace CodenameProjectTwo
          private List<Sprite> peopleSpriteList=new List<Sprite>(), buildingSpriteList=new List<Sprite>();
          private Text descriptionText = new Text(), infoText=new Text();
          private View menuView;
-         private int maxColumns=2;
+         private Font menuFont = new Font("assets/ui/ferrum.otf");
+         private int maxColumns=4;
          public float menuPortScale { get; private set; }
          
          private int cItem=-1;
@@ -36,9 +37,10 @@ namespace CodenameProjectTwo
             infoBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.Y - 20f) / 3f));
 
             //texts
-            descriptionText.DisplayedString = DivideAll("A description would be awesome", 20);
+            descriptionText.DisplayedString = DivideAll("A description would be awesome");
             descriptionText.Color = Color.Black;
-            infoText.DisplayedString = DivideAll("Infos here would be awesome", 20);
+            descriptionText.Font=menuFont;
+            infoText.DisplayedString = DivideAll("Infos here would be awesome");
             infoText.Color = Color.Black;
 
             //box colors
@@ -53,8 +55,7 @@ namespace CodenameProjectTwo
             //load all sprites
             int y = 0, x = 0;
             float xSize = (((float)mainBox.Size.X - 20f) / (float)maxColumns);
-            for (int i = 0; i < CGlobal.PEOPLE_TYPE_COUNT; i++ )
-            {
+            for (int i = 0; i < CGlobal.PEOPLE_TYPE_COUNT; i++ ){
                 //create a grid
                 if (x == 2){
                     x = 0;
@@ -141,17 +142,11 @@ namespace CodenameProjectTwo
             win.SetView(Client.cView);
         }
 
-        public  void ShowItem(int itemID)
-        {
+        public void ShowItem(int itemID){
             cItem = itemID;
-            if (itemID == -1)
-            {
-                //show building menu
-            }
-            else
-            {
+            if (itemID != -1){
                 //set info texts
-                descriptionText.DisplayedString = DivideAll(Client.cItemList[itemID].Description, 20);
+                descriptionText.DisplayedString = DivideAll(Client.cItemList[itemID].Description);
                 //create info string
                 //health, id, type
                 infoText.DisplayedString = Client.cItemList[itemID].Name+"\n"+
@@ -162,33 +157,55 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Safety call to divide all x characters
         /// </summary>
-        private  string DivideAll(string input, int maximumLength)
-        {
+        private string DivideAll(string input){
+            int maximumLength = 22;
             if (input.Length < maximumLength)
                 return input;
-            var list = Enumerable
-            .Range(0, input.Length / maximumLength)
-            .Select(i => input.Substring(i * maximumLength, maximumLength));
-            return string.Join("\n", list);
+            int resultingStringCount=input.Length/maximumLength + 1;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < resultingStringCount; i++){
+                int start=i * (maximumLength - 1);
+                if(start+maximumLength>input.Length)
+                    maximumLength=input.Length-start;
+                sb.AppendLine(input.Substring(start, maximumLength));
+            }
+            return sb.ToString();
         }
 
         internal void CheckHover(MouseMoveEventArgs e)
         {
-            Console.Write(CGlobal.CURRENT_WINDOW_ORIGIN.Y+" "+e.Y+" ");
             Sprite s;
-            for(int i=0;i<buildingSpriteList.Count;i++)
-            {
+            for(int i=0;i<buildingSpriteList.Count;i++){
                 s=buildingSpriteList[i];
-                FloatRect testRect=s.GetGlobalBounds();
-                Console.WriteLine(s.Position.X+" "+testRect);
-                if (testRect.Contains(e.X, e.Y))
-                    descriptionText.DisplayedString = CGlobal.BUILDING_DESCRIPTIONS[i];
-            }
-            for (int i = 0; i < peopleSpriteList.Count; i++)
-            {
-                s = buildingSpriteList[i];
                 if (s.GetGlobalBounds().Contains(e.X, e.Y))
-                    descriptionText.DisplayedString = CGlobal.PEOPLE_DESCRIPTIONS[i];
+                {
+                    descriptionText.DisplayedString = DivideAll(CGlobal.BUILDING_DESCRIPTIONS[i]);
+                }
+            }
+            for (int i = 0; i < peopleSpriteList.Count; i++){
+                s = peopleSpriteList[i];
+                if (s.GetGlobalBounds().Contains(e.X, e.Y))
+                {
+                    descriptionText.DisplayedString = DivideAll(CGlobal.PEOPLE_DESCRIPTIONS[i]);
+                }
+            }
+        }
+
+        internal void Click(int X, int Y)
+        {
+            Sprite s;
+            for (int i = 0; i < buildingSpriteList.Count; i++){
+                s = buildingSpriteList[i];
+                if (s.GetGlobalBounds().Contains(X, Y)){
+                    Console.WriteLine("building activated");
+                    MouseHandling.buildingChosen = i;
+                }
+            }
+            for (int i = 0; i < peopleSpriteList.Count; i++){
+                s = peopleSpriteList[i];
+                if (s.GetGlobalBounds().Contains(X, Y)){
+                    //typ i muss gespawnt werden
+                }
             }
         }
     }
