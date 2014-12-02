@@ -72,6 +72,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\graphics\buildings\hqred.png" />
+    <Content Include="assets\graphics\buildings\hqblue.png" />
     <Content Include="csfml-audio-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -89,7 +91,6 @@
     <Content Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\graphics\buildings\" />
     <Folder Include="assets\graphics\ressources\" />
     <Folder Include="assets\graphics\units\" />
     <Folder Include="assets\sounds\buildings\" />
