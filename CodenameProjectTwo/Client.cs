@@ -47,8 +47,8 @@ namespace CodenameProjectTwo
             cItemList=new List<CInterfaces.IDrawable>();
 
             //create window
-            //currentRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Dungeon Dwarf", Styles.Fullscreen); //fullscreen
-            cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
+            cRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Codename Project Two", Styles.Fullscreen); //fullscreen
+            //cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
             cRenderWindow.SetVerticalSyncEnabled(true);
             cRenderWindow.SetFramerateLimit(35);
 
