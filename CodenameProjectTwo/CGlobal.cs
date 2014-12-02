@@ -23,7 +23,7 @@ namespace CodenameProjectTwo
         /// this will get updated to contain the current offset of the view. 
         /// ALL POSITIONS _MUST_ BE RELATIVE TO THIS (except if you are sure you want to draw absolute to the window origin),
         /// meaning that if you for example want to position an enemy at top left of the currently seen view, you can not use
-        /// position(0,0), but have to use position(CURRENT_WINDOW_ORIGIN.X, CURRENT_WINDOW_ORIGIN.Y)
+        /// position(0,0), but have to use position(CURRENT_WINDOW_ORIGIN.X, CURRENT_WINDOW_ORIGIN.Y) GRRRRRRRRR :X ONLY const UPPERCASE
         /// </summary>
         public static Vector2f CURRENT_WINDOW_ORIGIN;
         /// <summary>
