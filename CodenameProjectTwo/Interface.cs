@@ -130,11 +130,12 @@ namespace CodenameProjectTwo
                     win.Draw(s);
                 foreach (Sprite s in peopleSpriteList)
                     win.Draw(s);
+                win.Draw(descriptionText);
             }
             else
             {
-            win.Draw(descriptionText);
-            win.Draw(infoText);
+                win.Draw(descriptionText);
+                win.Draw(infoText);
 
             }
             win.SetView(Client.cView);
@@ -173,7 +174,22 @@ namespace CodenameProjectTwo
 
         internal void CheckHover(MouseMoveEventArgs e)
         {
-            //throw new NotImplementedException();
+            Console.Write(CGlobal.CURRENT_WINDOW_ORIGIN.Y+" "+e.Y+" ");
+            Sprite s;
+            for(int i=0;i<buildingSpriteList.Count;i++)
+            {
+                s=buildingSpriteList[i];
+                FloatRect testRect=s.GetGlobalBounds();
+                Console.WriteLine(s.Position.X+" "+testRect);
+                if (testRect.Contains(e.X, e.Y))
+                    descriptionText.DisplayedString = CGlobal.BUILDING_DESCRIPTIONS[i];
+            }
+            for (int i = 0; i < peopleSpriteList.Count; i++)
+            {
+                s = buildingSpriteList[i];
+                if (s.GetGlobalBounds().Contains(e.X, e.Y))
+                    descriptionText.DisplayedString = CGlobal.PEOPLE_DESCRIPTIONS[i];
+            }
         }
     }
 }
