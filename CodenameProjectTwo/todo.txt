@@ -1,0 +1,16 @@
+RTS
+
+-Netcode clean halten
+-Startgebäude
+--Kaserne
+--
+
+-truppen
+-Arbeiter
+--krieger: schwertkämpfer, speerkämpfer?
+---bogenschützen
+
+-ressourcen (1)
+--Stein, holz, Nahrung, 
+---eisen
+-menu (gebäude platzieren, einheiten ausbilden)
