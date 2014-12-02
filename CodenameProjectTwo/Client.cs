@@ -47,8 +47,8 @@ namespace CodenameProjectTwo
             cItemList=new List<CInterfaces.IDrawable>();
 
             //create window
-            cRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Codename Project Two", Styles.Fullscreen); //fullscreen
-            //cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
+            //cRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Codename Project Two", Styles.Fullscreen); //fullscreen
+            cRenderWindow = new RenderWindow(new VideoMode(1366, 768), "Codename Project Two", Styles.Default);
             cRenderWindow.SetVerticalSyncEnabled(true);
             cRenderWindow.SetFramerateLimit(35);
 
@@ -174,7 +174,7 @@ namespace CodenameProjectTwo
 
         private static void LoadContent()
         {
-            CGlobal.ITEM_TEXTURES[0] = new Texture("items/whatever.png");
+            CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/test.png");
         }
 
         private static void GotMessage(object peer)

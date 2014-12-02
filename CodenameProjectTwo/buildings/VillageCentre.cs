@@ -8,7 +8,7 @@ using CodenameProjectTwo;
 
 namespace CodenameProjectTwo.buildings
 {
-    class VillageCentre : CInterfaces.IDrawable
+    class VillageCentre
     {
         private RenderWindow win;
         

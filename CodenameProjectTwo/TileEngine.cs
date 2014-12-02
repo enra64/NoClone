@@ -95,6 +95,7 @@ namespace CodenameProjectTwo
                     }
                     if ((y == tileAmount.Y - 1) && (x == 0))
                         texOffset = KEEP_EMPTY_OFFSET;
+
                     //map vertex positions
                     tileMap[currentPosition + 0] = new Vertex(new Vector2f(idealQuadSize.X * (0.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset, 0));//top left vertex
                     tileMap[currentPosition + 1] = new Vertex(new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset + 100, 0));//top right vertex

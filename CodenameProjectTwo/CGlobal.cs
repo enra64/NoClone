@@ -36,14 +36,31 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
-        public static int ITEM_TYPE_COUNT=1;
+        public const int BUILDING_TYPE_COUNT = 1;
+
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static string[] ITEM_DESCRIPTIONS = new string[] {"Schwertkämpfer, stark gegen irgendwas"};
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { "haus blablablablablablablablablablablablablabla" };
+
         /// <summary>
         /// Save the texture of your item here
         /// </summary>
-        public static Texture[] ITEM_TEXTURES = new Texture[ITEM_TYPE_COUNT];
+        public static Texture[] BUILDING_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
+        /// <summary>
+        /// Count of items buildable. Increase whenever you add one
+        /// </summary>
+
+        public const int PEOPLE_TYPE_COUNT = 1;
+
+        /// <summary>
+        /// Add a description to your item
+        /// </summary>
+        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Schwertkämpfer, stark gegen irgendwas" };
+
+        /// <summary>
+        /// Save the texture of your item here
+        /// </summary>
+        public static Texture[] PEOPLE_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
     }
 }
