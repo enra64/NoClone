@@ -188,3 +188,7 @@ FakesAssemblies/
 /CodenameProjectTwo/obj
 /CodenameProjectTwo/bin
 /CodenameProjectTwo/obj
+/CodenameProjectTwo/bin
+/CodenameProjectTwo/obj
+*.db
+/CodenameProjectTwo/obj
