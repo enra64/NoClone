@@ -64,5 +64,18 @@ namespace CodenameProjectServer
         {
             throw new NotImplementedException();
         }
+
+
+        public bool UpdateNeeded
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

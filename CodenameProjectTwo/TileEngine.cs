@@ -9,6 +9,7 @@ using SFML.Window;
 using SFML.Graphics;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Timers;
 
 namespace CodenameProjectTwo
 {
@@ -20,6 +21,8 @@ namespace CodenameProjectTwo
         //tile specific variables
         private int[,] tileTypes;
         private bool[,] Walkable;
+
+        private static Timer animTimer;
 
         private Texture textureMap = new Texture("maps/spritemap.png");
         //contains target size for quads
@@ -99,6 +102,10 @@ namespace CodenameProjectTwo
                     tileMap[currentPosition + 3] = new Vertex(new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.6f + .3f * -x) + idealQuadSize.Y * y * 0.6f), new Vector2f(texOffset + 0, 100));//bot left vertex
                 }
             }
+            //start animation
+            animTimer = new System.Timers.Timer(700);
+            animTimer.Elapsed += AnimationUpdate;
+            animTimer.Enabled = true;
         }
 
         /// <summary>
@@ -216,13 +223,10 @@ namespace CodenameProjectTwo
                     pointOne = oldPoint;
                     pointTwo = newPoint;
                 }
-
                 else{
                     pointOne = newPoint;
                     pointTwo = oldPoint;
                 }
-
-
                 if ((newPoint.X < x) == (x <= oldPoint.X)
                     && (y - (long)pointOne.Y) * (pointTwo.X - pointOne.X)
                     < (pointTwo.Y - (long)pointOne.Y) * (x - pointOne.X)){
@@ -231,26 +235,6 @@ namespace CodenameProjectTwo
                 oldPoint = newPoint;
             }
             return inside;
-        }
-
-
-
-        //semiusable implementation, does not handle the form 
-        private bool TileContains(Vector2f checkPoint, int tileX, int tileY){
-            float x = tileX * idealQuadSize.X, y = tileY * idealQuadSize.Y;
-            /*
-            new Vector2f(idealQuadSize.X * (0.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//top left vertex
-            new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//top right vertex
-            new Vector2f(idealQuadSize.X * (1.0f + .5f * x), idealQuadSize.Y * (0.3f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//bot right vertex
-            new Vector2f(idealQuadSize.X * (0.5f + .5f * x), idealQuadSize.Y * (0.6f + .3f * -x) + idealQuadSize.Y * y * 0.6f)//bot left vertex
-            */
-            //check for correct x position
-            if ((x < (idealQuadSize.X * (0.0f + .5f * x))) || (x > idealQuadSize.X * (1.0f + .5f * x)))
-               return false;
-            //check y position
-            if ((y < idealQuadSize.Y * (0.0f + .3f * -x) + idealQuadSize.Y * y * 0.6f) || (y > (0.6f + .3f * -x) + idealQuadSize.Y * y * 0.6f))
-                return false;
-            return true;
         }
 
         public void UpdateWindowResize()
@@ -275,9 +259,9 @@ namespace CodenameProjectTwo
         }
 
 
-        public void AnimationUpdate(){
+        private void AnimationUpdate(Object source, ElapsedEventArgs e){
             for (uint y = 0; y < tileAmount.Y; y++){
-                for (uint x = 0; x < tileAmount.X; x++){
+                for (uint x = 1; x < tileAmount.X - 1; x++){
                     //because: 4 vertexes/quad * (current y times how many x per view) * x
                     uint currentPosition = 4 * ((y * tileAmount.X) + x);
                     //initialize updated texture coords
@@ -303,10 +287,10 @@ namespace CodenameProjectTwo
                         texCo4 = tileMap[currentPosition + 3].TexCoords + newOffset;
 
                         //update vertex texture coordinates
-                        tileMap[currentPosition + 0] = new Vertex(new Vector2f(currentQuadSize.X * x, currentQuadSize.Y * y), texCo1);//top left vertex
-                        tileMap[currentPosition + 1] = new Vertex(new Vector2f(currentQuadSize.X * (x + 1), currentQuadSize.Y * y), texCo2);//top right vertex
-                        tileMap[currentPosition + 2] = new Vertex(new Vector2f(currentQuadSize.X * (x + 1), currentQuadSize.Y * (y + 1)), texCo3);//bot right vertex
-                        tileMap[currentPosition + 3] = new Vertex(new Vector2f(currentQuadSize.X * x, currentQuadSize.Y * (y + 1)), texCo4);//bot left vertex
+                        tileMap[currentPosition + 0] = new Vertex(tileMap[currentPosition + 0].Position, texCo1);//top left vertex
+                        tileMap[currentPosition + 1] = new Vertex(tileMap[currentPosition + 1].Position, texCo2);//top right vertex
+                        tileMap[currentPosition + 2] = new Vertex(tileMap[currentPosition + 2].Position, texCo3);//bot right vertex
+                        tileMap[currentPosition + 3] = new Vertex(tileMap[currentPosition + 3].Position, texCo4);//bot left vertex
                     }
                 }
             }

@@ -33,11 +33,12 @@ namespace CodenameProjectServer
             int ID { get; set; }
 
             /// <summary>
-            /// Used for transmitting state
+            /// Absolute Position of Item
             /// </summary>
             Vector2f Position { get; }
+
             /// <summary>
-            /// Used for transmitting state
+            /// Health, pretty self-explanatory
             /// </summary>
             float Health { get; }
 
@@ -53,6 +54,14 @@ namespace CodenameProjectServer
             /// the movement there
             /// </summary>
             Vector2f Target { get; set; }
+
+            /// <summary>
+            /// This value is asked by the server to determine whether it should send
+            /// or not send an update for this item. Just save your item state in a
+            /// few variables, and check after each Update() whether we need to update
+            /// it.
+            /// </summary>
+            bool UpdateNeeded { get; set; }
 
             /// <summary>
             /// generic function for updating.
