@@ -4,6 +4,8 @@ using SFML;
 using SFML.Graphics;
 using SFML.Window;
 
+using CodenameProjectTwo;
+
 namespace CodenameProjectTwo.buildings
 {
     class VillageCentre
