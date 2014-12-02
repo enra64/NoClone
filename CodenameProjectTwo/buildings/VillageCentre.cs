@@ -13,7 +13,7 @@ namespace CodenameProjectTwo.buildings
         private Sprite hqr;
         private Sprite hqb;
 
-        public void VillageCentre(RenderWindow _w, String color)
+        public void VillageHQ(RenderWindow _w, String color)
         {
             win = _w;
             if (color == "red")

@@ -153,6 +153,7 @@ namespace CodenameProjectTwo
             map.Draw();
             cInterface.Draw();
             cRenderWindow.Display();
+            cRenderWindow.SetMouseCursorVisible(true);
         }
 
         private static void Initialize()
