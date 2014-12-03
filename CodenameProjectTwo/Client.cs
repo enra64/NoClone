@@ -53,7 +53,6 @@ namespace CodenameProjectTwo
             LoadContent();
             //first and only call to init, do everything else there
             Initialize();
-
             //main game loop
             while (cRenderWindow.IsOpen())
             {
@@ -132,7 +131,7 @@ namespace CodenameProjectTwo
         /// </summary>
         private static void LoadContent()
         {
-            CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/test.png");
+            CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/buildings/hqred.png");
         }
     }
 }
