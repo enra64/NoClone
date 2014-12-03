@@ -20,6 +20,8 @@ namespace CodenameProjectTwo
         public static UserInterface cInterface { get; private set; }
         public static Sprite cMouseSprite { get; set; }
 
+        public static bool cIsFocused { get; private set; }
+
         //declare map
         public static TileEngine map;
 
@@ -42,6 +44,10 @@ namespace CodenameProjectTwo
             cRenderWindow.MouseWheelMoved += MouseHandling.Scrolling;
             cRenderWindow.MouseButtonReleased += MouseHandling.mouseRelease;
             cRenderWindow.MouseMoved += MouseHandling.MouseMoved;
+
+            //only listen to key on window focus
+            cRenderWindow.MouseEntered += delegate { cIsFocused = true; };
+            cRenderWindow.MouseLeft += delegate { cIsFocused = false; };
 
             //first and only call to load content, not mandatory to use
             LoadContent();
@@ -66,6 +72,8 @@ namespace CodenameProjectTwo
         }
 
         private static void KeyCheck(){
+            if (!cIsFocused)
+                return;
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
                 cRenderWindow.Close();
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
@@ -90,7 +98,8 @@ namespace CodenameProjectTwo
             //these two lines are why we use interfaces ;)
             map.Draw();
             foreach (CInterfaces.IDrawable s in cItemList)
-                s.Draw();
+                if(s!=null)
+                    s.Draw();
             cInterface.Draw();
             if(cMouseSprite!=null)
                 cRenderWindow.Draw(cMouseSprite);

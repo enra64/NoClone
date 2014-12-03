@@ -106,7 +106,6 @@ namespace CodenameProjectTwo
         public void Draw()
         {
             Client.cRenderWindow.Draw(sDanielsName);
-            Console.WriteLine("drawing at " + Position.X + ", " + Position.Y);
         }
 
         /// <summary>

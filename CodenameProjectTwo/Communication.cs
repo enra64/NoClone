@@ -44,7 +44,7 @@ namespace CodenameProjectTwo
             //read newest message until empty
             while (msg.PeekInt32() != -1)
             {
-                Console.WriteLine("client: broadcast update");
+                //Console.WriteLine("client: broadcast update");
                 int type = msg.ReadInt32();
                 bool faction = msg.ReadBoolean();
                 int ID = msg.ReadInt32();

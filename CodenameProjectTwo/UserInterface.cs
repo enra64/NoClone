@@ -19,7 +19,7 @@ namespace CodenameProjectTwo
          private int maxColumns=4;
          public float menuPortScale { get; private set; }
          
-         private int cItem=-1;
+         public int cItem=-1;
 
         public UserInterface(){
             win = Client.cRenderWindow;
