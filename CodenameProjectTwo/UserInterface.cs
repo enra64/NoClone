@@ -64,7 +64,7 @@ namespace CodenameProjectTwo
                 float scale = xSize / CGlobal.BUILDING_TEXTURES[i].Size.X;
                 Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
                 newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(textureBox.Position.X + xSize * x + 5f, textureBox.Position.Y + (5f + xSize) * y);
+                newSprite.Position = new Vector2f(textureBox.Position.X + xSize * x + 5f+ i*(75f), textureBox.Position.Y + (5f + xSize) * y);
                 peopleSpriteList.Add(newSprite);
             }
             y = 0;
@@ -78,7 +78,7 @@ namespace CodenameProjectTwo
                 float scale = xSize / CGlobal.BUILDING_TEXTURES[i].Size.X;
                 Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
                 newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(infoBox.Position.X + xSize * x + 5f, infoBox.Position.Y + (5f + xSize) * y);
+                newSprite.Position = new Vector2f(infoBox.Position.X + xSize * x + 5f+i*(75f), infoBox.Position.Y + (5f + xSize) * y);
                 buildingSpriteList.Add(newSprite);
             }
         }

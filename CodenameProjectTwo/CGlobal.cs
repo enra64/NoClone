@@ -58,7 +58,7 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Schwertkämpfer, stark gegen irgendwas" };
+        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "I am the default unit!"};
 
         /// <summary>
         /// Save the texture of your item here
