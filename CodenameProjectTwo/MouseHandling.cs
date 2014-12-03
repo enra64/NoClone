@@ -108,11 +108,12 @@ namespace CodenameProjectTwo
             NetOutgoingMessage mes = Communication.netClient.CreateMessage();
             //identify message as mouseclick
             mes.Write(CGlobal.PLANT_BUILDING_MESSAGE);
-            //write id of clicked item
+            //write type of building to init
             mes.Write(type);
-            //write "left mouse button"
-            mes.Write(x);
-            mes.Write(y);
+            //write "put it there"
+            Vector2f convertedMousePosition = MapCoordsMouseToScreen(x, y);
+            mes.Write(convertedMousePosition.X);
+            mes.Write(convertedMousePosition.Y);
             //send
             Communication.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
             //like, really, send now
@@ -138,7 +139,7 @@ namespace CodenameProjectTwo
             if (!IsInMenu(e.X) && buildingChosen != -1){
                 cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[buildingChosen]);
                 cChosenBuilding.Color = new Color(255, 255, 255, 120);
-                cChosenBuilding.Position = MapCoords((int)e.X, (int)e.Y);
+                cChosenBuilding.Position = MapCoordsMouseToScreen(e.X, e.Y);
                 Client.cMouseSprite = cChosenBuilding;
                 return;
             }
@@ -150,9 +151,9 @@ namespace CodenameProjectTwo
 
         }
 
-        private static Vector2f MapCoords(int x, int y)
+        private static Vector2f MapCoordsMouseToScreen(float x, float y)
         {
-            return Client.cRenderWindow.MapPixelToCoords(new Vector2i(x, y));
+            return Client.cRenderWindow.MapPixelToCoords(new Vector2i((int) x, (int) y));
         }
     }
 }

@@ -40,8 +40,8 @@ namespace CodenameProjectServer
             netServer.Start();
 
             //instantiate village centers
-            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, false, new Vector2f(200f, 200f), 100);
-            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, true, new Vector2f(200f, 200f), 100);
+            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, false, new Vector2f(800f, 200f), 100);
+            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, true, new Vector2f(400f, 200f), 100);
 
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(

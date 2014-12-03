@@ -50,6 +50,7 @@ namespace CodenameProjectTwo
         
         Sprite sDanielsName;
         Texture cTexture;
+        Vector2f cSize;
 
         public Building(int _type, bool _faction, int _ID, Vector2f _position, float _health)
         {
@@ -61,6 +62,7 @@ namespace CodenameProjectTwo
             Texture = CGlobal.BUILDING_TEXTURES[Type];
             sDanielsName = new Sprite(Texture);
             sDanielsName.Position = this.Position;
+            cSize = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace CodenameProjectTwo
         /// </summary>
         public string Description
         {
-            get { throw new NotImplementedException(); }
+            get { return CGlobal.BUILDING_DESCRIPTIONS[Type]; }
         }
 
         /// <summary>
@@ -93,7 +95,9 @@ namespace CodenameProjectTwo
         /// </summary>
         public FloatRect BoundingRectangle
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return new FloatRect(this.Position.X, this.Position.Y, this.cSize.X, this.cSize.Y);
+            }
         }
 
         /// <summary>
@@ -102,6 +106,7 @@ namespace CodenameProjectTwo
         public void Draw()
         {
             Client.cRenderWindow.Draw(sDanielsName);
+            Console.WriteLine("drawing at " + Position.X + ", " + Position.Y);
         }
 
         /// <summary>

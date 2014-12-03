@@ -27,14 +27,6 @@ namespace CodenameProjectTwo
         public static List<CInterfaces.IDrawable> cItemList {get; set;}
         static void Main(string[] args)
         {
-            
-            //Console.WriteLine("Write IP and press Enter to connect!");
-            //Communication.Connect(Console.ReadLine(), 14242);
-
-            Console.WriteLine("Autoconnecting to localhost!");
-            Communication.Connect("localhost", 14242);
-
-
             //create list of items
             cItemList=new List<CInterfaces.IDrawable>();
 
@@ -96,9 +88,9 @@ namespace CodenameProjectTwo
             cRenderWindow.SetView(cView);
             cRenderWindow.Clear();
             //these two lines are why we use interfaces ;)
+            map.Draw();
             foreach (CInterfaces.IDrawable s in cItemList)
                 s.Draw();
-            map.Draw();
             cInterface.Draw();
             if(cMouseSprite!=null)
                 cRenderWindow.Draw(cMouseSprite);
@@ -115,9 +107,15 @@ namespace CodenameProjectTwo
 
             cInterface= new UserInterface();
 
-
             //build tilemap
             map = new TileEngine(cRenderWindow, new Vector2u(100, 100), "maps/levelTest1.oel");
+
+            //Console.WriteLine("Write IP and press Enter to connect!");
+            //Communication.Connect(Console.ReadLine(), 14242);
+
+            //init connection
+            Console.WriteLine("Autoconnecting to localhost!");
+            Communication.Connect("localhost", 14242);
         }
 
         /// <summary>
