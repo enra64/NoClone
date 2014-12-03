@@ -26,6 +26,7 @@ namespace CodenameProjectTwo
                 buildingChosen = -1;
                 return;
             }
+            buildingChosen = -1;
             //check whether the mouse moved significantly or not
             FloatRect checkRect = new FloatRect(mouseMovementStartingPoint.X - 4f, mouseMovementStartingPoint.Y - 4f, 8f, 8f);
             if (checkRect.Contains(e.X, e.Y))
@@ -54,12 +55,14 @@ namespace CodenameProjectTwo
         public static void mouseClick(object sender, MouseButtonEventArgs e){
             //decide whether menu or game screen
             //menu
-            if (IsInMenu(e.X)){
+            if (IsInMenu(e.X) && e.Button == Mouse.Button.Left)
+            {
                 Client.cInterface.Click(e.X, e.Y);
                 Console.WriteLine("Menu click");
             }
             else{//game view
                 if (e.Button == Mouse.Button.Left){
+                    rightButtonClicked = false;
                     if(buildingChosen!=-1){
                         //send message to server for planting the building
                         Console.WriteLine("Planting building " + buildingChosen + " at " + e.X + ", " + e.Y);
@@ -67,7 +70,6 @@ namespace CodenameProjectTwo
                         buildingChosen = -1;
                     }
                     else{
-                        rightButtonClicked = false;
                         //check what we clicked
                         Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
                         //abort if no clicked item was found
