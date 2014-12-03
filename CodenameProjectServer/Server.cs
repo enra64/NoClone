@@ -39,6 +39,10 @@ namespace CodenameProjectServer
             netServer = new NetServer(config);
             netServer.Start();
 
+            //instantiate village centers
+            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, false, new Vector2f(200f, 200f), 100);
+            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, true, new Vector2f(200f, 200f), 100);
+
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
                 delegate(object o, DoWorkEventArgs arg)
@@ -168,7 +172,7 @@ namespace CodenameProjectServer
 
                             //adding tags so that retarded me can find this _kinda_ important line: mistake error change
                             //warning: change to != when we finally have objects!
-                            if (Sendlist.Count == 0)
+                            if (Sendlist.Count != 0)
                                 netServer.SendMessage(om, all, NetDeliveryMethod.Unreliable, 0);
                         }
                         //dont clog the cpu
@@ -189,16 +193,17 @@ namespace CodenameProjectServer
         internal static void InstanceClass(Int32 _type, bool _faction, Vector2f _position, float _health)
         {
             bool success = true;
+            int _ID = SGlobal.ID_COUNTER++;
+            ElongateList(_ID);
             switch (_type)
             {
-                case 0:
-                    int _ID = SGlobal.ID_COUNTER++;
-                    ElongateList(_ID);
+                case SGlobal.VILLAGE_CENTRE_TYPE:
                     //check for needed resources
                     Sendlist[_ID] = new Building(_type, _faction, _ID, _position, 100);
                     break;
                 default:
                     success = false;
+                    SGlobal.ID_COUNTER--;
                     break;
             }
             if (success)
@@ -211,7 +216,10 @@ namespace CodenameProjectServer
             //if the list size is smaller than the id, elongate it
             if (Sendlist.Count - 1 < _ID)
                 while (Sendlist.Count - 1 < _ID)
+                {
                     Sendlist.Add(null);
+                    Console.WriteLine("elongating");
+                }
         }
 
         // called by the UI

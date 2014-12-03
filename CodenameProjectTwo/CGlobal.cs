@@ -38,10 +38,12 @@ namespace CodenameProjectTwo
         /// </summary>
         public const int BUILDING_TYPE_COUNT = 1;
 
+        public const int VILLAGE_CENTRE_TYPE = 0;
+
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static String[] BUILDING_DESCRIPTIONS = new string[] { "haus blablablablablablablablablablablablablabla" };
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { "village center. much great" };
 
         /// <summary>
         /// Save the texture of your item here

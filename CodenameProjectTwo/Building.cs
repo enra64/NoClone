@@ -47,6 +47,9 @@ namespace CodenameProjectTwo
          * VARIABLES END HERE
          */
         #endregion
+        
+        Sprite sDanielsName;
+        Texture cTexture;
 
         public Building(int _type, bool _faction, int _ID, Vector2f _position, float _health)
         {
@@ -55,6 +58,9 @@ namespace CodenameProjectTwo
             Faction = _faction;
             Position = _position;
             Health = _health;
+            Texture = CGlobal.BUILDING_TEXTURES[Type];
+            sDanielsName = new Sprite(Texture);
+            sDanielsName.Position = this.Position;
         }
 
         /// <summary>
@@ -95,7 +101,7 @@ namespace CodenameProjectTwo
         /// </summary>
         public void Draw()
         {
-            throw new NotImplementedException();
+            Client.cRenderWindow.Draw(sDanielsName);
         }
 
         /// <summary>
@@ -105,11 +111,11 @@ namespace CodenameProjectTwo
         {
             get
             {
-                throw new NotImplementedException();
+                return this.cTexture;
             }
             set
             {
-                throw new NotImplementedException();
+                this.cTexture = value;
             }
         }
     }

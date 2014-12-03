@@ -17,7 +17,7 @@ namespace CodenameProjectTwo
         //c for current
         public static RenderWindow cRenderWindow { get; private set; }
         public static View cView{get;private set;}
-        public static Interface cInterface { get; private set; }
+        public static UserInterface cInterface { get; private set; }
         public static Sprite cMouseSprite { get; set; }
 
         //declare map
@@ -113,7 +113,8 @@ namespace CodenameProjectTwo
             CGlobal.BEGIN_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
 
-            cInterface= new Interface();
+            cInterface= new UserInterface();
+
 
             //build tilemap
             map = new TileEngine(cRenderWindow, new Vector2u(100, 100), "maps/levelTest1.oel");

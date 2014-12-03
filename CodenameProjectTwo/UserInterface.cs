@@ -8,7 +8,7 @@ using SFML.Graphics;
 
 namespace CodenameProjectTwo
 {
-     class Interface
+     class UserInterface
     {
          private RenderWindow win;
          private RectangleShape mainBox, textureBox, descriptionBox, infoBox;
@@ -21,7 +21,7 @@ namespace CodenameProjectTwo
          
          private int cItem=-1;
 
-        public Interface(){
+        public UserInterface(){
             win = Client.cRenderWindow;
 
             //init view & viewport

@@ -44,7 +44,7 @@ namespace CodenameProjectTwo
             //read newest message until empty
             while (msg.PeekInt32() != -1)
             {
-                Console.WriteLine("bupdate");
+                Console.WriteLine("client: broadcast update");
                 int type = msg.ReadInt32();
                 bool faction = msg.ReadBoolean();
                 int ID = msg.ReadInt32();
@@ -52,8 +52,10 @@ namespace CodenameProjectTwo
                 float health = msg.ReadFloat();
                 //if the list size is smaller than the id, elongate it
                 if (Client.cItemList.Count - 1 < ID)
-                    while (Client.cItemList.Count - 1 < ID)
-                        Client.cItemList.Add(null);
+                    while (Client.cItemList.Count - 1 < ID) {
+                            Client.cItemList.Add(null);
+                            Console.WriteLine("elong 1");
+                        }
                 //decide whether to instance or update
                 if (Client.cItemList[ID] != null)//update
                 {
@@ -74,11 +76,14 @@ namespace CodenameProjectTwo
             Console.WriteLine("instanced a type " + _type + " of player " + _faction);
             switch (_type)
             {
-                case 0:
+                case CGlobal.VILLAGE_CENTRE_TYPE:
+                    Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
+                    break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;
             }
+            Console.WriteLine("instantiating");
         }
 
         internal static void GotMessage(object peer)
