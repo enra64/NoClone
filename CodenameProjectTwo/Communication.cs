@@ -44,12 +44,13 @@ namespace CodenameProjectTwo
             //read newest message until empty
             while (msg.PeekInt32() != -1)
             {
+                Console.WriteLine("bupdate");
                 int type = msg.ReadInt32();
                 bool faction = msg.ReadBoolean();
                 int ID = msg.ReadInt32();
                 Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
                 float health = msg.ReadFloat();
-                //if the list size is smaller than the id, we need to instance the correct class
+                //if the list size is smaller than the id, elongate it
                 if (Client.cItemList.Count - 1 < ID)
                     while (Client.cItemList.Count - 1 < ID)
                         Client.cItemList.Add(null);
@@ -64,7 +65,6 @@ namespace CodenameProjectTwo
                     InstanceClass(type, faction, ID, position, health);
             }
         }
-
 
         /// <summary>
         /// use this class to divert the types into the appropriate classes
