@@ -36,22 +36,19 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
-        public const int BUILDING_TYPE_COUNT = 1;
-
-        public const int VILLAGE_CENTRE_TYPE = 1;
+        public const int BUILDING_TYPE_COUNT = 2;
+        public const int VILLAGE_CENTRE_TYPE = 2;
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static String[] BUILDING_DESCRIPTIONS = new string[] {redvillaged,bluevillaged};
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!" };
 
-        static string redvillaged = "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!";
-        static string bluevillaged = "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!";
-        
 
         /// <summary>
         /// Save the texture of your item here
         /// </summary>
         public static Texture[] BUILDING_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
+
         /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
