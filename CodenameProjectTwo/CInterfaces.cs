@@ -25,13 +25,13 @@ namespace CodenameProjectTwo
             /// <summary>
             /// Description, for UI. Not updated by server
             /// </summary>
-            string Description { get; set; }
+            string Description { get; }
 
             /// <summary>
             /// Unit Name (e.g. Archer, Swordsman, Idiot swinging an axe).
             /// Not updated by server
             /// </summary>
-            string Name { get; set; }
+            string Name { get; }
 
             /// <summary>
             /// Unit texture, for UI

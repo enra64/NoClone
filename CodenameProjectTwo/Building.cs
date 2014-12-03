@@ -17,7 +17,7 @@ namespace CodenameProjectTwo
         /// one type per class; the classes will be instanced via a switch() listening
         /// to the type
         /// </summary>
-        public int Type { get; private set; }
+        public int Type { get; set; }
 
         /// <summary>
         /// the id of this instance; dont change it, because the server

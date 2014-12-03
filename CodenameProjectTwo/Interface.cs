@@ -150,7 +150,7 @@ namespace CodenameProjectTwo
                 //create info string
                 //health, id, type
                 infoText.DisplayedString = Client.cItemList[itemID].Name+"\n"+
-                    Client.cItemList[itemID].Health/Client.cItemList[itemID].MaxHealth+"% Leben";
+                    Client.cItemList[itemID].Health+"% Leben";
             }
         }
 
