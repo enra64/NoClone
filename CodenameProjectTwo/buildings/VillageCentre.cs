@@ -10,7 +10,7 @@ namespace CodenameProjectTwo.buildings
 {
     class VillageCentre : CodenameProjectTwo.CInterfaces.IDrawable
     {
-
+   
         public int Type
         {
             get
@@ -31,6 +31,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                Description = "The centre and the main building of a faction is the village centre. If it gets destroyed the whole fation would scatter and lose its power!";
                 throw new NotImplementedException();
             }
         }
@@ -43,6 +44,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                Name = "Village Centre";
                 throw new NotImplementedException();
             }
         }
@@ -55,6 +57,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                Texture = new Texture("assets/graphics/buildings/hqred.png");
                 throw new NotImplementedException();
             }
         }
@@ -67,6 +70,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                Faction = true;
                 throw new NotImplementedException();
             }
         }
@@ -79,6 +83,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                ID = 2;
                 throw new NotImplementedException();
             }
         }
@@ -91,6 +96,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                Position = new Vector2f(100,100);
                 throw new NotImplementedException();
             }
         }
@@ -103,6 +109,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                Health = 1000;
                 throw new NotImplementedException();
             }
         }
@@ -115,6 +122,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
+                MaxHealth = 1000;
                 throw new NotImplementedException();
             }
         }
@@ -127,6 +135,13 @@ namespace CodenameProjectTwo.buildings
         public FloatRect BoundingRectangle
         {
             get { throw new NotImplementedException(); }
+        }
+
+
+        public void Draw()
+        {
+           
+            throw new NotImplementedException();
         }
     }
 }
