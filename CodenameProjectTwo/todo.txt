@@ -1,16 +1,16 @@
 RTS
 
 -Netcode clean halten
--Startgebäude   DANIEL
---Kaserne
---
+-Startgebäude										DANIEL
+--Kaserne											DANIEL
+---Hütte?
 
 -truppen
--Arbeiter
+-Arbeiter											J-O
 --krieger: schwertkämpfer, speerkämpfer?
 ---bogenschützen
 
 -ressourcen (1)
 --Stein, holz, Nahrung, 
 ---eisen
--menu (gebäude platzieren, einheiten ausbilden)
+-menu (gebäude platzieren, einheiten ausbilden)		ARNE
