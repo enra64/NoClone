@@ -8,43 +8,125 @@ using CodenameProjectTwo;
 
 namespace CodenameProjectTwo.buildings
 {
-    class VillageCentre
+    class VillageCentre : CodenameProjectTwo.CInterfaces.IDrawable
     {
-        private RenderWindow win;
-        
-        private Sprite hqr;
-        private Sprite hqb;
 
-        public void VillageHQ(RenderWindow _w, String color)
+        public int Type
         {
-            win = _w;
-            if (color == "red")
+            get
             {
-                Texture hqtexr = new Texture("assets/graphics/buildings/hqred.png");
-                hqr = new Sprite(hqtexr);
+                throw new NotImplementedException();
             }
-
-            else
+            set
             {
-                Texture hqtexb = new Texture("assets/graphics/buildings/hqblue.png");
-                hqb = new Sprite(hqtexb);
+                throw new NotImplementedException();
             }
         }
 
-        public void Update()
+        public string Description
         {
-            
-            Vector2f hqrPosition = new Vector2f(0f, 0f);
-            Vector2f hqbPosition = new Vector2f(100f, 100f);
-            hqr.Position = hqrPosition;
-            hqb.Position = hqbPosition;
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public void Draw()
+        public string Name
         {
-            win.Draw(hqr);
-            win.Draw(hqb);
-            win.Display();
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Texture Texture
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool Faction
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int ID
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Vector2f Position
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public float Health
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public float MaxHealth
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Vector2f Center
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public FloatRect BoundingRectangle
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }
