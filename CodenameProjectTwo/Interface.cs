@@ -197,7 +197,7 @@ namespace CodenameProjectTwo
             for (int i = 0; i < buildingSpriteList.Count; i++){
                 s = buildingSpriteList[i];
                 if (s.GetGlobalBounds().Contains(X, Y)){
-                    Console.WriteLine("building activated");
+                    Console.WriteLine("building " + i + " activated");
                     MouseHandling.buildingChosen = i;
                 }
             }
