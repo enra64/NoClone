@@ -10,6 +10,7 @@ namespace CodenameProjectTwo.Buildings
 {
     class Centre  : CInterfaces.IDrawable
     {
+        //http://i2.kym-cdn.com/photos/images/original/000/234/739/fa5.jpg
         public int Type { get; set; }
 
         public int ID { get; set; }
