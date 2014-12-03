@@ -40,8 +40,8 @@ namespace CodenameProjectServer
             netServer.Start();
 
             //instantiate village centers
-            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, false, new Vector2f(800f, 200f), 100);
-            InstanceClass(SGlobal.VILLAGE_CENTRE_TYPE, true, new Vector2f(400f, 200f), 100);
+            InstanceClass(SGlobal.RED, false, new Vector2f(570f, 720f), 100);
+            InstanceClass(SGlobal.BLUE, true, new Vector2f(400f, 200f), 100);
 
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
@@ -197,9 +197,13 @@ namespace CodenameProjectServer
             ElongateList(_ID);
             switch (_type)
             {
-                case SGlobal.VILLAGE_CENTRE_TYPE:
+                case SGlobal.RED:
                     //check for needed resources
-                    Sendlist[_ID] = new Building(_type, _faction, _ID, _position, 100);
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
+                    break;
+                case SGlobal.BLUE:
+                    //check for needed resources
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
                     break;
                 default:
                     success = false;

@@ -37,7 +37,7 @@ namespace CodenameProjectTwo
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
         public const int BUILDING_TYPE_COUNT = 2;
-        public const int VILLAGE_CENTRE_TYPE = 2;
+        public const int RED = 0, BLUE = 1;
         /// <summary>
         /// Add a description to your item
         /// </summary>

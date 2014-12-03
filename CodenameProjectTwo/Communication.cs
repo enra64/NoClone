@@ -76,7 +76,10 @@ namespace CodenameProjectTwo
             Console.WriteLine("instanced a type " + _type + " of player " + _faction);
             switch (_type)
             {
-                case CGlobal.VILLAGE_CENTRE_TYPE:
+                case CGlobal.RED:
+                    Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
+                    break;
+                case CGlobal.BLUE:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;
                 default:
