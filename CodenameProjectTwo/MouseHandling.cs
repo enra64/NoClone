@@ -17,8 +17,7 @@ namespace CodenameProjectTwo
         public static int buildingChosen = -1;
         private static Sprite cChosenBuilding;
 
-        public static void mouseRelease(object sender, MouseButtonEventArgs e)
-        {
+        public static void mouseRelease(object sender, MouseButtonEventArgs e){
             //only do for right mouse button
             if (rightButtonClicked == false)
                 return;
@@ -63,6 +62,8 @@ namespace CodenameProjectTwo
                 if (e.Button == Mouse.Button.Left){
                     if(buildingChosen!=-1){
                         //send message to server for planting the building
+                        Console.WriteLine("Planting building " + buildingChosen + " at " + e.X + ", " + e.Y);
+                        sendPlantMessage(e.X, e.Y, buildingChosen);
                         buildingChosen = -1;
                     }
                     else{
@@ -92,8 +93,7 @@ namespace CodenameProjectTwo
             Int32 clickedItemId = -1;
             foreach (CInterfaces.IDrawable item in Client.cItemList)
             {
-                if (item.BoundingRectangle.Contains(x, y))
-                {
+                if (item.BoundingRectangle.Contains(x, y)){
                     clickedItemId = item.ID;
                     break;
                 }
@@ -101,10 +101,25 @@ namespace CodenameProjectTwo
             return clickedItemId;
         }
 
-        private static void sendMouseMessage(int ID, bool rightButton)
-        {
+        private static void sendPlantMessage(float x, float y, Int32 type){
             //create message
-            NetOutgoingMessage mes = Client.netClient.CreateMessage();
+            NetOutgoingMessage mes = Communication.netClient.CreateMessage();
+            //identify message as mouseclick
+            mes.Write(CGlobal.PLANT_BUILDING_MESSAGE);
+            //write id of clicked item
+            mes.Write(type);
+            //write "left mouse button"
+            mes.Write(x);
+            mes.Write(y);
+            //send
+            Communication.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
+            //like, really, send now
+            Communication.netClient.FlushSendQueue();
+        }
+
+        private static void sendMouseMessage(int ID, bool rightButton){
+            //create message
+            NetOutgoingMessage mes = Communication.netClient.CreateMessage();
             //identify message as mouseclick
             mes.Write(CGlobal.MOUSE_CLICK_MESSAGE);
             //write id of clicked item
@@ -112,9 +127,9 @@ namespace CodenameProjectTwo
             //write "left mouse button"
             mes.Write(rightButton);
             //send
-            Client.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
+            Communication.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
             //like, really, send now
-            Client.netClient.FlushSendQueue();
+            Communication.netClient.FlushSendQueue();
         }
 
         internal static void MouseMoved(object sender, MouseMoveEventArgs e){

@@ -104,6 +104,9 @@ namespace CodenameProjectServer
                                         case SGlobal.STRING_MESSAGE:
                                             Console.WriteLine("got string message: " + im.ReadString());
                                             break;
+                                        case SGlobal.PLANT_BUILDING_MESSAGE:
+                                            Console.WriteLine("oh shit boys gotta plant a building now");
+                                            break;
                                     }
                                     break;
                                 default:
@@ -129,7 +132,7 @@ namespace CodenameProjectServer
                             om.Write(SGlobal.GAMESTATE_BROADCAST);
                             //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
                             foreach (SInterfaces.ISendable s in Sendlist){
-                                Console.WriteLine("server send");
+                                //Console.WriteLine("server send");
                                 om.Write(s.Type);
                                 om.Write(s.Faction);
                                 om.Write(s.ID);
@@ -138,7 +141,7 @@ namespace CodenameProjectServer
                                 om.Write(s.Health);
                             }
                             //declare message end
-                            Console.WriteLine("server send");
+                            //Console.WriteLine("server send");
                             om.Write(-1);
 
                             //warning: change to != when we finally have objects!
@@ -154,6 +157,22 @@ namespace CodenameProjectServer
             Console.ReadKey();
             //ServerLoop();
             netServer.Shutdown("Requested by user");
+        }
+
+        /// <summary>
+        /// use this class to divert the types into the appropriate classes
+        /// </summary>
+        internal static void InstanceClass(int _type, bool _faction, Vector2f _position, float _health)
+        {
+            Console.WriteLine("instanced a type " + _type + " of player " + _faction);
+            switch (_type)
+            {
+                case 0:
+                    int _ID = SGlobal.ID_COUNTER++;
+                    //check for needed resources
+                    Sendlist[_ID] = new Building(_type, _faction, _ID, _position, 100);
+                    break;
+            }
         }
 
         private static void ServerLoop()

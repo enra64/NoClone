@@ -64,6 +64,7 @@
     <Compile Include="CGlobal.cs" />
     <Compile Include="CInterfaces.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Communication.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="MouseHandling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

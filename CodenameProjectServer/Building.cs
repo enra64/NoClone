@@ -10,6 +10,19 @@ namespace CodenameProjectServer
 {
     class Building : SInterfaces.ISendable
     {
+        private int type, id;
+        private bool faction;
+        private Vector2f position;
+        private float health;
+
+        public Building(int _type, bool _faction, int _ID, Vector2f _position, float _health)
+        {
+            type = _type;
+            id = _ID;
+            faction = _faction;
+            position = _position;
+            health = _health;
+        }
         //look at the nonimplementedness
         public int Type
         {
@@ -33,7 +46,7 @@ namespace CodenameProjectServer
             }
         }
 
-        public SFML.Window.Vector2f Position
+        public Vector2f Position
         {
             get { throw new NotImplementedException(); }
         }
@@ -43,12 +56,24 @@ namespace CodenameProjectServer
             get { throw new NotImplementedException(); }
         }
 
-        public SFML.Window.Vector2f Center
+        public Vector2f Center
         {
             get { throw new NotImplementedException(); }
         }
 
-        public SFML.Window.Vector2f Target
+        public Vector2f Target
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool UpdateNeeded
         {
             get
             {
@@ -63,19 +88,6 @@ namespace CodenameProjectServer
         public void Update()
         {
             throw new NotImplementedException();
-        }
-
-
-        public bool UpdateNeeded
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }
