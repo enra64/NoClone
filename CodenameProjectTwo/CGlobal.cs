@@ -36,14 +36,12 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
-        public const int BUILDING_TYPE_COUNT = 2;
-        public const int RED = 0, BLUE = 1;
+        public const int BUILDING_TYPE_COUNT = 3;
+        public const int DEFAULT = 0,RED = 1, BLUE = 3;
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static String[] BUILDING_DESCRIPTIONS = new string[] { 
-            "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", 
-            "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!" };
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { "I am the default Building","You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!" };
 
 
         /// <summary>

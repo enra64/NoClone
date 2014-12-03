@@ -80,6 +80,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\graphics\buildings\default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\graphics\buildings\hqred.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

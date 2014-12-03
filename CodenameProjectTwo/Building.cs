@@ -48,8 +48,8 @@ namespace CodenameProjectTwo
          */
         #endregion
         
-        Sprite sDanielsName;
-        Texture cTexture;
+        Sprite sDefault;
+        Texture dTexture;
         Vector2f cSize;
 
         public Building(int _type, bool _faction, int _ID, Vector2f _position, float _health)
@@ -60,8 +60,8 @@ namespace CodenameProjectTwo
             Position = _position;
             Health = _health;
             Texture = CGlobal.BUILDING_TEXTURES[Type];
-            sDanielsName = new Sprite(Texture);
-            sDanielsName.Position = this.Position;
+            sDefault = new Sprite(Texture);
+            sDefault.Position = this.Position;
             cSize = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
 
@@ -105,7 +105,7 @@ namespace CodenameProjectTwo
         /// </summary>
         public void Draw()
         {
-            Client.cRenderWindow.Draw(sDanielsName);
+            Client.cRenderWindow.Draw(sDefault);
         }
 
         /// <summary>
@@ -115,11 +115,11 @@ namespace CodenameProjectTwo
         {
             get
             {
-                return this.cTexture;
+                return this.dTexture;
             }
             set
             {
-                this.cTexture = value;
+                this.dTexture = value;
             }
         }
     }
