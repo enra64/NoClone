@@ -80,6 +80,9 @@ namespace CodenameProjectTwo
                 case CGlobal.BLUE:
                     Client.cItemList[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
+                case CGlobal.BARRACK:
+                    Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
+                    break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;

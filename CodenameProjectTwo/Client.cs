@@ -143,6 +143,7 @@ namespace CodenameProjectTwo
             CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/buildings/default.png");
             CGlobal.BUILDING_TEXTURES[1] = new Texture("assets/graphics/buildings/hqred.png");
             CGlobal.BUILDING_TEXTURES[2] = new Texture("assets/graphics/buildings/hqblue.png");
+            CGlobal.BUILDING_TEXTURES[3] = new Texture("assets/graphics/buildings/barrack.png");
 
             //load people textures
             CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstPeople.png");
