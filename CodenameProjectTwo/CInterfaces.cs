@@ -59,11 +59,6 @@ namespace CodenameProjectTwo
             float Health { get; set; }
 
             /// <summary>
-            /// Needed for UI, does not need to be updated by server
-            /// </summary>
-            float MaxHealth { get; set; }
-
-            /// <summary>
             /// was pretty useful in the past,
             /// just implement it
             /// </summary>
