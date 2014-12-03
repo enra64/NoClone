@@ -42,10 +42,9 @@ namespace CodenameProjectTwo
 
         internal static void BroadcastUpdate(NetIncomingMessage msg)
         {
-            //read newest message until empty
-            while (msg.PeekInt32() != -1)
-            {
-                //Console.WriteLine("client: broadcast update");
+            //read newest message until all data has been read
+            while (msg.PeekInt32() != -1){
+                //read message
                 int type = msg.ReadInt32();
                 bool faction = msg.ReadBoolean();
                 int ID = msg.ReadInt32();
@@ -53,10 +52,8 @@ namespace CodenameProjectTwo
                 float health = msg.ReadFloat();
                 //if the list size is smaller than the id, elongate it
                 if (Client.cItemList.Count - 1 < ID)
-                    while (Client.cItemList.Count - 1 < ID) {
+                    while (Client.cItemList.Count - 1 < ID)
                             Client.cItemList.Add(null);
-                            Console.WriteLine("elong 1");
-                        }
                 //decide whether to instance or update
                 if (Client.cItemList[ID] != null)//update
                 {
@@ -103,16 +100,23 @@ namespace CodenameProjectTwo
                     case NetIncomingMessageType.WarningMessage:
                     case NetIncomingMessageType.VerboseDebugMessage:
                         string text = im.ReadString();
-                        Console.WriteLine(text);
+                        //Console.WriteLine(text);
                         break;
                     case NetIncomingMessageType.StatusChanged:
                         NetConnectionStatus status = (NetConnectionStatus)im.ReadByte();
                         string reason = im.ReadString();
-                        //Console.WriteLine(status.ToString() + ": " + reason);
                         break;
                     case NetIncomingMessageType.Data:
-                        if (im.ReadInt32() == CGlobal.GAMESTATE_BROADCAST)
-                            BroadcastUpdate(im);
+                        Int32 dataType=im.ReadInt32();
+                        switch (dataType)
+                        {
+                            case CGlobal.GAMESTATE_BROADCAST:
+                                BroadcastUpdate(im);
+                                break;
+                            case CGlobal.CLIENT_IDENTIFICATION_MESSAGE:
+                                Client.MyFaction = im.ReadBoolean();
+                                break;
+                        }
                         break;
                     default:
                         Console.WriteLine("Unhandled type: " + im.MessageType + " " + im.LengthBytes + " bytes");

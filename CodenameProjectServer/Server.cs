@@ -16,8 +16,10 @@ namespace CodenameProjectServer
         private const long UNDEFINED_CLIENT=-1;
 
         private static NetServer netServer;
-        private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
         private static List<SInterfaces.ISendable> Sendlist = new List<SInterfaces.ISendable>();
+
+        private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
+        private static NetConnection con1, con2;
 
         private static int lastExecutedClick = -1;
 
@@ -81,13 +83,17 @@ namespace CodenameProjectServer
                                         {
                                             clientIdentifier1 = im.SenderConnection.RemoteUniqueIdentifier;
                                             hail = "Client 1 (" + clientIdentifier1 + ")";
+                                            con1=im.SenderConnection;
                                         }
                                         else if (clientIdentifier2 == UNDEFINED_CLIENT)
                                         {
                                             clientIdentifier2 = im.SenderConnection.RemoteUniqueIdentifier;
                                             hail = "Client 2 (" + clientIdentifier2 + ")";
+                                            con2 = im.SenderConnection;
                                         }
-                                        Console.WriteLine(hail);
+                                        if (clientIdentifier1 != UNDEFINED_CLIENT && clientIdentifier2 != UNDEFINED_CLIENT)
+                                            SendClientIdentification();
+                                        //Console.WriteLine(hail);
                                     }
                                     break;
                                 #endregion
@@ -186,6 +192,25 @@ namespace CodenameProjectServer
             Console.ReadKey();
             //ServerLoop();
             netServer.Shutdown("Requested by user");
+        }
+
+        private static void SendClientIdentification()
+        {
+            //send to first client
+            List<NetConnection> one = netServer.Connections;
+            one.Remove(con2);
+            NetOutgoingMessage om1 = netServer.CreateMessage();
+            om1.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
+            om1.Write(false);
+            netServer.SendMessage(om1, one, NetDeliveryMethod.ReliableUnordered, 0);
+
+            //send to second client
+            List<NetConnection> two = netServer.Connections;
+            two.Remove(con1);
+            NetOutgoingMessage om2 = netServer.CreateMessage();
+            om2.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
+            om2.Write(true);
+            netServer.SendMessage(om2, two, NetDeliveryMethod.ReliableUnordered, 0);
         }
 
         /// <summary>

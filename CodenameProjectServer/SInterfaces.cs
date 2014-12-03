@@ -27,8 +27,7 @@ namespace CodenameProjectServer
             bool Faction { get; }
 
             /// <summary>
-            /// This _MUST_ be set to the value of SGlobal.ID_COUNTER at time of creation,
-            /// which _HAS_ to be increased afterwards for my server protocol to work!
+            /// Basically just dont change this value
             /// </summary>
             int ID { get; set; }
 

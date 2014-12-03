@@ -22,6 +22,8 @@ namespace CodenameProjectTwo
 
         public static bool cIsFocused { get; private set; }
 
+        public static bool MyFaction { get; set; }
+
         //declare map
         public static TileEngine map;
 
@@ -39,7 +41,7 @@ namespace CodenameProjectTwo
             cRenderWindow.SetFramerateLimit(35);
 
             //event handlers
-            cRenderWindow.Closed += windowClosed;
+            cRenderWindow.Closed += delegate { Communication.Shutdown(); cRenderWindow.Close(); };
             cRenderWindow.MouseButtonPressed += MouseHandling.mouseClick;
             cRenderWindow.MouseWheelMoved += MouseHandling.Scrolling;
             cRenderWindow.MouseButtonReleased += MouseHandling.mouseRelease;
@@ -48,6 +50,8 @@ namespace CodenameProjectTwo
             //only listen to key on window focus
             cRenderWindow.MouseEntered += delegate { cIsFocused = true; };
             cRenderWindow.MouseLeft += delegate { cIsFocused = false; };
+            cRenderWindow.GainedFocus += delegate { cIsFocused = true; };
+            cRenderWindow.LostFocus += delegate { cIsFocused = false; };
 
             //first and only call to load content, not mandatory to use
             LoadContent();
@@ -64,13 +68,8 @@ namespace CodenameProjectTwo
             }
         }
 
-
-        private static void windowClosed(object sender, EventArgs e){
-            Communication.Shutdown();
-            ((RenderWindow)sender).Close();
-        }
-
         private static void KeyCheck(){
+            //dont react to keys if window is not active
             if (!cIsFocused)
                 return;
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
@@ -87,15 +86,19 @@ namespace CodenameProjectTwo
 
         private static void Update(){
             KeyCheck();
+            //update offset
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
+            //update ui
             cInterface.Update();
         }
 
         private static void Draw(){
             cRenderWindow.SetView(cView);
             cRenderWindow.Clear();
-            //these two lines are why we use interfaces ;)
+            //draw tilemap
             map.Draw();
+
+            //draw all drawable stuff
             for (int i = cItemList.Count - 1; i >= 0; i--)
             {
                 CInterfaces.IDrawable s = cItemList[i];
@@ -103,8 +106,10 @@ namespace CodenameProjectTwo
                     s.Draw();
             }
             cInterface.Draw();
+            //draw hovering building
             if(cMouseSprite!=null)
                 cRenderWindow.Draw(cMouseSprite);
+            //display everything
             cRenderWindow.Display();
             cRenderWindow.SetMouseCursorVisible(true);
         }
