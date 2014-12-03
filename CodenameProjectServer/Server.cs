@@ -208,6 +208,9 @@ namespace CodenameProjectServer
                 case SGlobal.BLUE:
                     Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
                     break;
+                case SGlobal.BARRACK:
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
+                    break;
                 default:
                     success = false;
                     SGlobal.ID_COUNTER--;
