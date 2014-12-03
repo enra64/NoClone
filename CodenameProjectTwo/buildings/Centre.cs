@@ -8,9 +8,19 @@ using CodenameProjectTwo;
 
 namespace CodenameProjectTwo.Buildings
 {
-    class Centre  : CodenameProjectTwo.CInterfaces.IDrawable
-
+    class Centre  : CInterfaces.IDrawable
     {
+        public int Type { get; set; }
+
+        public int ID { get; set; }
+
+        public bool Faction { get; set; }
+
+        public Vector2f Position { get; set; }
+
+        public float Health { get; set; }
+
+        
         Sprite cSprite;
         Texture cTexture;
         Vector2f cSize;
@@ -22,34 +32,58 @@ namespace CodenameProjectTwo.Buildings
             Faction = _faction;
             Position = _position;
             Health = _health;
-            cTexture = CGlobal.BUILDING_TEXTURES[Type];
-            cSprite = new Sprite(cTexture);
+            Texture = CGlobal.BUILDING_TEXTURES[Type];
+            cSprite = new Sprite(Texture);
             cSprite.Position = this.Position;
             cSize = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
 
-        public int Type
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        /// <summary>
+        /// this could access the cglobal descriptions; the arrayposition will be type
+        /// </summary>
         public string Description
         {
-            get { throw new NotImplementedException(); }
+            get { return CGlobal.BUILDING_DESCRIPTIONS[Type]; }
         }
 
+        /// <summary>
+        /// a short name that is displayed by the id
+        /// btw dont use umlauts
+        /// </summary>
         public string Name
+        {
+            get { return "Red Centre"; }
+        }
+
+        /// <summary>
+        /// return the center of your building here
+        /// </summary>
+        public Vector2f Center
         {
             get { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// return a floatrect around your building
+        /// </summary>
+        public FloatRect BoundingRectangle
+        {
+            get {
+                return new FloatRect(this.Position.X, this.Position.Y, this.cSize.X, this.cSize.Y);
+            }
+        }
+
+        /// <summary>
+        /// Draw your building...
+        /// </summary>
+        public void Draw()
+        {
+            Client.cRenderWindow.Draw(cSprite);
+        }
+
+        /// <summary>
+        /// Return the texture (not the path to texture) of your building here
+        /// </summary>
         public Texture Texture
         {
             get
@@ -60,69 +94,6 @@ namespace CodenameProjectTwo.Buildings
             {
                 this.cTexture = value;
             }
-        }
-
-        public bool Faction
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int ID
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Vector2f Position
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public float Health
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Vector2f Center
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public FloatRect BoundingRectangle
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void Draw()
-        {
-            throw new NotImplementedException();
         }
     }
 }

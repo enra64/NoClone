@@ -132,6 +132,7 @@ namespace CodenameProjectTwo
         private static void LoadContent()
         {
             CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/buildings/hqred.png");
+            CGlobal.BUILDING_TEXTURES[1] = new Texture("assets/graphics/buildings/hqblue.png");
         }
     }
 }
