@@ -54,8 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Building.cs" />
-    <Compile Include="Centre.cs" />
+    <Compile Include="Buildings\Barrack.cs" />
+    <Compile Include="Buildings\Building.cs" />
+    <Compile Include="Buildings\Centre.cs" />
     <Compile Include="SInterfaces.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
