@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CodenameProjectTwo.Buildings;
 
 namespace CodenameProjectTwo
 {
@@ -77,10 +78,10 @@ namespace CodenameProjectTwo
             switch (_type)
             {
                 case CGlobal.RED:
-                    Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
+                    Client.cItemList[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case CGlobal.BLUE:
-                    Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
+                    Client.cItemList[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
