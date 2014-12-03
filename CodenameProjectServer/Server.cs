@@ -40,6 +40,7 @@ namespace CodenameProjectServer
             netServer.Start();
 
             //instantiate village centers
+            InstanceClass(SGlobal.DEFAULT, false, new Vector2f(100f, 100f), 100);
             InstanceClass(SGlobal.RED, false, new Vector2f(570f, 720f), 100);
             InstanceClass(SGlobal.BLUE, true, new Vector2f(400f, 200f), 100);
 
@@ -197,6 +198,9 @@ namespace CodenameProjectServer
             ElongateList(_ID);
             switch (_type)
             {
+                case SGlobal.DEFAULT:
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
+                    break;
                 case SGlobal.RED:
                     //check for needed resources
                     Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
