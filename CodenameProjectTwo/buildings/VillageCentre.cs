@@ -31,7 +31,7 @@ namespace CodenameProjectTwo.buildings
             }
             set
             {
-                Description = "The centre and the main building of a faction is the village centre. If it gets destroyed the whole fation would scatter and lose its power!";
+                Description = "The centre and the main building of a faction is the village  centre. If it gets destroyed the whole fation would scatter and lose its power!";
                 throw new NotImplementedException();
             }
         }
