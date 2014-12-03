@@ -41,7 +41,9 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static String[] BUILDING_DESCRIPTIONS = new string[] { "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!" };
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { 
+            "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", 
+            "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!" };
 
 
         /// <summary>
@@ -58,11 +60,11 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Schwertkämpfer, stark gegen irgendwas" };
+        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Swordfighter. Main strength is looking evil." };
 
         /// <summary>
         /// Save the texture of your item here
         /// </summary>
-        public static Texture[] PEOPLE_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
+        public static Texture[] PEOPLE_TEXTURES = new Texture[PEOPLE_TYPE_COUNT];
     }
 }

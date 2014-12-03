@@ -55,18 +55,20 @@ namespace CodenameProjectTwo
             //load all sprites
             int y = 0, x = 0;
             float xSize = (((float)mainBox.Size.X - 20f) / (float)maxColumns);
+            //people
             for (int i = 0; i < CGlobal.PEOPLE_TYPE_COUNT; i++ ){
                 //create a grid
                 if (x == 2){
                     x = 0;
                     y++;
                 }
-                float scale = xSize / CGlobal.BUILDING_TEXTURES[i].Size.X;
-                Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
+                float scale = xSize / CGlobal.PEOPLE_TEXTURES[i].Size.X;
+                Sprite newSprite = new Sprite(CGlobal.PEOPLE_TEXTURES[i]);
                 newSprite.Scale = new Vector2f(scale, scale);
                 newSprite.Position = new Vector2f(textureBox.Position.X + xSize * x + 5f, textureBox.Position.Y + (5f + xSize) * y);
                 peopleSpriteList.Add(newSprite);
             }
+            //buildings
             y = 0;
             x = 0;
             for (int i = 0; i < CGlobal.BUILDING_TYPE_COUNT; i++){
@@ -164,10 +166,10 @@ namespace CodenameProjectTwo
             int resultingStringCount=input.Length/maximumLength + 1;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < resultingStringCount; i++){
-                int start=i * (maximumLength - 1);
+                int start=i * (maximumLength);
                 if(start+maximumLength>input.Length)
                     maximumLength=input.Length-start;
-                sb.AppendLine(input.Substring(start, maximumLength));
+                sb.AppendLine(input.Substring(start, maximumLength).Trim(new char[] {' '}));
             }
             return sb.ToString();
         }
