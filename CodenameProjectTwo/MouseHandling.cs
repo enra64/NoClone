@@ -68,6 +68,7 @@ namespace CodenameProjectTwo
                         Console.WriteLine("Planting building " + buildingChosen + " at " + e.X + ", " + e.Y);
                         sendPlantMessage(e.X, e.Y, buildingChosen);
                         buildingChosen = -1;
+                        Client.cMouseSprite = null;
                     }
                     else{
                         //check what we clicked
@@ -94,6 +95,9 @@ namespace CodenameProjectTwo
 
         private static int GetClickedItemId(float x, float y)
         {
+            Vector2f mappedCoordinates = MapCoordsMouseToScreen(x, y);
+            x = mappedCoordinates.X;
+            y = mappedCoordinates.Y;
             Int32 clickedItemId = -1;
             foreach (CInterfaces.IDrawable item in Client.cItemList)
             {

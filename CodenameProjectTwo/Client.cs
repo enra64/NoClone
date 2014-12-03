@@ -96,9 +96,12 @@ namespace CodenameProjectTwo
             cRenderWindow.Clear();
             //these two lines are why we use interfaces ;)
             map.Draw();
-            foreach (CInterfaces.IDrawable s in cItemList)
-                if(s!=null)
+            for (int i = cItemList.Count - 1; i >= 0; i--)
+            {
+                CInterfaces.IDrawable s = cItemList[i];
+                if (s != null)
                     s.Draw();
+            }
             cInterface.Draw();
             if(cMouseSprite!=null)
                 cRenderWindow.Draw(cMouseSprite);
@@ -131,9 +134,13 @@ namespace CodenameProjectTwo
         /// </summary>
         private static void LoadContent()
         {
+            //load building textures
             CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/buildings/default.png");
             CGlobal.BUILDING_TEXTURES[1] = new Texture("assets/graphics/buildings/hqred.png");
             CGlobal.BUILDING_TEXTURES[2] = new Texture("assets/graphics/buildings/hqblue.png");
+
+            //load people textures
+            CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstPeople.png");
         }
     }
 }

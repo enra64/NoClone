@@ -58,11 +58,11 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "I am the default unit!"};
+        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Swordfighter. Main strength is looking evil." };
 
         /// <summary>
         /// Save the texture of your item here
         /// </summary>
-        public static Texture[] PEOPLE_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
+        public static Texture[] PEOPLE_TEXTURES = new Texture[PEOPLE_TYPE_COUNT];
     }
 }
