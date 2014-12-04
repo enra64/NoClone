@@ -129,7 +129,7 @@ namespace CodenameProjectTwo
 
             //init connection
             Console.WriteLine("Autoconnecting to localhost!");
-            Communication.Connect("141.44.240.245", 14242);
+            Communication.Connect("localhost", 14242);
         }
 
         /// <summary>
