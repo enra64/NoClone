@@ -100,16 +100,16 @@ namespace CodenameProjectServer
                                 #region DataHandling
                                 case NetIncomingMessageType.Data:
                                     //identify client
-                                    bool client=false;
+                                    byte client=255;
                                     // incoming chat message from a client
                                     if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier1){
                                         Console.Write("client 1: ");
-                                        client = false;
+                                        client = 1;
                                     }
                                     else if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier2)
                                     {
                                         Console.Write("client 2: ");
-                                        client = true;
+                                        client = 2;
                                     }
                                     else
                                     {

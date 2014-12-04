@@ -46,7 +46,7 @@ namespace CodenameProjectTwo
             while (msg.PeekInt32() != -1){
                 //read message
                 int type = msg.ReadInt32();
-                bool faction = msg.ReadBoolean();
+                byte faction = msg.ReadByte();
                 int ID = msg.ReadInt32();
                 Vector2f position = new Vector2f(msg.ReadFloat(), msg.ReadFloat());
                 float health = msg.ReadFloat();
@@ -69,7 +69,7 @@ namespace CodenameProjectTwo
         /// <summary>
         /// use this class to divert the types into the appropriate classes
         /// </summary>
-        internal static void InstanceClass(int _type, bool _faction, int _ID, Vector2f _position, float _health)
+        internal static void InstanceClass(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
             Console.WriteLine("instanced a type " + _type + " of player " + _faction);
             switch (_type)
@@ -117,7 +117,7 @@ namespace CodenameProjectTwo
                                 BroadcastUpdate(im);
                                 break;
                             case CGlobal.CLIENT_IDENTIFICATION_MESSAGE:
-                                Client.MyFaction = im.ReadBoolean();
+                                Client.MyFaction = im.ReadByte();
                                 break;
                         }
                         break;
