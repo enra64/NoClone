@@ -58,30 +58,33 @@ namespace CodenameProjectTwo
             //people
             for (int i = 0; i < CGlobal.PEOPLE_TYPE_COUNT; i++ ){
                 //create a grid
-                if (x == 2){
+                if (x == maxColumns){
                     x = 0;
                     y++;
                 }
-                float scale = xSize / CGlobal.PEOPLE_TEXTURES[i].Size.X;
+                float scale = xSize / (float)CGlobal.PEOPLE_TEXTURES[i].Size.X;
                 Sprite newSprite = new Sprite(CGlobal.PEOPLE_TEXTURES[i]);
                 newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(textureBox.Position.X + xSize * x + 5f+ i*(75f), textureBox.Position.Y + (5f + xSize) * y);
+                newSprite.Position = new Vector2f(textureBox.Position.X + (2f + xSize) * x + 5f, textureBox.Position.Y + 10f + (10f + xSize) * y);
                 peopleSpriteList.Add(newSprite);
+                x++;
             }
             //buildings
             y = 0;
             x = 0;
             for (int i = 0; i < CGlobal.BUILDING_TYPE_COUNT; i++){
                 //create a grid
-                if (x == 2){
+                if (x == maxColumns)
+                {
                     x = 0;
                     y++;
                 }
-                float scale = xSize / CGlobal.BUILDING_TEXTURES[i].Size.X;
+                float scale = xSize / (float) CGlobal.BUILDING_TEXTURES[i].Size.X;
                 Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
                 newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(infoBox.Position.X + xSize * x + 5f+i*(75f), infoBox.Position.Y + (5f + xSize) * y);
+                newSprite.Position = new Vector2f(infoBox.Position.X + (2f + xSize) * x + 5f, infoBox.Position.Y + 10f + (10f + xSize) * y);
                 buildingSpriteList.Add(newSprite);
+                x++;
             }
         }
 
