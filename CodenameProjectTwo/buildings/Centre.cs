@@ -15,7 +15,7 @@ namespace CodenameProjectTwo.Buildings
 
         public int ID { get; set; }
 
-        public bool Faction { get; set; }
+        public byte Faction { get; set; }
 
         public Vector2f Position { get; set; }
 
@@ -26,7 +26,7 @@ namespace CodenameProjectTwo.Buildings
         Texture cTexture;
         Vector2f cSize;
 
-        public Centre(int _type, bool _faction, int _ID, Vector2f _position, float _health)
+        public Centre(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
             Type = _type;
             ID = _ID;

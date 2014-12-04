@@ -31,7 +31,7 @@ namespace CodenameProjectTwo
         /// False->client 1; true-> client 2. probably will bite us in the ass
         /// as soon as we want more than two players.
         /// </summary>
-        public bool Faction { get; set; }
+        public byte Faction { get; set; }
 
         /// <summary>
         /// gets set on instanciation, is the position of your building
@@ -52,7 +52,7 @@ namespace CodenameProjectTwo
         Texture dTexture;
         Vector2f cSize;
 
-        public Building(int _type, bool _faction, int _ID, Vector2f _position, float _health)
+        public Building(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
             Type = _type;
             ID = _ID;

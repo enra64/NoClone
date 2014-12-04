@@ -13,7 +13,7 @@ namespace CodenameProjectServer.Ressources
             get { throw new NotImplementedException(); }
         }
 
-        public bool Faction
+        public byte Faction
         {
             get { throw new NotImplementedException(); }
         }

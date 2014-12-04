@@ -38,7 +38,7 @@ namespace CodenameProjectTwo
             /// <summary>
             /// Items faction
             /// </summary>
-            bool Faction { get; set; }
+            byte Faction { get; set; }
             
             /// <summary>
             /// Server-wide unique id

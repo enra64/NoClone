@@ -41,9 +41,9 @@ namespace CodenameProjectServer
             netServer.Start();
 
             //instantiate village centers
-            InstanceClass(SGlobal.DEFAULT, false, new Vector2f(100f, 100f), 100);
-            InstanceClass(SGlobal.RED, false, new Vector2f(570f, 720f), 100);
-            InstanceClass(SGlobal.BLUE, true, new Vector2f(400f, 200f), 100);
+            InstanceClass(SGlobal.DEFAULT, 0, new Vector2f(100f, 100f), 100);
+            InstanceClass(SGlobal.RED, 1, new Vector2f(570f, 720f), 100);
+            InstanceClass(SGlobal.BLUE, 2, new Vector2f(400f, 200f), 100);
 
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
@@ -215,7 +215,7 @@ namespace CodenameProjectServer
         /// <summary>
         /// use this class to divert the types into the appropriate classes
         /// </summary>
-        internal static void InstanceClass(Int32 _type, bool _faction, Vector2f _position, float _health)
+        internal static void InstanceClass(Int32 _type, byte _faction, Vector2f _position, float _health)
         {
             bool success = true;
             int _ID = SGlobal.ID_COUNTER++;

@@ -22,7 +22,7 @@ namespace CodenameProjectTwo
 
         public static bool cIsFocused { get; private set; }
 
-        public static bool MyFaction { get; set; }
+        public static byte MyFaction { get; set; }
 
         //declare map
         public static TileEngine map;

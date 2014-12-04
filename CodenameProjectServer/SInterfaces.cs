@@ -21,7 +21,7 @@ namespace CodenameProjectServer
             /// <summary>
             /// Used for transmitting state; contains the faction
             /// </summary>
-            bool Faction { get; }
+            byte Faction { get; }
 
             /// <summary>
             /// Basically just dont change this value

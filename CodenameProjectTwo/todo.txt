@@ -1,8 +1,8 @@
 RTS
 
 -Netcode clean halten
--Startgebäude										DANIEL
---Kaserne											DANIEL
+-Startgebäude										DANIEL kinda
+--Kaserne											DANIEL kinda
 ---Hütte?
 
 -truppen
@@ -11,6 +11,6 @@ RTS
 ---bogenschützen
 
 -ressourcen (1)
---Stein, holz, Nahrung, 
+--Stein, holz, Nahrung,								Stein -> DANIEL;
 ---eisen
 -menu (gebäude platzieren, einheiten ausbilden)		ARNE
