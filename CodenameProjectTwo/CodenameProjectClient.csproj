@@ -66,6 +66,7 @@
     <Compile Include="CInterfaces.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Communication.cs" />
+    <Compile Include="Ressources\Ressource.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="MouseHandling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +92,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\buildings\hqblue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\ressources\stone.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\test.png">
@@ -119,10 +123,8 @@
     <Content Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\graphics\ressources\" />
     <Folder Include="assets\sounds\buildings\" />
     <Folder Include="assets\sounds\units\" />
-    <Folder Include="Ressources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

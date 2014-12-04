@@ -57,6 +57,7 @@
     <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
+    <Compile Include="Ressources\Ressource.cs" />
     <Compile Include="SInterfaces.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,9 +79,7 @@
     <Content Include="libsndfile-1.dll" />
     <Content Include="openal32.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Ressources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
