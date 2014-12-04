@@ -30,6 +30,15 @@ namespace CodenameProjectTwo
         public static Vector2f BEGIN_WINDOW_ORIGIN;
 
         /// <summary>
+        /// Count of ressources. Increase whenever you add one
+        /// </summary>
+        public const int RESSOURCE_TYPE_COUNT = 1;
+        public const int STONE = 0;
+
+        public static Texture[] RESSOURCE_TEXTURES = new Texture[RESSOURCE_TYPE_COUNT];
+        public static String[] RESSOURCE_DESCRIPTIONS = new string[] { "STONE -> O <- this is one" };
+
+        /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
         public const int BUILDING_TYPE_COUNT = 4;
