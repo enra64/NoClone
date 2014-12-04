@@ -19,9 +19,9 @@ namespace CodenameProjectTwo.Ressources
         public float Health { get; set; }
 
         
-        Sprite bSprite;
-        Texture bTexture;
-        Vector2f bSize;
+        Sprite sSprite;
+        Texture sTexture;
+        Vector2f sSize;
 
         public Stone(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
@@ -30,10 +30,10 @@ namespace CodenameProjectTwo.Ressources
             Faction = _faction;
             Position = _position;
             Health = _health;
-            Texture = CGlobal.BUILDING_TEXTURES[Type];
-            bSprite = new Sprite(Texture);
-            bSprite.Position = this.Position;
-            bSize = new Vector2f(Texture.Size.X, Texture.Size.Y);
+            Texture = CGlobal.RESSOURCE_TEXTURES[Type];
+            sSprite = new Sprite(Texture);
+            sSprite.Position = this.Position;
+            sSize = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace CodenameProjectTwo.Ressources
         /// </summary>
         public string Name
         {
-            get { return "Barrack"; }
+            get { return "Stone"; }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace CodenameProjectTwo.Ressources
         public FloatRect BoundingRectangle
         {
             get {
-                return new FloatRect(this.Position.X, this.Position.Y, this.bSize.X, this.bSize.Y);
+                return new FloatRect(this.Position.X, this.Position.Y, this.sSize.X, this.sSize.Y);
             }
         }
 
@@ -76,7 +76,7 @@ namespace CodenameProjectTwo.Ressources
         /// </summary>
         public void Draw()
         {
-            Client.cRenderWindow.Draw(bSprite);
+            Client.cRenderWindow.Draw(sSprite);
         }
 
         /// <summary>
@@ -86,11 +86,11 @@ namespace CodenameProjectTwo.Ressources
         {
             get
             {
-                return this.bTexture;
+                return this.sTexture;
             }
             set
             {
-                this.bTexture = value;
+                this.sTexture = value;
             }
         }
     }

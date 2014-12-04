@@ -11,11 +11,11 @@ namespace CodenameProjectServer
         //http://i2.kym-cdn.com/photos/images/original/000/234/739/fa5.jpg
         public int Type { get; private set; }
         public int ID { get; set; }
-        public bool Faction { get; set; }
+        public byte Faction { get; set; }
         public Vector2f Position { get; set; }
         public float Health { get; set; }
 
-        public Barrack(int _type, bool _faction, int _ID, Vector2f _position, float _health)
+        public Barrack(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
             Type = _type;
             ID = _ID;
