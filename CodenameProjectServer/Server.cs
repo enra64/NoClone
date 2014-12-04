@@ -25,8 +25,7 @@ namespace CodenameProjectServer
 
         private static BackgroundWorker workerThread=new BackgroundWorker();
 
-        static void Main(string[] args)
-        {
+        static void Main(string[] args){
             //debug, cant distinguish server/client xD
             Console.WriteLine("server");
 

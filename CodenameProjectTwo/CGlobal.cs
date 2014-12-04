@@ -50,14 +50,15 @@ namespace CodenameProjectTwo
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
 
-        public const int PEOPLE_TYPE_COUNT = 1;
+        public const int PEOPLE_TYPE_COUNT = 2;
 
-        public const int PEOPLE_SWORDSMAN=0;
+        public const int PEOPLE_SWORDSMAN=0, PEOPLE_PEASANT=1;
 
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Swordfighter. Main strength is looking evil." };
+        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Swordfighter. Main strength is looking evil.",
+        "Just a friendly peasant, not a madman with an scythe - at least i hope so."};
 
         /// <summary>
         /// Save the texture of your item here
@@ -68,7 +69,7 @@ namespace CodenameProjectTwo
         /// in x is the id of the building that spawns the menu concerned by this;
         /// in y is an array of people this menu is allowed to show
         /// </summary>
-        /// //only the third position is currently senseless
-        public static int[,] DISPLAYED_PEOPLE_FOR_MENU = new int[,] { { -1 }, { -1 }, { PEOPLE_SWORDSMAN } };
+        /// //only the third position is currently not senseless - it is the barrack. 0 and 2 are the standard buildings
+        public static int[][] DISPLAYED_PEOPLE_FOR_MENU = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDSMAN } };
     }
 }

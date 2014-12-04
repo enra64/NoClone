@@ -97,8 +97,7 @@ namespace CodenameProjectTwo
             map.Draw();
 
             //draw all drawable stuff
-            for (int i = cItemList.Count - 1; i >= 0; i--)
-            {
+            for (int i = cItemList.Count - 1; i >= 0; i--){
                 CInterfaces.IDrawable s = cItemList[i];
                 if (s != null)
                     s.Draw();
@@ -144,6 +143,7 @@ namespace CodenameProjectTwo
 
             //load people textures
             CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstPeople.png");
+            CGlobal.PEOPLE_TEXTURES[1] = new Texture("assets/graphics/units/firstBauer.png");
         }
     }
 }

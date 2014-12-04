@@ -55,14 +55,15 @@ namespace CodenameProjectTwo
         public static void mouseClick(object sender, MouseButtonEventArgs e){
             //decide whether menu or game screen
             //menu
-            if (IsInMenu(e.X) && e.Button == Mouse.Button.Left)
-            {
+            if (IsInMenu(e.X) && e.Button == Mouse.Button.Left){
                 Client.cInterface.Click(e.X, e.Y);
                 Console.WriteLine("Menu click");
             }
-            else{//game view
+            //game view
+            else{
                 if (e.Button == Mouse.Button.Left){
                     rightButtonClicked = false;
+                    //no building chosen
                     if(buildingChosen!=-1){
                         //send message to server for planting the building
                         Console.WriteLine("Planting building " + buildingChosen + " at " + e.X + ", " + e.Y);
@@ -70,6 +71,7 @@ namespace CodenameProjectTwo
                         buildingChosen = -1;
                         Client.cMouseSprite = null;
                     }
+                    //building clicked
                     else{
                         //check what we clicked
                         Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
@@ -87,15 +89,21 @@ namespace CodenameProjectTwo
                 }
                 //right mouse button
                 else if (Mouse.IsButtonPressed(Mouse.Button.Right)){
-                    rightButtonClicked = true;
-                    mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
+                    if (buildingChosen != -1){
+                        buildingChosen = -1;
+                        Client.cMouseSprite = null;
+                    }
+                    else { 
+                        rightButtonClicked = true;
+                        mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
+                    }
                 }
             }
         }
 
         private static int GetClickedItemId(float x, float y)
         {
-            Vector2f mappedCoordinates = MapCoordsMouseToScreen(x, y);
+            Vector2f mappedCoordinates = MapMouseToGame(x, y);
             x = mappedCoordinates.X;
             y = mappedCoordinates.Y;
             Int32 clickedItemId = -1;
@@ -117,7 +125,7 @@ namespace CodenameProjectTwo
             //write type of building to init
             mes.Write(type);
             //write "put it there"
-            Vector2f convertedMousePosition = MapCoordsMouseToScreen(x, y);
+            Vector2f convertedMousePosition = MapMouseToGame(x, y);
             mes.Write(convertedMousePosition.X);
             mes.Write(convertedMousePosition.Y);
             //send
@@ -145,7 +153,7 @@ namespace CodenameProjectTwo
             if (!IsInMenu(e.X) && buildingChosen != -1){
                 cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[buildingChosen]);
                 cChosenBuilding.Color = new Color(255, 255, 255, 120);
-                cChosenBuilding.Position = MapCoordsMouseToScreen(e.X, e.Y);
+                cChosenBuilding.Position = MapMouseToGame(e.X, e.Y);
                 Client.cMouseSprite = cChosenBuilding;
                 return;
             }
@@ -157,7 +165,7 @@ namespace CodenameProjectTwo
 
         }
 
-        private static Vector2f MapCoordsMouseToScreen(float x, float y)
+        private static Vector2f MapMouseToGame(float x, float y)
         {
             return Client.cRenderWindow.MapPixelToCoords(new Vector2i((int) x, (int) y));
         }
