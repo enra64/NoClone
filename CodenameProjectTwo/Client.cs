@@ -29,8 +29,7 @@ namespace CodenameProjectTwo
 
         //list of everything meant to draw
         public static List<CInterfaces.IDrawable> cItemList {get; set;}
-        static void Main(string[] args)
-        {
+        static void Main(string[] args){
             //create list of items
             cItemList=new List<CInterfaces.IDrawable>();
 
@@ -58,8 +57,7 @@ namespace CodenameProjectTwo
             //first and only call to init, do everything else there
             Initialize();
             //main game loop
-            while (cRenderWindow.IsOpen())
-            {
+            while (cRenderWindow.IsOpen()){
                 //mandatory and draw calls; note that update does _not_ calculate anything
                 Update();
                 Draw();
@@ -131,14 +129,13 @@ namespace CodenameProjectTwo
 
             //init connection
             Console.WriteLine("Autoconnecting to localhost!");
-            Communication.Connect("localhost", 14242);
+            Communication.Connect("141.44.240.245", 14242);
         }
 
         /// <summary>
         /// Load the stuff the UI (and you!) needs here
         /// </summary>
-        private static void LoadContent()
-        {
+        private static void LoadContent(){
             //load building textures
             CGlobal.BUILDING_TEXTURES[0] = new Texture("assets/graphics/buildings/default.png");
             CGlobal.BUILDING_TEXTURES[1] = new Texture("assets/graphics/buildings/hqred.png");

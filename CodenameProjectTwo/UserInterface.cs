@@ -135,11 +135,9 @@ namespace CodenameProjectTwo
                     win.Draw(s);
                 win.Draw(descriptionText);
             }
-            else
-            {
+            else{
                 win.Draw(descriptionText);
                 win.Draw(infoText);
-
             }
             win.SetView(Client.cView);
         }
