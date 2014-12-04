@@ -45,6 +45,9 @@ namespace CodenameProjectServer
             InstanceClass(SGlobal.RED, 1, new Vector2f(570f, 720f), 100);
             InstanceClass(SGlobal.BLUE, 2, new Vector2f(400f, 200f), 100);
 
+            //instantiate ressources
+            InstanceClass(SGlobal.STONE, 0, new Vector2f(200f, 200f), 100);
+
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
                 delegate(object o, DoWorkEventArgs arg)
@@ -233,7 +236,7 @@ namespace CodenameProjectServer
                     Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
                     break;
                 case SGlobal.BARRACK:
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
+                    Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, 100);
                     break;
                 default:
                     success = false;
