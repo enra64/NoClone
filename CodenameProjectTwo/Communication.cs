@@ -74,13 +74,13 @@ namespace CodenameProjectTwo
             Console.WriteLine("instanced a type " + _type + " of player " + _faction);
             switch (_type)
             {
-                case CGlobal.RED:
+                case CGlobal.BUILDING_RED:
                     Client.cItemList[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
-                case CGlobal.BLUE:
+                case CGlobal.BUILDING_BLUE:
                     Client.cItemList[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
-                case CGlobal.BARRACK:
+                case CGlobal.BUILDING_BARRACK:
                     Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
                 default:
