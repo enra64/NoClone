@@ -30,7 +30,7 @@ namespace CodenameProjectTwo.Ressources
             Faction = _faction;
             Position = _position;
             Health = _health;
-            Texture = CGlobal.RESSOURCE_TEXTURES[Type];
+            Texture = CGlobal.BUILDING_TEXTURES[Type];
             sSprite = new Sprite(Texture);
             sSprite.Position = this.Position;
             sSize = new Vector2f(Texture.Size.X, Texture.Size.Y);

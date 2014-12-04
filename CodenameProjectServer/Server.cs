@@ -166,6 +166,7 @@ namespace CodenameProjectServer
                              */
                             //identify as server broadcast
                             om.Write(SGlobal.GAMESTATE_BROADCAST);
+
                             //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
                             foreach (SInterfaces.ISendable s in Sendlist){
                                 //Console.WriteLine("server send");
@@ -238,6 +239,9 @@ namespace CodenameProjectServer
                     break;
                 case SGlobal.BUILDING_BARRACK:
                     Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, 100);
+                    break;
+                case SGlobal.STONE:
+                    Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, 100);
                     break;
                 default:
                     success = false;

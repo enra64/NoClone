@@ -83,6 +83,9 @@ namespace CodenameProjectTwo
                 case CGlobal.BUILDING_BARRACK:
                     Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
+                case CGlobal.STONE:
+                    Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
+                    break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;

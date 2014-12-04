@@ -29,24 +29,16 @@ namespace CodenameProjectTwo
         /// </summary>
         public static Vector2f BEGIN_WINDOW_ORIGIN;
 
-        /// <summary>
-        /// Count of ressources. Increase whenever you add one
-        /// </summary>
-        public const int RESSOURCE_TYPE_COUNT = 1;
-        public const int STONE = 0;
-
-        public static Texture[] RESSOURCE_TEXTURES = new Texture[RESSOURCE_TYPE_COUNT];
-        public static String[] RESSOURCE_DESCRIPTIONS = new string[] { "STONE -> O <- this is one" };
 
         /// <summary>
-        /// Count of items buildable. Increase whenever you add one
+        /// Count of items buildable and ressources. Increase whenever you add one
         /// </summary>
-        public const int BUILDING_TYPE_COUNT = 4;
-        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3;
+        public const int BUILDING_TYPE_COUNT = 5;
+        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3, STONE = 4;
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static String[] BUILDING_DESCRIPTIONS = new string[] { "I am the default Building","You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!","Soldiers(if we would have some) are getting trained here!" };
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { "I am the default Building", "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!", "Soldiers(if we would have some) are getting trained here!", "STONE -> O <- this is one" };
 
 
         /// <summary>
