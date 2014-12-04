@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
 using System.ComponentModel;
+using CodenameProjectServer.Ressources;
 
 namespace CodenameProjectServer
 {
@@ -41,9 +42,9 @@ namespace CodenameProjectServer
             netServer.Start();
 
             //instantiate village centers
-            InstanceClass(SGlobal.DEFAULT, 0, new Vector2f(100f, 100f), 100);
-            InstanceClass(SGlobal.RED, 1, new Vector2f(570f, 720f), 100);
-            InstanceClass(SGlobal.BLUE, 2, new Vector2f(400f, 200f), 100);
+            InstanceClass(SGlobal.BUILDING_DEFAULT, 0, new Vector2f(100f, 100f), 100);
+            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(570f, 720f), 100);
+            InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(400f, 200f), 100);
 
             //instantiate ressources
             InstanceClass(SGlobal.STONE, 0, new Vector2f(200f, 200f), 100);
@@ -225,17 +226,17 @@ namespace CodenameProjectServer
             ElongateList(_ID);
             switch (_type)
             {
-                case SGlobal.DEFAULT:
+                case SGlobal.BUILDING_DEFAULT:
                     Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
                     break;
-                case SGlobal.RED:
+                case SGlobal.BUILDING_RED:
                     //check for needed resources
                     Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
                     break;
-                case SGlobal.BLUE:
+                case SGlobal.BUILDING_BLUE:
                     Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 100);
                     break;
-                case SGlobal.BARRACK:
+                case SGlobal.BUILDING_BARRACK:
                     Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, 100);
                     break;
                 default:

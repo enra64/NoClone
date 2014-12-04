@@ -13,7 +13,7 @@ namespace CodenameProjectServer
 
         public const int STONE = 0;
 
-        public const int DEFAULT = 0, BLUE = 1, RED = 2, BARRACK = 3;
+        public const int BUILDING_DEFAULT = 0, BUILDING_BLUE = 1, BUILDING_RED = 2, BUILDING_BARRACK = 3;
 
     }
 }
