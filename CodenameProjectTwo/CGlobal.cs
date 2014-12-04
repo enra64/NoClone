@@ -33,7 +33,7 @@ namespace CodenameProjectTwo
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
         public const int BUILDING_TYPE_COUNT = 4;
-        public const int DEFAULT = 0, RED = 1, BLUE = 3, BARRACK = 4;
+        public const int DEFAULT = 0, RED = 1, BLUE = 2, BARRACK = 3;
         /// <summary>
         /// Add a description to your item
         /// </summary>
