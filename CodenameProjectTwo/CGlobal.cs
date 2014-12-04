@@ -33,7 +33,7 @@ namespace CodenameProjectTwo
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
         public const int BUILDING_TYPE_COUNT = 4;
-        public const int DEFAULT = 0, RED = 1, BLUE = 2, BARRACK = 3;
+        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3;
         /// <summary>
         /// Add a description to your item
         /// </summary>
@@ -45,11 +45,14 @@ namespace CodenameProjectTwo
         /// </summary>
         public static Texture[] BUILDING_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
 
+
         /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
 
         public const int PEOPLE_TYPE_COUNT = 1;
+
+        public const int PEOPLE_SWORDSMAN=0;
 
         /// <summary>
         /// Add a description to your item
@@ -60,5 +63,12 @@ namespace CodenameProjectTwo
         /// Save the texture of your item here
         /// </summary>
         public static Texture[] PEOPLE_TEXTURES = new Texture[PEOPLE_TYPE_COUNT];
+
+        /// <summary>
+        /// in x is the id of the building that spawns the menu concerned by this;
+        /// in y is an array of people this menu is allowed to show
+        /// </summary>
+        /// //only the third position is currently senseless
+        public static int[,] DISPLAYED_PEOPLE_FOR_MENU = new int[,] { { -1 }, { -1 }, { PEOPLE_SWORDSMAN } };
     }
 }
