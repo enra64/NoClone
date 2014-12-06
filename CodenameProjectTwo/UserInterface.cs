@@ -10,7 +10,11 @@ namespace CodenameProjectTwo {
     class UserInterface {
         private RenderWindow win;
         private RectangleShape mainBox, textureBox, descriptionBox, infoBox;
-        private List<Sprite> allPeopleSpriteList = new List<Sprite>(), allBuildingSpriteList = new List<Sprite>(), cPeopleSpriteList = new List<Sprite>();
+        private List<Sprite> allPeopleSpriteList = new List<Sprite>(), allBuildingSpriteList = new List<Sprite>();
+
+        //new dogma: use class
+        private List<MenuItem> buildableBuildings = new List<MenuItem>(), peopleMenuItemList = new List<MenuItem>();
+
         private Text descriptionText = new Text(), infoText = new Text();
         private View menuView;
         private Font menuFont = new Font("assets/ui/ferrum.otf");
@@ -61,29 +65,56 @@ namespace CodenameProjectTwo {
                     x = 0;
                     y++;
                 }
+                //create the menuitems sprite
                 float scale = ItemIconSize / (float)CGlobal.PEOPLE_TEXTURES[i].Size.X;
                 Sprite newSprite = new Sprite(CGlobal.PEOPLE_TEXTURES[i]);
                 newSprite.Scale = new Vector2f(scale, scale);
                 newSprite.Position = new Vector2f(textureBox.Position.X + (2f + ItemIconSize) * x + 5f, textureBox.Position.Y + 10f + (10f + ItemIconSize) * y);
-                allPeopleSpriteList.Add(newSprite);
+
+                MenuItem newMenuItem=new MenuItem(newSprite, CGlobal.PEOPLE_DESCRIPTIONS[i], i, LoadGrantedBuildings(i));
+
+                peopleMenuItemList.Add(newMenuItem);
                 x++;
             }
             //buildings
             y = 0;
             x = 0;
             for (int i = 0; i < CGlobal.BUILDING_TYPE_COUNT; i++) {
-                //create a grid
-                if (x == maxColumns) {
-                    x = 0;
-                    y++;
+                if (!CGlobal.UNBUILDABLE_BUILDINGS.Contains(i)) { 
+                    //create a grid
+                    if (x == maxColumns) {
+                        x = 0;
+                        y++;
+                    }
+                    float scale = ItemIconSize / (float)CGlobal.BUILDING_TEXTURES[i].Size.X;
+                    Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
+                    newSprite.Scale = new Vector2f(scale, scale);
+                    newSprite.Position = new Vector2f(infoBox.Position.X + (2f + ItemIconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + ItemIconSize) * y);
+                    
+                    MenuItem newMenuItem=new MenuItem(newSprite, CGlobal.BUILDING_DESCRIPTIONS[i], i);
+
+                    buildableBuildings.Add(newMenuItem);
+                    x++;
                 }
-                float scale = ItemIconSize / (float)CGlobal.BUILDING_TEXTURES[i].Size.X;
-                Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
-                newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(infoBox.Position.X + (2f + ItemIconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + ItemIconSize) * y);
-                allBuildingSpriteList.Add(newSprite);
-                x++;
             }
+        }
+
+        /// <summary>
+        /// check each building - "who may i build" array for the people we want to spawn; return a list of the buildings allowed to spawn
+        /// peopleType people
+        /// </summary>
+        /// <param name="peopleType"></param>
+        /// <returns></returns>
+        private List<int> LoadGrantedBuildings(int peopleType) {
+            List<int> returnList = new List<int>();
+            //iterate through building allowance list
+            for(int currentBuilding=0;currentBuilding<CGlobal.BUILDING_TYPE_COUNT; currentBuilding++){
+                int[] checkArray=CGlobal.DISPLAYED_PEOPLE_PER_BUILDING[currentBuilding];
+                //if the currentbuilding is allowed to spawn people of type peopleType, add them to the returnarray
+                if(checkArray.Contains(peopleType))
+                    returnList.Add(currentBuilding);
+            }
+            return returnList;
         }
 
         private void MoveToCurrentPosition() {
@@ -145,18 +176,14 @@ namespace CodenameProjectTwo {
 
             if (cItem == -1) {
                 //show building menu
-                foreach (Sprite s in allBuildingSpriteList)
-                    win.Draw(s);
+                foreach (MenuItem m in buildableBuildings)
+                    m.Draw();
                 win.Draw(descriptionText);
             }
-            else if (cItem == CGlobal.BUILDING_BARRACK) {
-                List<Sprite> peopleToShow = ShowThesePeople(CGlobal.DISPLAYED_PEOPLE_FOR_MENU[cItem]);
-                cPeopleSpriteList = peopleToShow;
-                foreach (Sprite s in peopleToShow)
-                    win.Draw(s);
-            }
-            //standard ui
-            else {
+            else{
+                foreach (MenuItem m in peopleMenuItemList)
+                    if (m.BuildableBy.Contains(Client.cItemList[cItem].Type))
+                        m.Draw();
                 win.Draw(descriptionText);
                 win.Draw(infoText);
             }
@@ -195,38 +222,37 @@ namespace CodenameProjectTwo {
 
 
         internal void CheckHover(MouseMoveEventArgs e) {
-            Sprite s;
-            for (int i = 0; i < allBuildingSpriteList.Count; i++) {
-                s = allBuildingSpriteList[i];
-                if (s.GetGlobalBounds().Contains(e.X, e.Y)) {
-                    descriptionText.DisplayedString = DivideAll(CGlobal.BUILDING_DESCRIPTIONS[i]);
+            MenuItem m;
+            for (int i = 0; i < buildableBuildings.Count; i++) {
+                m = buildableBuildings[i];
+                if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
+                    descriptionText.DisplayedString = DivideAll(m.Description);
                 }
             }
-            for (int i = 0; i < allPeopleSpriteList.Count; i++) {
-                s = allPeopleSpriteList[i];
-                if (s.GetGlobalBounds().Contains(e.X, e.Y)) {
+            for (int i = 0; i < peopleMenuItemList.Count; i++) {
+                m = peopleMenuItemList[i];
+                if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
                     descriptionText.DisplayedString = DivideAll(CGlobal.PEOPLE_DESCRIPTIONS[i]);
                 }
             }
         }
 
         internal void Click(int X, int Y) {
-            Sprite s;
+            MenuItem m;
             //only check for planting buildings if there is currently no building selected
             if (cItem == -1) {
-                for (int i = 0; i < allBuildingSpriteList.Count; i++) {
-                    s = allBuildingSpriteList[i];
-                    if (s.GetGlobalBounds().Contains(X, Y)) {
-                        Console.WriteLine("building " + i + " activated");
-                        MouseHandling.buildingChosen = i;
+                foreach (MenuItem mi in buildableBuildings){
+                    if (mi.Sprite.GetGlobalBounds().Contains(X, Y)) {
+                        Console.WriteLine("building " + mi.Type + " activated");
+                        MouseHandling.buildingChosen = mi.Type;
                     }
                 }
             }
             //spawn people
             else {
-                for (int i = 0; i < cPeopleSpriteList.Count; i++) {
-                    s = cPeopleSpriteList[i];
-                    if (s.GetGlobalBounds().Contains(X, Y)) {
+                for (int i = 0; i < peopleMenuItemList.Count; i++) {
+                    m = peopleMenuItemList[i];
+                    if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         Console.WriteLine("spawn people type " + i);
                     }
                 }

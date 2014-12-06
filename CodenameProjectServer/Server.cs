@@ -126,7 +126,7 @@ namespace CodenameProjectServer
                                             int item=im.ReadInt32();
                                             //left click: save clicked item
                                             if (im.ReadBoolean() == false){
-                                                Console.WriteLine("Item "+item+" was clicked!");
+                                                Console.WriteLine("Item "+item+" was clicked! type: "+Sendlist[item].Type);
                                                 lastExecutedClick = item;
                                             }
                                             //got right click, notify first clicked item of new targetposition

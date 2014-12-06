@@ -34,11 +34,23 @@ namespace CodenameProjectTwo
         /// Count of items buildable and ressources. Increase whenever you add one
         /// </summary>
         public const int BUILDING_TYPE_COUNT = 5;
+        /// <summary>
+        /// building types. should be unique to the building, and is used to find the correct description and texture
+        /// </summary>
         public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3, STONE = 4;
+        /// <summary>
+        /// Array of buildings users are not allowed to build
+        /// </summary>
+        public static int[] UNBUILDABLE_BUILDINGS = { 1, 2, 4 };
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static String[] BUILDING_DESCRIPTIONS = new string[] { "I am the default Building", "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!", "Soldiers(if we would have some) are getting trained here!", "STONE -> O <- this is one" };
+        public static String[] BUILDING_DESCRIPTIONS = new string[] { 
+            "I am the default Building", 
+            "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", 
+            "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!", 
+            "Soldiers(if we would have some) are getting trained here!", 
+            "STONE -> O <- this is one" };
 
 
         /// <summary>
@@ -58,8 +70,9 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Add a description to your item
         /// </summary>
-        public static string[] PEOPLE_DESCRIPTIONS = new string[] { "Swordfighter. Main strength is looking evil.",
-        "Just a friendly peasant, not a madman with an scythe - at least i hope so."};
+        public static string[] PEOPLE_DESCRIPTIONS = new string[] { 
+            "Swordfighter. Main strength is looking evil.",
+            "Just a friendly peasant, not a madman with an scythe - at least i hope so."};
 
         /// <summary>
         /// Save the texture of your item here
@@ -71,6 +84,7 @@ namespace CodenameProjectTwo
         /// in y is an array of people this menu is allowed to show
         /// </summary>
         /// //only the third position is currently not senseless - it is the barrack. 0 and 2 are the standard buildings
-        public static int[][] DISPLAYED_PEOPLE_FOR_MENU = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDSMAN } };
+        /// //public const int                                             BUILDING_DEFAULT = 0, BUILDING_RED = 1,          BUILDING_BLUE = 2,              BUILDING_BARRACK = 3,           STONE = 4;
+        public static int[][] DISPLAYED_PEOPLE_PER_BUILDING = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDSMAN }, new int[] { -1 } };
     }
 }

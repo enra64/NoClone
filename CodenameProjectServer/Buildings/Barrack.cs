@@ -9,6 +9,7 @@ namespace CodenameProjectServer
     class Barrack : SInterfaces.ISendable
     {
         //http://i2.kym-cdn.com/photos/images/original/000/234/739/fa5.jpg
+        //works, though - 10/10
         public int Type { get; private set; }
         public int ID { get; set; }
         public byte Faction { get; set; }
