@@ -61,10 +61,10 @@ namespace CodenameProjectServer.Enteties
         {
             Position = cTarget;
             return;
-
             Vector2f DifferenzVektor = new Vector2f(cTarget.X - Position.X, cTarget.Y - Position.Y);
             float skalar = (float)Math.Sqrt(Math.Pow(DifferenzVektor.X, 2) + Math.Pow(DifferenzVektor.Y, 2));
-            Position = new Vector2f(Position.X + (DifferenzVektor.X / skalar)*MovementSpeed, Position.Y + (DifferenzVektor.Y / skalar)*MovementSpeed);
+            DifferenzVektor = new Vector2f(DifferenzVektor.X / skalar, DifferenzVektor.Y / skalar);
+            Position = new Vector2f(Position.X +DifferenzVektor.X*MovementSpeed, Position.Y+DifferenzVektor.Y*MovementSpeed);
         }
 
     }
