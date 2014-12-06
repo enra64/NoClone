@@ -55,7 +55,6 @@ namespace CodenameProjectServer
 
         public void Update()
         {
-            throw new NotImplementedException();
         }
     }
 }

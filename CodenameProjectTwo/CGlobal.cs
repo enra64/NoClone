@@ -68,9 +68,9 @@ namespace CodenameProjectTwo
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
 
-        public const int PEOPLE_TYPE_COUNT = 2;
+        public const int PEOPLE_TYPE_COUNT = 2, PEOPLE_ID_OFFSET = 100;
 
-        public const int PEOPLE_SWORDSMAN=0, PEOPLE_PEASANT=1;
+        public const int PEOPLE_SWORDSMAN=101, PEOPLE_PEASANT=100;
 
         /// <summary>
         /// Add a description to your item

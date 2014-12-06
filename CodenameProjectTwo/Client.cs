@@ -143,8 +143,9 @@ namespace CodenameProjectTwo
             CGlobal.BUILDING_TEXTURES[4] = new Texture("assets/graphics/ressources/stone.png");
 
             //load people textures
-            CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstPeople.png");
-            CGlobal.PEOPLE_TEXTURES[1] = new Texture("assets/graphics/units/firstBauer.png");
+            CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstBauer.png");
+            CGlobal.PEOPLE_TEXTURES[1] = new Texture("assets/graphics/units/firstPeople.png");
+
         }
     }
 }

@@ -54,7 +54,6 @@ namespace CodenameProjectServer.Ressources
 
         public void Update()
         {
-            throw new NotImplementedException();
         }
     }
 }

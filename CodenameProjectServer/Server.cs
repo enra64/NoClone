@@ -50,12 +50,20 @@ namespace CodenameProjectServer
             //instantiate ressources
             InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200f, 200f), 10000);
 
+            //instantiate ressources
+            InstanceClass(SGlobal.PEOPLE_PEASENT, 1, new Vector2f(200, 300), 100);
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
                 delegate(object o, DoWorkEventArgs arg)
                 {
                     #region Serverloop
                     while (true){
+                        foreach (SInterfaces.ISendable s in Sendlist)
+                            if (s != null)
+                            {
+                                s.Update();
+                            }
+
                         NetIncomingMessage im;
                         while ((im = netServer.ReadMessage()) != null){
                             // handle incoming message
@@ -132,8 +140,8 @@ namespace CodenameProjectServer
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else
-                                                if (Sendlist.Count - 1 < lastExecutedClick)
-                                                    Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                               // if (Sendlist.Count - 1 < lastExecutedClick)
+                                                    Sendlist[lastExecutedClick].Target = new Vector2f(500,400); //Sendlist[item].Position; TODO Arne mach mal XD
                                             break;
 
                                         case SGlobal.STRING_MESSAGE:
@@ -243,6 +251,9 @@ namespace CodenameProjectServer
                     break;
                 case SGlobal.RESSOURCE_STONE:
                     Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, 10000);
+                    break;
+                case SGlobal.PEOPLE_PEASENT:
+                    Sendlist[_ID] = new Enteties.Peasent(_type, _faction, _ID, _position,100);
                     break;
                 default:
                     success = false;
