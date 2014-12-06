@@ -143,9 +143,14 @@ namespace CodenameProjectServer
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else {
-                                                //if (Sendlist.Count - 1 < lastExecutedClick)
+                                                if(item==-1){
+                                                    Console.WriteLine(clickPosition);
                                                     Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
-
+                                                }
+                                                else {
+                                                    Console.WriteLine(Sendlist[item].Position);
+                                                    Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                                }
                                             }
                                             break;
 
