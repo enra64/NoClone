@@ -59,12 +59,17 @@ namespace CodenameProjectServer.Enteties
         // stuff with moving and such stuff 
         public void Update()
         {
-            Position = cTarget;
-            return;
-            Vector2f DifferenzVektor = new Vector2f(cTarget.X - Position.X, cTarget.Y - Position.Y);
-            float skalar = (float)Math.Sqrt(Math.Pow(DifferenzVektor.X, 2) + Math.Pow(DifferenzVektor.Y, 2));
-            DifferenzVektor = new Vector2f(DifferenzVektor.X / skalar, DifferenzVektor.Y / skalar);
-            Position = new Vector2f(Position.X +DifferenzVektor.X*MovementSpeed, Position.Y+DifferenzVektor.Y*MovementSpeed);
+            Vector2f calc = cTarget;
+            Vector2f diff = new Vector2f(calc.X - Position.X, calc.Y - Position.Y);
+            if (diff.X == 0 && diff.Y == 0)
+            {
+                return;
+            }
+            float skalar = (float)Math.Sqrt((diff.X * diff.X) +( diff.Y * diff.Y));
+            diff = new Vector2f(diff.X / skalar, diff.Y / skalar);
+            Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
+
+
         }
 
     }
