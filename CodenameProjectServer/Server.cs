@@ -23,6 +23,7 @@ namespace CodenameProjectServer
         private static NetConnection con1, con2;
 
         private static int lastExecutedClick = -1;
+        private static Vector2f lastMouseClickPosition;
 
         private static BackgroundWorker workerThread=new BackgroundWorker();
 
@@ -133,15 +134,19 @@ namespace CodenameProjectServer
                                     switch (im.ReadInt32()){
                                         case SGlobal.MOUSE_CLICK_MESSAGE:
                                             int item=im.ReadInt32();
+                                            //get position
+                                            Vector2f clickPosition = new Vector2f(im.ReadFloat(), im.ReadFloat());
                                             //left click: save clicked item
                                             if (im.ReadBoolean() == false){
                                                 Console.WriteLine("Item "+item+" was clicked! type: "+Sendlist[item].Type);
                                                 lastExecutedClick = item;
                                             }
                                             //got right click, notify first clicked item of new targetposition
-                                            else
-                                               // if (Sendlist.Count - 1 < lastExecutedClick)
-                                                    Sendlist[lastExecutedClick].Target = new Vector2f(500,400); //Sendlist[item].Position; TODO Arne mach mal XD
+                                            else {
+                                                //if (Sendlist.Count - 1 < lastExecutedClick)
+                                                    Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
+
+                                            }
                                             break;
 
                                         case SGlobal.STRING_MESSAGE:
