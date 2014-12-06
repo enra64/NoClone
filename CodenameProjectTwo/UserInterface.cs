@@ -10,7 +10,6 @@ namespace CodenameProjectTwo {
     class UserInterface {
         private RenderWindow win;
         private RectangleShape mainBox, textureBox, descriptionBox, infoBox;
-        private List<Sprite> allPeopleSpriteList = new List<Sprite>(), allBuildingSpriteList = new List<Sprite>();
 
         //new dogma: use class
         private List<MenuItem> buildableBuildings = new List<MenuItem>(), peopleMenuItemList = new List<MenuItem>();
@@ -103,8 +102,6 @@ namespace CodenameProjectTwo {
         /// check each building - "who may i build" array for the people we want to spawn; return a list of the buildings allowed to spawn
         /// peopleType people
         /// </summary>
-        /// <param name="peopleType"></param>
-        /// <returns></returns>
         private List<int> LoadGrantedBuildings(int peopleType) {
             List<int> returnList = new List<int>();
             //iterate through building allowance list
@@ -149,23 +146,6 @@ namespace CodenameProjectTwo {
             }
         }
 
-        private List<Sprite> ShowThesePeople(int[] buildingPosition) {
-            List<Sprite> returnList = new List<Sprite>();
-            int x = 0, y = 0;
-            foreach (int wantedIndex in buildingPosition) {
-                //create a grid
-                if (x == maxColumns) {
-                    x = 0;
-                    y++;
-                }
-                Sprite addSprite = allPeopleSpriteList[wantedIndex];
-                addSprite.Position = new Vector2f(infoBox.Position.X + (2f + ItemIconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + ItemIconSize) * y);
-                returnList.Add(addSprite);
-                x++;
-            }
-            return returnList;
-        }
-
         public void Draw() {
             win.SetView(menuView);
             //standard background boxes
@@ -174,12 +154,13 @@ namespace CodenameProjectTwo {
             win.Draw(descriptionBox);
             win.Draw(infoBox);
 
+            //show building menu
             if (cItem == -1) {
-                //show building menu
                 foreach (MenuItem m in buildableBuildings)
                     m.Draw();
                 win.Draw(descriptionText);
             }
+            //a building is clicked, draw its allowed people
             else{
                 foreach (MenuItem m in peopleMenuItemList)
                     if (m.BuildableBy.Contains(Client.cItemList[cItem].Type))
@@ -199,6 +180,10 @@ namespace CodenameProjectTwo {
                 //health, id, type
                 infoText.DisplayedString = Client.cItemList[itemID].Name + "\n" +
                     Client.cItemList[itemID].Health + "% Leben";
+            }
+            else {
+                cItem = -1;
+                descriptionText.DisplayedString = "";
             }
         }
 
@@ -222,38 +207,36 @@ namespace CodenameProjectTwo {
 
 
         internal void CheckHover(MouseMoveEventArgs e) {
-            MenuItem m;
-            for (int i = 0; i < buildableBuildings.Count; i++) {
-                m = buildableBuildings[i];
+           foreach (MenuItem m in buildableBuildings) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
                     descriptionText.DisplayedString = DivideAll(m.Description);
                 }
             }
-            for (int i = 0; i < peopleMenuItemList.Count; i++) {
-                m = peopleMenuItemList[i];
+            foreach (MenuItem m in peopleMenuItemList) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
-                    descriptionText.DisplayedString = DivideAll(CGlobal.PEOPLE_DESCRIPTIONS[i]);
+                    descriptionText.DisplayedString = DivideAll(m.Description);
                 }
             }
         }
 
+        /// <summary>
+        /// Handle clicks in the menu, according to whether a building is selected or not
+        /// </summary>
         internal void Click(int X, int Y) {
-            MenuItem m;
             //only check for planting buildings if there is currently no building selected
             if (cItem == -1) {
-                foreach (MenuItem mi in buildableBuildings){
-                    if (mi.Sprite.GetGlobalBounds().Contains(X, Y)) {
-                        Console.WriteLine("building " + mi.Type + " activated");
-                        MouseHandling.buildingChosen = mi.Type;
+                foreach (MenuItem m in buildableBuildings){
+                    if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
+                        Console.WriteLine("building " + m.Type + " activated");
+                        MouseHandling.buildingChosen = m.Type;
                     }
                 }
             }
             //spawn people
             else {
-                for (int i = 0; i < peopleMenuItemList.Count; i++) {
-                    m = peopleMenuItemList[i];
+                foreach (MenuItem m in peopleMenuItemList) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
-                        Console.WriteLine("spawn people type " + i);
+                        Console.WriteLine("spawn people type " + m.Type);
                     }
                 }
             }

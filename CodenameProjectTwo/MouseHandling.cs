@@ -72,17 +72,13 @@ namespace CodenameProjectTwo {
                     else {
                         //check what we clicked
                         Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
-                        //abort if no clicked item was found
-                        if (clickedItemId == -1) {
-                            Console.WriteLine("no item clicked!");
-                            //show standard menu again
-                            Client.cInterface.cItem = -1;
-                            Console.WriteLine("tile " + Client.map.GetCurrentTile(new Vector2f(e.X, e.Y)));
-                            return;
-                        }
-                        Console.WriteLine("item " + clickedItemId + " clicked!");
-                        sendMouseMessage(clickedItemId, false);
+                        //inform ui
                         Client.cInterface.ShowItem(clickedItemId);
+                        //if an item was identified, send that to the server
+                        if (clickedItemId != -1) {
+                            Console.WriteLine("item " + clickedItemId + " clicked!");
+                            sendMouseMessage(clickedItemId, false);
+                        }
                     }
                 }
                 //right mouse button
@@ -99,18 +95,15 @@ namespace CodenameProjectTwo {
             }
         }
 
-        private static int GetClickedItemId(float x, float y) {
+        private static Int32 GetClickedItemId(float x, float y) {
             Vector2f mappedCoordinates = MapMouseToGame(x, y);
             x = mappedCoordinates.X;
             y = mappedCoordinates.Y;
-            Int32 clickedItemId = -1;
-            foreach (CInterfaces.IDrawable item in Client.cItemList) {
-                if (item.BoundingRectangle.Contains(x, y)) {
-                    clickedItemId = item.ID;
-                    break;
-                }
-            }
-            return clickedItemId;
+            //return the clicked item id if found, -1 otherwise
+            foreach (CInterfaces.IDrawable item in Client.cItemList) 
+                if (item.BoundingRectangle.Contains(x, y)) 
+                    return item.ID;
+            return -1;
         }
 
         private static void sendPlantMessage(float x, float y, Int32 type) {
