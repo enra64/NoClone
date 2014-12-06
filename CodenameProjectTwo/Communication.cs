@@ -84,13 +84,16 @@ namespace CodenameProjectTwo
                     Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
                 case CGlobal.STONE:
-                    Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
+                    Client.cItemList[_ID] = new Ressources.Stone(_type, _faction, _ID, _position, _health);
                     break;
+                    /*Previously in this code:
+                    case CGlobal.STONE:
+                        Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
+                     */
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;
             }
-            Console.WriteLine("instantiating");
         }
 
         internal static void GotMessage(object peer)

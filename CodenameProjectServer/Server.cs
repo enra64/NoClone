@@ -42,12 +42,13 @@ namespace CodenameProjectServer
             netServer.Start();
 
             //instantiate village centers
-            InstanceClass(SGlobal.BUILDING_DEFAULT, 0, new Vector2f(100f, 100f), 1);
-            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(570f, 720f), 1000);
-            InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(400f, 200f), 1000);
+            //health is normalized to 100!
+            InstanceClass(SGlobal.BUILDING_DEFAULT, 0, new Vector2f(100f, 100f), 100);
+            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(570f, 720f), 100);
+            InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(400f, 200f), 100);
 
             //instantiate ressources
-            InstanceClass(SGlobal.STONE, 0, new Vector2f(200f, 200f), 10000);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200f, 200f), 10000);
 
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
@@ -240,7 +241,7 @@ namespace CodenameProjectServer
                 case SGlobal.BUILDING_BARRACK:
                     Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, 100);
                     break;
-                case SGlobal.STONE:
+                case SGlobal.RESSOURCE_STONE:
                     Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, 10000);
                     break;
                 default:

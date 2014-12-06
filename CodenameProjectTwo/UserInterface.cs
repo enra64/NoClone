@@ -39,11 +39,10 @@ namespace CodenameProjectTwo {
             infoBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.Y - 20f) / 3f));
 
             //texts
-            descriptionText.DisplayedString = DivideAll("A description would be awesome");
             descriptionText.Color = Color.Black;
             descriptionText.Font = menuFont;
-            infoText.DisplayedString = DivideAll("Infos here would be awesome");
             infoText.Color = Color.Black;
+            infoText.Font = menuFont;
 
             //box colors
             infoBox.FillColor = Color.Green;
@@ -178,11 +177,11 @@ namespace CodenameProjectTwo {
                 descriptionText.DisplayedString = DivideAll(Client.cItemList[itemID].Description);
                 //create info string
                 //health, id, type
-                infoText.DisplayedString = Client.cItemList[itemID].Name + "\n" +
-                    Client.cItemList[itemID].Health + "% Leben";
+                infoText.DisplayedString = Client.cItemList[itemID].Name + '\n' +
+                    Client.cItemList[itemID].Health + "% Leben"+'\n'+
+                    "ID: "+itemID;
             }
             else {
-                cItem = -1;
                 descriptionText.DisplayedString = "";
             }
         }
