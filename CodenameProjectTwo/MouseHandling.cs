@@ -28,7 +28,7 @@ namespace CodenameProjectTwo {
             //check whether the mouse moved significantly or not
             FloatRect checkRect = new FloatRect(mouseMovementStartingPoint.X - 4f, mouseMovementStartingPoint.Y - 4f, 8f, 8f);
             if (checkRect.Contains(e.X, e.Y))
-                sendMouseMessage(GetClickedItemId(e.X, e.Y), true);
+                sendMouseMessage(GetClickedItemId(e.X, e.Y), e.X, e.Y, true);
             else
                 Client.cView.Move(new Vector2f(-(e.X - mouseMovementStartingPoint.X), -(e.Y - mouseMovementStartingPoint.Y)));
             Console.WriteLine(checkRect);
@@ -77,7 +77,7 @@ namespace CodenameProjectTwo {
                         //if an item was identified, send that to the server
                         if (clickedItemId != -1) {
                             Console.WriteLine("item " + clickedItemId + " clicked!");
-                            sendMouseMessage(clickedItemId, false);
+                            sendMouseMessage(clickedItemId, e.X, e.Y, false);
                         }
                     }
                 }
@@ -126,13 +126,20 @@ namespace CodenameProjectTwo {
         /// <summary>
         /// Called when you click a planted item
         /// </summary>
-        private static void sendMouseMessage(int ID, bool rightButton) {
+        private static void sendMouseMessage(int ID, float x, float y, bool rightButton) {
             //create message
             NetOutgoingMessage mes = Communication.netClient.CreateMessage();
             //identify message as mouseclick
             mes.Write(CGlobal.MOUSE_CLICK_MESSAGE);
             //write id of clicked item
             mes.Write(ID);
+            //map mouse positions
+            Vector2f mappedCoordinates = MapMouseToGame(x, y);
+            x = mappedCoordinates.X;
+            y = mappedCoordinates.Y;
+            //write position incase id=-1
+            mes.Write(x);
+            mes.Write(y);
             //write "left mouse button"
             mes.Write(rightButton);
             //send
