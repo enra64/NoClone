@@ -13,6 +13,8 @@ namespace CodenameProjectTwo {
         private static Vector2f mouseMovementStartingPoint;
         private static bool rightButtonClicked = false;
         public static int buildingChosen = -1;
+
+        private static Vector2f cChosenBuildingSize;
         private static Sprite cChosenBuilding;
 
         public static void mouseRelease(object sender, MouseButtonEventArgs e) {
@@ -107,6 +109,13 @@ namespace CodenameProjectTwo {
         }
 
         private static void sendPlantMessage(float x, float y, Int32 type) {
+            //map mouse position to screen
+            Vector2f convertedMousePosition = MapMouseToGame(x, y);
+            //check for collisions
+            FloatRect testRectangle = new FloatRect(convertedMousePosition.X, convertedMousePosition.Y, cChosenBuildingSize.X, cChosenBuildingSize.Y);
+            foreach (CInterfaces.IDrawable i in Client.cItemList)
+                if (i.BoundingRectangle.Intersects(testRectangle))
+                    return;
             //create message
             NetOutgoingMessage mes = Communication.netClient.CreateMessage();
             //identify message as mouseclick
@@ -114,7 +123,6 @@ namespace CodenameProjectTwo {
             //write type of building to init
             mes.Write(type);
             //write "put it there"
-            Vector2f convertedMousePosition = MapMouseToGame(x, y);
             mes.Write(convertedMousePosition.X);
             mes.Write(convertedMousePosition.Y);
             //send
@@ -127,16 +135,16 @@ namespace CodenameProjectTwo {
         /// Called when you click a planted item
         /// </summary>
         private static void sendMouseMessage(int ID, float x, float y, bool rightButton) {
+            //map mouse positions
+            Vector2f mappedCoordinates = MapMouseToGame(x, y);
+            x = mappedCoordinates.X;
+            y = mappedCoordinates.Y;
             //create message
             NetOutgoingMessage mes = Communication.netClient.CreateMessage();
             //identify message as mouseclick
             mes.Write(CGlobal.MOUSE_CLICK_MESSAGE);
             //write id of clicked item
             mes.Write(ID);
-            //map mouse positions
-            Vector2f mappedCoordinates = MapMouseToGame(x, y);
-            x = mappedCoordinates.X;
-            y = mappedCoordinates.Y;
             //write position incase id=-1
             mes.Write(x);
             mes.Write(y);
@@ -150,6 +158,7 @@ namespace CodenameProjectTwo {
 
         internal static void MouseMoved(object sender, MouseMoveEventArgs e) {
             if (!IsInMenu(e.X) && buildingChosen != -1) {
+                cChosenBuildingSize = new Vector2f(CGlobal.BUILDING_TEXTURES[buildingChosen].Size.X, CGlobal.BUILDING_TEXTURES[buildingChosen].Size.Y);
                 cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[buildingChosen]);
                 cChosenBuilding.Color = new Color(255, 255, 255, 120);
                 cChosenBuilding.Position = MapMouseToGame(e.X, e.Y);

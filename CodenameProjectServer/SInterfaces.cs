@@ -50,6 +50,8 @@ namespace CodenameProjectServer
             /// </summary>
             int TargetID { get; set; }
 
+            bool implementAggroOrEffectEffects { get; }
+
             /// <summary>
             /// if your effRect intersects with the targets effRect,
             /// TakeEffect() will be called, and you need to handle that.
@@ -59,7 +61,7 @@ namespace CodenameProjectServer
             /// <summary>
             /// see effectiveRectangle
             /// </summary>
-            void TakeEffect();
+            void TakeEffect(int itemID);
 
 
             /// <summary>
@@ -72,7 +74,7 @@ namespace CodenameProjectServer
             /// <summary>
             /// see aggroRectangle
             /// </summary>
-            void TargetAggro();
+            void TargetAggro(int itemId);
 
             /// <summary>
             /// If the server gets notified about the unit being supposed to move,

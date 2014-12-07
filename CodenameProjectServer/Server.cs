@@ -9,6 +9,7 @@ using SFML.Graphics;
 using SFML.Window;
 using System.ComponentModel;
 using CodenameProjectServer.Ressources;
+using System.Diagnostics;
 
 namespace CodenameProjectServer
 {
@@ -58,13 +59,31 @@ namespace CodenameProjectServer
                 delegate(object o, DoWorkEventArgs arg)
                 {
                     #region Serverloop
-                    while (true){
+                    while (true) {
+                        #region DoCalculations
                         foreach (SInterfaces.ISendable s in Sendlist)
                             if (s != null)
-                            {
                                 s.Update();
+                        //do intersection calculation; iterate through every item
+                        for (int i = Sendlist.Count - 1; i >= 0; i--) {
+                            //only iterate through items that actually would react, like people...
+                            if (Sendlist[i].implementAggroOrEffectEffects) {
+                                //iterate through all other items
+                                for (int j = Sendlist.Count - 1; j >= 0; j--) {
+                                    //dont check yourself
+                                    if (i != j) {
+                                        //the effectiverectangle hit; we have possibly arrived at our destination, or whatever. take action!
+                                        if (Sendlist[i].effectiveRectangle.Intersects(Sendlist[j].effectiveRectangle))
+                                            Sendlist[i].TakeEffect(j);
+                                        //maybe we have an enemy somewhere? check that too.
+                                        else if (Sendlist[i].aggroRectangle.Intersects(Sendlist[j].aggroRectangle))
+                                            Sendlist[i].TargetAggro(j);
+                                    }
+                                }
                             }
-
+                        }
+                        #endregion
+                        #region sendCalculations
                         NetIncomingMessage im;
                         while ((im = netServer.ReadMessage()) != null){
                             // handle incoming message
@@ -211,6 +230,7 @@ namespace CodenameProjectServer
                         Thread.Sleep(10);
                         //Console.WriteLine("work");
                     }
+                    #endregion
                     #endregion
                 });
             workerThread.RunWorkerAsync();

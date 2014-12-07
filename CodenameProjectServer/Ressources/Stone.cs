@@ -14,7 +14,8 @@ namespace CodenameProjectServer.Ressources
         public Vector2f Position { get; set; }
         public float Health { get; set; }
         public int TargetID { get; set; }
-
+        //set to true if you want messages concerning your aggro or effective rectangle
+        public bool implementAggroOrEffectEffects { get; private set; }
         public Stone(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
             Type = _type;
@@ -66,12 +67,12 @@ namespace CodenameProjectServer.Ressources
             }
         }
 
-        public void TakeEffect() {
+        public void TakeEffect(int itemID) {
             //dont do anything - this is a building
             //if this had to do something, it would read the target id from TargetID to determine what to do
         }
 
-        public void TargetAggro() {
+        public void TargetAggro(int itemID) {
             //dont do anything - this is a building
         }
 

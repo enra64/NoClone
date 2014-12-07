@@ -16,7 +16,8 @@ namespace CodenameProjectServer
         public Vector2f Position { get; set; }
         public float Health { get; set; }
         public int TargetID { get; set; }
-
+        //set to true if you want messages concerning your aggro or effective rectangle
+        public bool implementAggroOrEffectEffects { get; private set; }
         /*
          FOR HELP LOOK TO CLIENT BUILDING.CS; SERVER ONLY STUFF GETS EXPLAINED HERE
          */
@@ -86,12 +87,12 @@ namespace CodenameProjectServer
             }
         }
 
-        public void TakeEffect() {
+        public void TakeEffect(int itemID) {
             //dont do anything - this is a building
             //if this had to do something, it would read the target id from TargetID to determine what to do
         }
 
-        public void TargetAggro() {
+        public void TargetAggro(int itemID) {
             //dont do anything - this is a building
         }
     }

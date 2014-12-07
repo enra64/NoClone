@@ -25,6 +25,9 @@ namespace CodenameProjectServer.Enteties
 
         float MovementSpeed = 1;
 
+        //set to true if you want messages concerning your aggro or effective rectangle
+        public bool implementAggroOrEffectEffects { get; private set; }
+
         public Peasent(int _type, byte _Faction, int _ID, Vector2f _Position, float health)
         {
             Type = _type;
@@ -33,7 +36,7 @@ namespace CodenameProjectServer.Enteties
             Position = _Position;
             Health = health;
             cTarget = _Position;
-
+            implementAggroOrEffectEffects = true;
         }
         // will be 
         public Vector2f Center
@@ -86,11 +89,11 @@ namespace CodenameProjectServer.Enteties
             }
         }
 
-        public void TakeEffect() {
+        public void TakeEffect(int itemID) {
             //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
         }
 
-        public void TargetAggro() {
+        public void TargetAggro(int itemID) {
             //dont do anything - this is a building
         }
     }
