@@ -146,10 +146,12 @@ namespace CodenameProjectServer
                                                 if(item==-1){
                                                     Console.WriteLine(clickPosition);
                                                     Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
+                                                    Sendlist[lastExecutedClick].TargetID = -1;
                                                 }
                                                 else {
                                                     Console.WriteLine(Sendlist[item].Position);
                                                     Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                                    Sendlist[lastExecutedClick].TargetID = item;
                                                 }
                                             }
                                             break;
@@ -212,7 +214,8 @@ namespace CodenameProjectServer
                     #endregion
                 });
             workerThread.RunWorkerAsync();
-            Console.ReadKey();
+            Console.WriteLine("Press enter to kill!");
+            Console.ReadLine();
             //ServerLoop();
             netServer.Shutdown("Requested by user");
         }

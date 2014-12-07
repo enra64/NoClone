@@ -1,4 +1,5 @@
-﻿using SFML.Window;
+﻿using SFML.Graphics;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace CodenameProjectServer.Enteties
         public Vector2f Position { get; set; }
 
         public float Health { get; set; }
+        public int TargetID { get; set; }
 
         Vector2f cTarget;
 
@@ -72,5 +74,24 @@ namespace CodenameProjectServer.Enteties
 
         }
 
+        public FloatRect aggroRectangle {
+            get {
+                return new FloatRect(this.Position.X - SGlobal.AGGRO_RECT_SIZE / 2, this.Position.Y - SGlobal.AGGRO_RECT_SIZE / 2, SGlobal.AGGRO_RECT_SIZE, SGlobal.AGGRO_RECT_SIZE);
+            }
+        }
+
+        public FloatRect effectiveRectangle {
+            get {
+                return new FloatRect(this.Position.X - SGlobal.EFFECTIVE_RECT_SIZE / 2, this.Position.Y - SGlobal.EFFECTIVE_RECT_SIZE / 2, SGlobal.EFFECTIVE_RECT_SIZE, SGlobal.EFFECTIVE_RECT_SIZE);
+            }
+        }
+
+        public void TakeEffect() {
+            //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
+        }
+
+        public void TargetAggro() {
+            //dont do anything - this is a building
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SFML.Window;
+﻿using SFML.Graphics;
+using SFML.Window;
 using System;
 
 
@@ -43,6 +44,35 @@ namespace CodenameProjectServer
             /// just implement it
             /// </summary>
             Vector2f Center{ get; }
+
+            /// <summary>
+            /// Target id instead of position
+            /// </summary>
+            int TargetID { get; set; }
+
+            /// <summary>
+            /// if your effRect intersects with the targets effRect,
+            /// TakeEffect() will be called, and you need to handle that.
+            /// </summary>
+            FloatRect effectiveRectangle { get; }
+
+            /// <summary>
+            /// see effectiveRectangle
+            /// </summary>
+            void TakeEffect();
+
+
+            /// <summary>
+            /// if something of the enemy is within this rectangle, and no target
+            /// is set, TargetAggro() will be called, so that you can move towards
+            /// the aggro
+            /// </summary>
+            FloatRect aggroRectangle { get; }
+
+            /// <summary>
+            /// see aggroRectangle
+            /// </summary>
+            void TargetAggro();
 
             /// <summary>
             /// If the server gets notified about the unit being supposed to move,
