@@ -50,7 +50,7 @@ namespace CodenameProjectServer
             InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(400f, 200f), 100);
 
             //instantiate ressources
-            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200f, 200f), 10000);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200f, 200f), 100);
 
             //instantiate ressources
             InstanceClass(SGlobal.PEOPLE_PEASENT, 1, new Vector2f(200, 300), 100);
@@ -270,23 +270,23 @@ namespace CodenameProjectServer
             switch (_type)
             {
                 case SGlobal.BUILDING_DEFAULT:
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 1);
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_RED:
                     //check for needed resources
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 1000);
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_BLUE:
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, 1000);
+                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_BARRACK:
-                    Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, 100);
+                    Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.RESSOURCE_STONE:
-                    Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, 10000);
+                    Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.PEOPLE_PEASENT:
-                    Sendlist[_ID] = new Enteties.Peasent(_type, _faction, _ID, _position,100);
+                    Sendlist[_ID] = new Enteties.Peasent(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     success = false;
