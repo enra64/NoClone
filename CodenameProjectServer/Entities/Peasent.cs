@@ -91,6 +91,7 @@ namespace CodenameProjectServer.Enteties
 
         public void TakeEffect(int itemID) {
             //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
+            Server.Sendlist[itemID].Health -= 0.1f;
         }
 
         public void TargetAggro(int itemID) {

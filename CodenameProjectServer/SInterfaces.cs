@@ -37,7 +37,7 @@ namespace CodenameProjectServer
             /// <summary>
             /// Health, pretty self-explanatory
             /// </summary>
-            float Health { get; }
+            float Health { get; set; }
 
             /// <summary>
             /// was pretty useful in the past,
