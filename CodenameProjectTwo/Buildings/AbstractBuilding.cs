@@ -54,8 +54,7 @@ namespace CodenameProjectTwo.Buildings {
          */
         #endregion
 
-        protected AbstractBuilding(int _type, byte _faction, int _ID, Vector2f _position, float _health)
-        {
+        protected AbstractBuilding(int _type, byte _faction, int _ID, Vector2f _position, float _health){
             Type = _type;
             ID = _ID;
             Faction = _faction;
@@ -91,8 +90,7 @@ namespace CodenameProjectTwo.Buildings {
         /// <summary>
         /// Draw your building...
         /// </summary>
-        public void Draw()
-        {
+        public void Draw(){
             Client.cRenderWindow.Draw(Sprite);
         }
     }

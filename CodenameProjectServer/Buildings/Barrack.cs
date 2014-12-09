@@ -20,8 +20,7 @@ namespace CodenameProjectServer
         //set to true if you want messages concerning your aggro or effective rectangle
         public bool implementAggroOrEffectEffects { get; private set; }
 
-        public Barrack(int _type, byte _faction, int _ID, Vector2f _position, float _health)
-        {
+        public Barrack(int _type, byte _faction, int _ID, Vector2f _position, float _health){
             Type = _type;
             ID = _ID;
             Faction = _faction;

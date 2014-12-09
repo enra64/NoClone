@@ -43,7 +43,7 @@ namespace CodenameProjectServer
             /// was pretty useful in the past,
             /// just implement it
             /// </summary>
-            Vector2f Center{ get; }
+            //Vector2f Center{ get; }
 
             /// <summary>
             /// Target id instead of position
