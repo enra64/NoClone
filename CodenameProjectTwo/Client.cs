@@ -66,7 +66,8 @@ namespace CodenameProjectTwo
             }
         }
 
-        private static void KeyCheck(){
+        private static void KeyCheck()
+        {
             //dont react to keys if window is not active
             if (!cIsFocused)
                 return;
@@ -80,6 +81,10 @@ namespace CodenameProjectTwo
                 cView.Move(new Vector2f(-20f, 0));
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
                 cView.Move(new Vector2f(20f, 0));
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+                cView.Zoom(1.07f);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
+                cView.Zoom(.93f);
         }
 
         private static void Update(){
