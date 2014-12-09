@@ -20,11 +20,12 @@ namespace CodenameProjectTwo
         public static UserInterface cInterface { get; private set; }
         public static Sprite cMouseSprite { get; set; }
 
+        private static Buildings.AbstractBuilding testB;
         public static bool cIsFocused { get; private set; }
 
         public static byte MyFaction { get; set; }
         //zoom level
-        private static float cZoomFactor = 1;
+        public static float cZoomFactor = 1;
         //declare map
         public static TileEngine map;
 
@@ -91,7 +92,7 @@ namespace CodenameProjectTwo
             }
             //zoom in
             if (Keyboard.IsKeyPressed(Keyboard.Key.E)){
-                if (cZoomFactor > 0.1f)
+                if (cZoomFactor > 0.6f)
                     cZoomFactor-=.05f;
                 Console.WriteLine(cZoomFactor);
                 cView.Zoom(.93f);
@@ -118,6 +119,7 @@ namespace CodenameProjectTwo
                 if (s != null)
                     s.Draw();
             }
+            testB.Draw();
             cInterface.Draw();
             //draw hovering building
             if(cMouseSprite!=null)
@@ -141,6 +143,8 @@ namespace CodenameProjectTwo
 
             //Console.WriteLine("Write IP and press Enter to connect!");
             //Communication.Connect(Console.ReadLine(), 14242);
+
+            testB = new Buildings.InheritedBuildingExample(1, 0, 10, new Vector2f(200, 200), 100);
 
             //init connection
             Console.WriteLine("Autoconnecting to localhost!");

@@ -12,13 +12,9 @@ namespace CodenameProjectTwo.Buildings
     {
         //http://i2.kym-cdn.com/photos/images/original/000/234/739/fa5.jpg
         public int Type { get; set; }
-
         public int ID { get; set; }
-
         public byte Faction { get; set; }
-
         public Vector2f Position { get; set; }
-
         public float Health { get; set; }
 
         

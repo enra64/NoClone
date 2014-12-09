@@ -59,6 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buildings\AbstractBuilding.cs" />
+    <Compile Include="Buildings\InheritedBuildingExample.cs" />
     <Compile Include="Entities\Peasent.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="Buildings\Building.cs" />

@@ -15,6 +15,8 @@ namespace CodenameProjectServer
         public Vector2f Position { get; set; }
         public float Health { get; set; }
         public int TargetID { get; set; }
+
+        private Vector2f cTarget;
         //set to true if you want messages concerning your aggro or effective rectangle
         public bool implementAggroOrEffectEffects { get; private set; }
         public Centre(int _type, byte _faction, int _ID, Vector2f _position, float _health)
@@ -35,11 +37,11 @@ namespace CodenameProjectServer
         {
             get
             {
-                throw new NotImplementedException();
+                return cTarget;
             }
             set
             {
-                throw new NotImplementedException();
+                cTarget = value;
             }
         }
 

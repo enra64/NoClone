@@ -37,10 +37,16 @@ namespace CodenameProjectTwo {
         }
 
         public static void Scrolling(object sender, MouseWheelEventArgs e) {
-            if (e.Delta < 0)
-                Client.cView.Zoom(1.02f);
-            else
-                Client.cView.Zoom(0.98f);
+            if (e.Delta < 0){
+                if (Client.cZoomFactor < 3)
+                    Client.cZoomFactor += .05f;
+                Client.cView.Zoom(1.03f);
+            }
+            else {
+                if (Client.cZoomFactor > 0.6f)
+                    Client.cZoomFactor -= .05f;
+                Client.cView.Zoom(0.97f);
+            }
         }
 
         private static bool IsInMenu(float x) {

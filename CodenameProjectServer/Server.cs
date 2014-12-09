@@ -162,15 +162,18 @@ namespace CodenameProjectServer
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else {
-                                                if(item==-1){
-                                                    Console.WriteLine(clickPosition);
-                                                    Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
-                                                    Sendlist[lastExecutedClick].TargetID = -1;
-                                                }
-                                                else {
-                                                    Console.WriteLine(Sendlist[item].Position);
-                                                    Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
-                                                    Sendlist[lastExecutedClick].TargetID = item;
+                                                if (lastExecutedClick != -1) {
+                                                    if(item==-1){
+                                                    
+                                                        Console.WriteLine(clickPosition);
+                                                        Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
+                                                        Sendlist[lastExecutedClick].TargetID = -1;
+                                                    }
+                                                    else {
+                                                        Console.WriteLine(Sendlist[item].Position);
+                                                        Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                                        Sendlist[lastExecutedClick].TargetID = item;
+                                                    }
                                                 }
                                             }
                                             break;
