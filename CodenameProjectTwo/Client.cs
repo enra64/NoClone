@@ -23,7 +23,8 @@ namespace CodenameProjectTwo
         public static bool cIsFocused { get; private set; }
 
         public static byte MyFaction { get; set; }
-
+        //zoom level
+        private static float cZoomFactor = 1;
         //declare map
         public static TileEngine map;
 
@@ -74,17 +75,27 @@ namespace CodenameProjectTwo
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
                 cRenderWindow.Close();
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
-                cView.Move(new Vector2f(0, -20f));
+                cView.Move(new Vector2f(0, -20f * cZoomFactor));
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
-                cView.Move(new Vector2f(0, 20f));
+                cView.Move(new Vector2f(0, 20f * cZoomFactor));
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
-                cView.Move(new Vector2f(-20f, 0));
+                cView.Move(new Vector2f(-20f * cZoomFactor, 0));
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
-                cView.Move(new Vector2f(20f, 0));
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Q))
+                cView.Move(new Vector2f(20f * cZoomFactor, 0));
+            //zoom out
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Q)){
+                if(cZoomFactor < 3)
+                    cZoomFactor+=.05f;
+                Console.WriteLine(cZoomFactor);
                 cView.Zoom(1.07f);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.E))
+            }
+            //zoom in
+            if (Keyboard.IsKeyPressed(Keyboard.Key.E)){
+                if (cZoomFactor > 0.1f)
+                    cZoomFactor-=.05f;
+                Console.WriteLine(cZoomFactor);
                 cView.Zoom(.93f);
+            }
         }
 
         private static void Update(){
