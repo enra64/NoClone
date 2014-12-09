@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectTwo.Buildings {
-    abstract class AbstractBuilding :CInterfaces.IDrawable {
+    abstract class AbstractBuilding : CInterfaces.IDrawable {
          #region variables
         //use like variables
         /// <summary>
@@ -67,8 +67,6 @@ namespace CodenameProjectTwo.Buildings {
             Sprite.Position = this.Position;
             Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
-
-
 
         /// <summary>
         /// a short name that is displayed by the id

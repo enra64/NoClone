@@ -19,8 +19,6 @@ namespace CodenameProjectTwo
         public static View cView{get;private set;}
         public static UserInterface cInterface { get; private set; }
         public static Sprite cMouseSprite { get; set; }
-
-        private static Buildings.AbstractBuilding testB;
         public static bool cIsFocused { get; private set; }
 
         public static byte MyFaction { get; set; }
@@ -119,7 +117,6 @@ namespace CodenameProjectTwo
                 if (s != null)
                     s.Draw();
             }
-            testB.Draw();
             cInterface.Draw();
             //draw hovering building
             if(cMouseSprite!=null)
@@ -144,7 +141,7 @@ namespace CodenameProjectTwo
             //Console.WriteLine("Write IP and press Enter to connect!");
             //Communication.Connect(Console.ReadLine(), 14242);
 
-            testB = new Buildings.InheritedBuildingExample(1, 0, 10, new Vector2f(200, 200), 100);
+            //testB = new Buildings.Barrack(1, 0, 10, new Vector2f(200, 200), 100);
 
             //init connection
             Console.WriteLine("Autoconnecting to localhost!");

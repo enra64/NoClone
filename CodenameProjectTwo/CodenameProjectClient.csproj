@@ -60,11 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buildings\AbstractBuilding.cs" />
-    <Compile Include="Buildings\InheritedBuildingExample.cs" />
+    <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Entities\Peasent.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="Buildings\Building.cs" />
-    <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Buildings\Centre.cs" />
     <Compile Include="CGlobal.cs" />
     <Compile Include="CInterfaces.cs" />

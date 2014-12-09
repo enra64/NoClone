@@ -8,89 +8,22 @@ using CodenameProjectTwo;
 
 namespace CodenameProjectTwo.Buildings
 {
-    class Centre  : CInterfaces.IDrawable
+    class Centre : AbstractBuilding
     {
         //http://i2.kym-cdn.com/photos/images/original/000/234/739/fa5.jpg
-        public int Type { get; set; }
-        public int ID { get; set; }
-        public byte Faction { get; set; }
-        public Vector2f Position { get; set; }
-        public float Health { get; set; }
+        public override int Type { get; set; }
+        public override int ID { get; set; }
+        public override byte Faction { get; set; }
+        public override Vector2f Position { get; set; }
+        public override float Health { get; set; }
+        public override SFML.Graphics.Sprite Sprite { get; set; }
+        public override SFML.Graphics.Texture Texture { get; set; }
+        public override Vector2f Size { get; set; }
+        public override string Description { get; set; }
 
-        
-        Sprite cSprite;
-        Texture cTexture;
-        Vector2f cSize;
-
-        public Centre(int _type, byte _faction, int _ID, Vector2f _position, float _health)
-        {
-            Type = _type;
-            ID = _ID;
-            Faction = _faction;
-            Position = _position;
-            Health = _health;
-            Texture = CGlobal.BUILDING_TEXTURES[Type];
-            cSprite = new Sprite(Texture);
-            cSprite.Position = this.Position;
-            cSize = new Vector2f(Texture.Size.X, Texture.Size.Y);
-        }
-
-        /// <summary>
-        /// this could access the cglobal descriptions; the arrayposition will be type
-        /// </summary>
-        public string Description
-        {
-            get { return CGlobal.BUILDING_DESCRIPTIONS[Type]; }
-        }
-
-        /// <summary>
-        /// a short name that is displayed by the id
-        /// btw dont use umlauts
-        /// </summary>
-        public string Name
-        {
-            get { return "Red Centre"; }
-        }
-
-        /// <summary>
-        /// return the center of your building here
-        /// </summary>
-        public Vector2f Center
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
-        /// return a floatrect around your building
-        /// </summary>
-        public FloatRect BoundingRectangle
-        {
-            get {
-                return new FloatRect(this.Position.X, this.Position.Y, this.cSize.X, this.cSize.Y);
-            }
-        }
-
-        /// <summary>
-        /// Draw your building...
-        /// </summary>
-        public void Draw()
-        {
-            Client.cRenderWindow.Draw(cSprite);
-        }
-
-        /// <summary>
-        /// Return the texture (not the path to texture) of your building here
-        /// </summary>
-        public Texture Texture
-        {
-            get
-            {
-                return this.cTexture;
-            }
-            set
-            {
-                this.cTexture = value;
-            }
+        //this should instance the base class; now you only need to set the variables specific to this building, and potentially override methods
+        public Centre(int _type, byte _faction, int _ID, Vector2f _position, float _health) : base(_type, _faction, _ID, _position, _health) {
+            Name = "Centre";
         }
     }
 }
