@@ -18,7 +18,7 @@ namespace CodenameProjectServer
         private const long UNDEFINED_CLIENT=-1;
 
         private static NetServer netServer;
-        public static List<SInterfaces.ISendable> Sendlist = new List<SInterfaces.ISendable>();
+        public static List<AbstractServerItem> Sendlist = new List<AbstractServerItem>();
 
         private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
         private static NetConnection con1, con2;

@@ -58,7 +58,7 @@
     <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
-    <Compile Include="Entities\Peasent.cs" />
+    <Compile Include="Entities\Peasant.cs" />
     <Compile Include="Ressources\Stone.cs" />
     <Compile Include="SInterfaces.cs" />
     <Compile Include="Server.cs" />

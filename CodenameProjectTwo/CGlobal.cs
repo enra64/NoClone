@@ -76,8 +76,8 @@ namespace CodenameProjectTwo
         /// Add a description to your item
         /// </summary>
         public static string[] PEOPLE_DESCRIPTIONS = new string[] { 
-            "Swordfighter. Main strength is looking evil.",
-            "Just a friendly peasant, not a madman with an scythe - at least i hope so."};
+            "Just a friendly peasant, not a madman with an scythe - at least i hope so.",
+            "Swordfighter. Main strength is looking evil."};
 
         /// <summary>
         /// Save the texture of your item here

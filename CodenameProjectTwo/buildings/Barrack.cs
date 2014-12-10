@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectTwo.Buildings {
-    class Barrack : AbstractBuilding {
+    class Barrack : AbstractClientItem {
         public override int Type { get; set; }
         public override int ID { get; set; }
         public override byte Faction { get; set; }

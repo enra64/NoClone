@@ -23,18 +23,5 @@ namespace CodenameProjectServer.Buildings {
             //do something additional to the standard constructor
             implementAggroOrEffectEffects = false;
         }
-
-        public override void TakeEffect(int itemID) {
-            //dont do anything - this is a building
-            //if this had to do something, it would read the target id from TargetID to determine what to do
-        }
-
-        public override void TargetAggro(int itemID) {
-            //dont do anything - this is a building
-        }
-
-        public override void Update() {
-
-        }
     }
 }

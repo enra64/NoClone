@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodenameProjectTwo.Buildings {
-    abstract class AbstractBuilding : CInterfaces.IDrawable {
+namespace CodenameProjectTwo {
+    abstract class AbstractClientItem : CInterfaces.IDrawable {
          #region variables
         //use like variables
         /// <summary>
@@ -54,7 +54,7 @@ namespace CodenameProjectTwo.Buildings {
          */
         #endregion
 
-        protected AbstractBuilding(int _type, byte _faction, int _ID, Vector2f _position, float _health){
+        protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health){
             Type = _type;
             ID = _ID;
             Faction = _faction;
@@ -62,6 +62,19 @@ namespace CodenameProjectTwo.Buildings {
             Health = _health;
             Description = CGlobal.BUILDING_DESCRIPTIONS[Type];
             Texture = CGlobal.BUILDING_TEXTURES[Type];
+            Sprite = new Sprite(Texture);
+            Sprite.Position = this.Position;
+            Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
+        }
+
+        protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health, bool people) {
+            Type = _type;
+            ID = _ID;
+            Faction = _faction;
+            Position = _position;
+            Health = _health;
+            Description = CGlobal.PEOPLE_DESCRIPTIONS[Type - CGlobal.PEOPLE_ID_OFFSET];
+            Texture = CGlobal.PEOPLE_TEXTURES[Type - CGlobal.PEOPLE_ID_OFFSET];
             Sprite = new Sprite(Texture);
             Sprite.Position = this.Position;
             Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
@@ -91,6 +104,7 @@ namespace CodenameProjectTwo.Buildings {
         /// Draw your building...
         /// </summary>
         public void Draw(){
+            Sprite.Position = this.Position;
             Client.cRenderWindow.Draw(Sprite);
         }
     }

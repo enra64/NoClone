@@ -77,10 +77,10 @@ namespace CodenameProjectServer {
         /// <summary>
         /// Draw your building...
         /// </summary>
-        public abstract void Update();
+        public virtual void Update() { }
 
-        public abstract void TakeEffect(int itemID);
+        public virtual void TakeEffect(int itemID) { }
 
-        public abstract void TargetAggro(int itemID);
+        public virtual void TargetAggro(int itemID) { }
     }
 }

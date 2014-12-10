@@ -8,7 +8,7 @@ using CodenameProjectTwo;
 
 namespace CodenameProjectTwo.Buildings
 {
-    class Centre : AbstractBuilding
+    class Centre : AbstractClientItem
     {
         //http://i2.kym-cdn.com/photos/images/original/000/234/739/fa5.jpg
         public override int Type { get; set; }
