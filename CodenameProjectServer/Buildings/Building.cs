@@ -7,19 +7,7 @@ using SFML.Window;
 using SFML.Graphics;
 
 namespace CodenameProjectServer.Buildings {
-    class Building : AbstractServerBuilding {
-
-        /*
-            public Building(int _type, byte _faction, int _ID, Vector2f _position, float _health)
-            {
-                Type = _type;
-                ID = _ID;
-                Faction = _faction;
-                Position = _position;
-                Health = _health;
-            }
-        }
-        */
+    class Building : AbstractServerItem {
         public override bool implementAggroOrEffectEffects { get; set; }
         public override int Type { get; set; }
         public override int ID { get; set; }
@@ -32,6 +20,7 @@ namespace CodenameProjectServer.Buildings {
 
         public Building(int _type, byte _faction, int _ID, Vector2f _position, float _health)
             : base(_type, _faction, _ID, _position, _health) {
+            //do something additional to the standard constructor
             implementAggroOrEffectEffects = false;
         }
 
@@ -45,7 +34,7 @@ namespace CodenameProjectServer.Buildings {
         }
 
         public override void Update() {
-            
+
         }
     }
 }

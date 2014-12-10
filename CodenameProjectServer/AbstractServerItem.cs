@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodenameProjectServer.Buildings {
-    abstract class AbstractServerBuilding : SInterfaces.ISendable {
+namespace CodenameProjectServer {
+    abstract class AbstractServerItem : SInterfaces.ISendable {
         #region variables
         //use like variables
         /// <summary>
@@ -50,7 +50,7 @@ namespace CodenameProjectServer.Buildings {
          */
         #endregion
 
-        protected AbstractServerBuilding(int _type, byte _faction, int _ID, Vector2f _position, float _health) {
+        protected AbstractServerItem(int _type, byte _faction, int _ID, Vector2f _position, float _health) {
             Type = _type;
             ID = _ID;
             Faction = _faction;

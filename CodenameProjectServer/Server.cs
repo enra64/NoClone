@@ -273,14 +273,14 @@ namespace CodenameProjectServer
             switch (_type)
             {
                 case SGlobal.BUILDING_DEFAULT:
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, _health);
+                    Sendlist[_ID] = new Buildings.Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_RED:
                     //check for needed resources
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, _health);
+                    Sendlist[_ID] = new Buildings.Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_BLUE:
-                    Sendlist[_ID] = new Centre(_type, _faction, _ID, _position, _health);
+                    Sendlist[_ID] = new Buildings.Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_BARRACK:
                     Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
@@ -289,7 +289,7 @@ namespace CodenameProjectServer
                     Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.PEOPLE_PEASENT:
-                    Sendlist[_ID] = new Enteties.Peasent(_type, _faction, _ID, _position, _health);
+                    Sendlist[_ID] = new Entities.Peasant(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     success = false;
