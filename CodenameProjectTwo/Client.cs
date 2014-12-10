@@ -27,11 +27,14 @@ namespace CodenameProjectTwo
         //declare map
         public static TileEngine map;
 
+        //drag rectangle
+        public static RectangleShape dragRect;
+
         //list of everything meant to draw
-        public static List<CInterfaces.IDrawable> cItemList {get; set;}
+        public static List<AbstractClientItem> cItemList {get; set;}
         static void Main(string[] args){
             //create list of items
-            cItemList=new List<CInterfaces.IDrawable>();
+            cItemList = new List<AbstractClientItem>();
 
             //create window
             //cRenderWindow = new RenderWindow(VideoMode.FullscreenModes[0], "Codename Project Two", Styles.Fullscreen); //fullscreen
@@ -118,6 +121,8 @@ namespace CodenameProjectTwo
                     s.Draw();
             }
             cInterface.Draw();
+            //draw collection rect
+            cRenderWindow.Draw(dragRect);
             //draw hovering building
             if(cMouseSprite!=null)
                 cRenderWindow.Draw(cMouseSprite);
@@ -141,7 +146,10 @@ namespace CodenameProjectTwo
             //Console.WriteLine("Write IP and press Enter to connect!");
             //Communication.Connect(Console.ReadLine(), 14242);
 
-            //testB = new Buildings.Barrack(1, 0, 10, new Vector2f(200, 200), 100);
+            dragRect = new RectangleShape();
+            dragRect.FillColor = Color.Transparent;
+            dragRect.OutlineColor = Color.White;
+            dragRect.OutlineThickness = 2;
 
             //init connection
             Console.WriteLine("Autoconnecting to localhost!");

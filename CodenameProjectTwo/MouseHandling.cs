@@ -11,16 +11,18 @@ namespace CodenameProjectTwo {
     static class MouseHandling {
         //handle right-click-mouse-moving
         private static Vector2f mouseMovementStartingPoint;
-        private static bool rightButtonClicked = false;
+        private static bool rightButtonClicked = false, leftButtonClicking = false;
         public static int buildingChosen = -1;
 
-        private static Vector2f cChosenBuildingSize;
+        private static Vector2f cChosenBuildingSize, dragStartPoint;
         private static Sprite cChosenBuilding;
 
         public static void mouseRelease(object sender, MouseButtonEventArgs e) {
             //only do for right mouse button
-            if (rightButtonClicked == false)
+            if (rightButtonClicked == false) {
+                leftButtonClicking = false;
                 return;
+            }
             //abort building choosing
             if (buildingChosen != -1) {
                 buildingChosen = -1;
@@ -37,7 +39,7 @@ namespace CodenameProjectTwo {
         }
 
         public static void Scrolling(object sender, MouseWheelEventArgs e) {
-            if (e.Delta < 0){
+            if (e.Delta < 0) {
                 if (Client.cZoomFactor < 3)
                     Client.cZoomFactor += .05f;
                 Client.cView.Zoom(1.03f);
@@ -67,6 +69,7 @@ namespace CodenameProjectTwo {
             //game view
             else {
                 if (e.Button == Mouse.Button.Left) {
+                    leftButtonClicking = true;
                     rightButtonClicked = false;
                     //no building chosen
                     if (buildingChosen != -1) {
@@ -76,7 +79,7 @@ namespace CodenameProjectTwo {
                         buildingChosen = -1;
                         Client.cMouseSprite = null;
                     }
-                    //building clicked
+                    //building or nothing clicked
                     else {
                         //check what we clicked
                         Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
@@ -87,6 +90,9 @@ namespace CodenameProjectTwo {
                             Console.WriteLine("item " + clickedItemId + " clicked!");
                             sendMouseMessage(clickedItemId, e.X, e.Y, false);
                         }
+                        //no item identified, write to dragstartpoint for eventual rectangle
+                        else
+                            dragStartPoint = new Vector2f(e.X, e.Y);
                     }
                 }
                 //right mouse button
@@ -108,8 +114,8 @@ namespace CodenameProjectTwo {
             x = mappedCoordinates.X;
             y = mappedCoordinates.Y;
             //return the clicked item id if found, -1 otherwise
-            foreach (CInterfaces.IDrawable item in Client.cItemList) 
-                if (item.BoundingRectangle.Contains(x, y)) 
+            foreach (CInterfaces.IDrawable item in Client.cItemList)
+                if (item.BoundingRectangle.Contains(x, y))
                     return item.ID;
             return -1;
         }
@@ -163,13 +169,24 @@ namespace CodenameProjectTwo {
         }
 
         internal static void MouseMoved(object sender, MouseMoveEventArgs e) {
+            Vector2f mappedPosition = MapMouseToGame(e.X, e.Y);
             if (!IsInMenu(e.X) && buildingChosen != -1) {
                 cChosenBuildingSize = new Vector2f(CGlobal.BUILDING_TEXTURES[buildingChosen].Size.X, CGlobal.BUILDING_TEXTURES[buildingChosen].Size.Y);
                 cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[buildingChosen]);
                 cChosenBuilding.Color = new Color(255, 255, 255, 120);
-                cChosenBuilding.Position = MapMouseToGame(e.X, e.Y);
+                cChosenBuilding.Position = mappedPosition;
                 Client.cMouseSprite = cChosenBuilding;
                 return;
+            }
+            else if (!IsInMenu(e.X)) {
+                if (leftButtonClicking) {
+                    Client.dragRect.OutlineThickness = 2;
+                    Client.dragRect.Position = MapMouseToGame(dragStartPoint.X, dragStartPoint.Y);
+                    Client.dragRect.Size = new Vector2f(mappedPosition.X - Client.dragRect.Position.X, mappedPosition.Y - Client.dragRect.Position.Y);
+                }
+                else {
+                    Client.dragRect.OutlineThickness = 0;
+                }
             }
             else {
                 //check whether we are hovering over an item
