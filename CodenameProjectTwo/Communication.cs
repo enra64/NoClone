@@ -87,7 +87,7 @@ namespace CodenameProjectTwo
                     Client.cItemList[_ID] = new Ressources.Stone(_type, _faction, _ID, _position, _health);
                     break;
                 case CGlobal.PEOPLE_PEASANT:
-                    Client.cItemList[_ID] = new Entities.Peasant(_type, _faction, _ID, _position, _health);
+                    Client.cItemList[_ID] = new Peasant(_type, _faction, _ID, _position, _health);
                     break;
                     /*Previously in this code:
                     case CGlobal.STONE:

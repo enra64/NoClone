@@ -15,7 +15,7 @@ namespace CodenameProjectTwo {
         /// one type per class; the classes will be instanced via a switch() listening
         /// to the type
         /// </summary>
-        public abstract int Type { get; set; }
+        public virtual int Type { get; set; }
 
         /// <summary>
         /// the id of this instance; dont change it, because the server
@@ -23,37 +23,40 @@ namespace CodenameProjectTwo {
         /// if you do change it, the game will crash
         /// because of you. how does that make you feel?
         /// </summary>
-        public abstract int ID { get; set; }
+        public virtual int ID { get; set; }
 
         /// <summary>
         /// False->client 1; true-> client 2. probably will bite us in the ass
         /// as soon as we want more than two players.
         /// </summary>
-        public abstract byte Faction { get; set; }
+        public virtual byte Faction { get; set; }
 
         /// <summary>
         /// gets set on instanciation, is the position of your building
         /// </summary>
-        public abstract Vector2f Position { get; set; }
+        public virtual Vector2f Position { get; set; }
 
         /// <summary>
         /// gets set to 100 on instanciation; please stay between 0 and 100.
         /// </summary>
-        public abstract float Health { get; set; }
-        public abstract Sprite Sprite { get; set; }
-        public abstract Texture Texture { get; set; }
-        public abstract Vector2f Size {get; set;}
+        public virtual float Health { get; set; }
+        public virtual Sprite Sprite { get; set; }
+        public virtual Texture Texture { get; set; }
+        public virtual Vector2f Size {get; set;}
 
         /// <summary>
         /// this could access the cglobal descriptions; the arrayposition will be type
         /// </summary>
-        public abstract string Description { get; set; }
+        public virtual string Description { get; set; }
 
         /*
          * VARIABLES END HERE
          */
         #endregion
 
+        /// <summary>
+        /// Constructor for buildings and ressources
+        /// </summary>
         protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health){
             Type = _type;
             ID = _ID;
@@ -67,6 +70,9 @@ namespace CodenameProjectTwo {
             Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
 
+        /// <summary>
+        /// People Constructor
+        /// </summary>
         protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health, bool people) {
             Type = _type;
             ID = _ID;
