@@ -16,7 +16,7 @@ namespace CodenameProjectServer {
         /// to the type
         /// </summary>
 
-        public abstract int Type { get; set; }
+        public virtual int Type { get; set; }
         /// <summary>
         /// the id of this instance; dont change it, because the server
         /// ensures that it is unique. 
@@ -24,26 +24,26 @@ namespace CodenameProjectServer {
         /// because of you. how does that make you feel?
         /// </summary>
 
-        public abstract int ID { get; set; }
+        public virtual int ID { get; set; }
         /// <summary>
         /// False->client 1; true-> client 2. probably will bite us in the ass
         /// as soon as we want more than two players.
         /// </summary>
-        public abstract byte Faction { get; set; }
+        public virtual byte Faction { get; set; }
 
         /// <summary>
         /// gets set on instanciation, is the position of your building
         /// </summary>
-        public abstract Vector2f Position { get; set; }
+        public virtual Vector2f Position { get; set; }
 
         /// <summary>
         /// gets set to 100 on instanciation; please stay between 0 and 100.
         /// </summary>
-        public abstract float Health { get; set; }
-        public abstract bool UpdateNeeded { get; set; }
-        public abstract int TargetID { get; set; }
-        public abstract Vector2f Target { get; set; }
-        public abstract bool implementAggroOrEffectEffects { get; set; }
+        public virtual float Health { get; set; }
+        public virtual bool UpdateNeeded { get; set; }
+        public virtual int TargetID { get; set; }
+        public virtual Vector2f Target { get; set; }
+        public virtual bool implementAggroOrEffectEffects { get; set; }
 
         /*
          * VARIABLES END HERE

@@ -8,16 +8,6 @@ using System.Threading.Tasks;
 
 namespace CodenameProjectServer.Entities {
     class Peasant : AbstractServerItem {
-        public override bool implementAggroOrEffectEffects { get; set; }
-        public override int Type { get; set; }
-        public override int ID { get; set; }
-        public override byte Faction { get; set; }
-        public override Vector2f Position { get; set; }
-        public override float Health { get; set; }
-        public override bool UpdateNeeded { get; set; }
-        public override Vector2f Target { get; set; }
-        public override int TargetID { get; set; }
-
         private float MovementSpeed = 1;
 
         //call standard constructor of base class, see abstractserveritem
