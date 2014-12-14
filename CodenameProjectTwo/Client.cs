@@ -55,8 +55,6 @@ namespace CodenameProjectTwo
             cRenderWindow.GainedFocus += delegate { cIsFocused = true; };
             cRenderWindow.LostFocus += delegate { cIsFocused = false; };
 
-            //first and only call to load content, not mandatory to use
-            LoadContent();
             //first and only call to init, do everything else there
             Initialize();
             //main game loop
@@ -101,6 +99,7 @@ namespace CodenameProjectTwo
         }
 
         private static void Update(){
+            //check for keys
             KeyCheck();
             //update offset
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
@@ -132,6 +131,8 @@ namespace CodenameProjectTwo
         }
 
         private static void Initialize(){
+            //first and only call to load content, mandatory to use
+            LoadContent();
             //set beginning view.
             cView = new View(new FloatRect(0, 0, 1366, 768));
             //set view origin and current in static client global class
