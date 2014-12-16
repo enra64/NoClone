@@ -70,6 +70,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="Communication.cs" />
     <Compile Include="Ressources\Stone.cs" />
+    <Compile Include="Ressources\Wood.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="MouseHandling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

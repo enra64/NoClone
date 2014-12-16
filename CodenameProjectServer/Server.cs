@@ -51,6 +51,7 @@ namespace CodenameProjectServer
 
             //instantiate ressources
             InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200f, 200f), 100);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(400f, 400f), 100);
 
             //instantiate ressources
             InstanceClass(SGlobal.PEOPLE_PEASENT, 1, new Vector2f(200, 300), 100);

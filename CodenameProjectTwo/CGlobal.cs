@@ -38,15 +38,15 @@ namespace CodenameProjectTwo
         /// <summary>
         /// Count of items buildable and ressources. Increase whenever you add one
         /// </summary>
-        public const int BUILDING_TYPE_COUNT = 5;
+        public const int BUILDING_TYPE_COUNT = 6;
         /// <summary>
         /// building types. should be unique to the building, and is used to find the correct description and texture
         /// </summary>
-        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3, STONE = 4;
+        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3, STONE = 4, WOOD = 5;
         /// <summary>
         /// Array of buildings users are not allowed to build
         /// </summary>
-        public static int[] UNBUILDABLE_BUILDINGS = { 1, 2, 4 };
+        public static int[] UNBUILDABLE_BUILDINGS = { 1, 2, 4, 5 };
         /// <summary>
         /// Add a description to your item
         /// </summary>
@@ -55,7 +55,8 @@ namespace CodenameProjectTwo
             "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", 
             "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!", 
             "Soldiers(if we would have some) are getting trained here!", 
-            "STONE -> O <- this is one" };
+            "STONE -> O <- this is one", 
+            "Wood"};
 
 
         /// <summary>
@@ -90,6 +91,6 @@ namespace CodenameProjectTwo
         /// </summary>
         /// //only the third position is currently not senseless - it is the barrack. 0 and 2 are the standard buildings
         /// //public const int                                             BUILDING_DEFAULT = 0, BUILDING_RED = 1,          BUILDING_BLUE = 2,              BUILDING_BARRACK = 3,           STONE = 4;
-        public static int[][] DISPLAYED_PEOPLE_PER_BUILDING = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDSMAN }, new int[] { -1 } };
+        public static int[][] DISPLAYED_PEOPLE_PER_BUILDING = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDSMAN }, new int[] { -1 }, new int[] { -1 } };
     }
 }
