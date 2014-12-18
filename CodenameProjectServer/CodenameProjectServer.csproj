@@ -80,6 +80,7 @@
     </Content>
     <Content Include="libsndfile-1.dll" />
     <Content Include="openal32.dll" />
+    <Compile Include="RessourceKeeper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
