@@ -43,7 +43,7 @@ namespace CodenameProjectTwo
         internal static void BroadcastUpdate(NetIncomingMessage msg)
         {
             //read newest message until all data has been read
-            while (msg.PeekInt32() != -1){
+            while (msg.PeekInt32() != -42){
                 //read message
                 int type = msg.ReadInt32();
                 byte faction = msg.ReadByte();
@@ -64,6 +64,22 @@ namespace CodenameProjectTwo
                 else//instance
                     InstanceClass(type, faction, ID, position, health);
             }
+            //kill broadcast part 1 stop bit
+            msg.ReadInt32();
+            //read ressource states
+            while (msg.PeekInt32() != -1){
+                Byte factionIdentification = msg.ReadByte();
+                //Console.WriteLine("factionident: " + factionIdentification+", soll: "+Client.MyFaction);
+                if (factionIdentification == Client.MyFaction)
+                {
+                    Client.MyRessources.Stone = msg.ReadInt32();
+                    Client.MyRessources.Wood = msg.ReadInt32();
+                }
+                else{
+                    msg.ReadInt32();
+                    msg.ReadInt32();
+                }
+            }
         }
 
         /// <summary>
@@ -71,7 +87,6 @@ namespace CodenameProjectTwo
         /// </summary>
         internal static void InstanceClass(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
-            Console.WriteLine("instanced a type " + _type + " of player " + _faction);
             switch (_type)
             {
                 case CGlobal.BUILDING_RED:
@@ -83,19 +98,15 @@ namespace CodenameProjectTwo
                 case CGlobal.BUILDING_BARRACK:
                     Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
-                case CGlobal.STONE:
+                case CGlobal.RESSOURCE_STONE:
                     Client.cItemList[_ID] = new Ressources.Stone(_type, _faction, _ID, _position, _health);
                     break;
-                case CGlobal.WOOD:
+                case CGlobal.RESSOURCE_WOOD:
                     Client.cItemList[_ID] = new Ressources.Wood(_type, _faction, _ID, _position, _health);
                     break;
                 case CGlobal.PEOPLE_PEASANT:
                     Client.cItemList[_ID] = new Peasant(_type, _faction, _ID, _position, _health);
                     break;
-                    /*Previously in this code:
-                    case CGlobal.STONE:
-                        Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
-                     */
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;
@@ -125,11 +136,12 @@ namespace CodenameProjectTwo
                         Int32 dataType=im.ReadInt32();
                         switch (dataType)
                         {
-                            case CGlobal.GAMESTATE_BROADCAST:
-                                BroadcastUpdate(im);
-                                break;
                             case CGlobal.CLIENT_IDENTIFICATION_MESSAGE:
                                 Client.MyFaction = im.ReadByte();
+                                Console.WriteLine("client ident " + Client.MyFaction);
+                                break;
+                            case CGlobal.GAMESTATE_BROADCAST:
+                                BroadcastUpdate(im);
                                 break;
                         }
                         break;

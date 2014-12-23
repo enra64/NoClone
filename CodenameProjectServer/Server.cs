@@ -19,6 +19,7 @@ namespace CodenameProjectServer
 
         private static NetServer netServer;
         public static List<AbstractServerItem> Sendlist = new List<AbstractServerItem>();
+        public static List<RessourceKeeper> RessourceList = new List<RessourceKeeper>();
 
         private static long clientIdentifier1 = UNDEFINED_CLIENT, clientIdentifier2 = UNDEFINED_CLIENT;
         private static NetConnection con1, con2;
@@ -50,11 +51,16 @@ namespace CodenameProjectServer
             InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(400f, 200f), 100);
 
             //instantiate ressources
-            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200f, 200f), 100);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(400f, 600f), 100);
             InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(400f, 400f), 100);
 
-            //instantiate ressources
-            InstanceClass(SGlobal.PEOPLE_PEASENT, 1, new Vector2f(200, 300), 100);
+            //instantiate standard people
+            InstanceClass(SGlobal.PEOPLE_PEASANT, 1, new Vector2f(200, 300), 100);
+
+            //instance ressourcekeeper
+            RessourceList.Add(new RessourceKeeper(1, 100, 100));
+            RessourceList.Add(new RessourceKeeper(2, 100, 100));
+
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
                 delegate(object o, DoWorkEventArgs arg)
@@ -117,15 +123,17 @@ namespace CodenameProjectServer
                                             clientIdentifier1 = im.SenderConnection.RemoteUniqueIdentifier;
                                             hail = "Client 1 (" + clientIdentifier1 + ")";
                                             con1=im.SenderConnection;
+                                            SendClientIdentification(1);
                                         }
                                         else if (clientIdentifier2 == UNDEFINED_CLIENT)
                                         {
                                             clientIdentifier2 = im.SenderConnection.RemoteUniqueIdentifier;
                                             hail = "Client 2 (" + clientIdentifier2 + ")";
                                             con2 = im.SenderConnection;
+                                            SendClientIdentification(2);
                                         }
                                         if (clientIdentifier1 != UNDEFINED_CLIENT && clientIdentifier2 != UNDEFINED_CLIENT)
-                                            SendClientIdentification();
+                                            SendClientIdentification(0);//send to both
                                         //Console.WriteLine(hail);
                                     }
                                     break;
@@ -221,12 +229,16 @@ namespace CodenameProjectServer
                                 om.Write(s.Position.Y);
                                 om.Write(s.Health);
                             }
-                            //declare message end
-                            //Console.WriteLine("server send");
+                            //declare broadcast middle
+                            om.Write(-42);
+                            foreach (RessourceKeeper r in RessourceList)
+                            {
+                                om.Write(r.Faction);
+                                om.Write(r.Stone);
+                                om.Write(r.Wood);
+                            }
                             om.Write(-1);
-
-                            //adding tags so that retarded me can find this _kinda_ important line: mistake error change
-                            //warning: change to != when we finally have objects!
+                            //finally send now
                             if (Sendlist.Count != 0)
                                 netServer.SendMessage(om, all, NetDeliveryMethod.Unreliable, 0);
                         }
@@ -244,23 +256,46 @@ namespace CodenameProjectServer
             netServer.Shutdown("Requested by user");
         }
 
-        private static void SendClientIdentification()
+        private static void SendClientIdentification(byte which)
         {
-            //send to first client
-            List<NetConnection> one = netServer.Connections;
-            one.Remove(con2);
-            NetOutgoingMessage om1 = netServer.CreateMessage();
-            om1.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
-            om1.Write(false);
-            netServer.SendMessage(om1, one, NetDeliveryMethod.ReliableUnordered, 0);
+            if (which == 1)
+            {
+                //send to first client
+                List<NetConnection> one = netServer.Connections;
+                one.Remove(con2);
+                NetOutgoingMessage om1 = netServer.CreateMessage();
+                om1.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
+                om1.Write((byte)1);
+                netServer.SendMessage(om1, one, NetDeliveryMethod.ReliableUnordered, 0);
+            }
+            else if(which == 2)
+            {
+                //send to second client
+                List<NetConnection> two = netServer.Connections;
+                two.Remove(con1);
+                NetOutgoingMessage om2 = netServer.CreateMessage();
+                om2.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
+                om2.Write((byte)2);
+                netServer.SendMessage(om2, two, NetDeliveryMethod.ReliableUnordered, 0);
+            }
+            else
+            {
+                //send to first client
+                List<NetConnection> one = netServer.Connections;
+                one.Remove(con2);
+                NetOutgoingMessage om1 = netServer.CreateMessage();
+                om1.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
+                om1.Write((byte)1);
+                netServer.SendMessage(om1, one, NetDeliveryMethod.ReliableUnordered, 0);
 
-            //send to second client
-            List<NetConnection> two = netServer.Connections;
-            two.Remove(con1);
-            NetOutgoingMessage om2 = netServer.CreateMessage();
-            om2.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
-            om2.Write(true);
-            netServer.SendMessage(om2, two, NetDeliveryMethod.ReliableUnordered, 0);
+                //send to second client
+                List<NetConnection> two = netServer.Connections;
+                two.Remove(con1);
+                NetOutgoingMessage om2 = netServer.CreateMessage();
+                om2.Write(SGlobal.CLIENT_IDENTIFICATION_MESSAGE);
+                om2.Write((byte)2);
+                netServer.SendMessage(om2, two, NetDeliveryMethod.ReliableUnordered, 0);
+            }
         }
 
         /// <summary>
@@ -289,7 +324,10 @@ namespace CodenameProjectServer
                 case SGlobal.RESSOURCE_STONE:
                     Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, _health);
                     break;
-                case SGlobal.PEOPLE_PEASENT:
+                case SGlobal.RESSOURCE_WOOD:
+                    Sendlist[_ID] = new Wood(_type, _faction, _ID, _position, _health);
+                    break;
+                case SGlobal.PEOPLE_PEASANT:
                     Sendlist[_ID] = new Entities.Peasant(_type, _faction, _ID, _position, _health);
                     break;
                 default:
@@ -298,19 +336,16 @@ namespace CodenameProjectServer
                     break;
             }
             if (success)
-                Console.WriteLine("instanced a building type " + _type + " of player " + _faction);
+                Console.WriteLine("instanced: " + _type + ";player " + _faction);
             else
-                Console.WriteLine("Failed to find the correct building type; see Server.cs:InstanceClass");
+                Console.WriteLine('\n'+"Failed to find the correct building type; see Server.cs:InstanceClass"+'\n');
         }
 
         private static void ElongateList(int _ID){
             //if the list size is smaller than the id, elongate it
             if (Sendlist.Count - 1 < _ID)
                 while (Sendlist.Count - 1 < _ID)
-                {
                     Sendlist.Add(null);
-                    Console.WriteLine("elongating");
-                }
         }
 
         // called by the UI

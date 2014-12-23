@@ -10,6 +10,7 @@ namespace CodenameProjectServer.Ressources {
             : base(_type, _faction, _ID, _position, _health) {
             //do something additional to the standard constructor, in this case disable checking for actions from this item
             implementAggroOrEffectEffects = false;
+            IsRessource = true;
         }
     }
 }

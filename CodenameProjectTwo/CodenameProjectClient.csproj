@@ -69,6 +69,7 @@
     <Compile Include="CInterfaces.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Communication.cs" />
+    <Compile Include="Ressources\RessourceKeeper.cs" />
     <Compile Include="Ressources\Stone.cs" />
     <Compile Include="Ressources\Wood.cs" />
     <Compile Include="UserInterface.cs" />
@@ -100,6 +101,9 @@
     </Content>
     <Content Include="assets\graphics\ressources\stone.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\ressources\wood.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

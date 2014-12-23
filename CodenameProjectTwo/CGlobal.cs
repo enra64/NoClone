@@ -42,7 +42,11 @@ namespace CodenameProjectTwo
         /// <summary>
         /// building types. should be unique to the building, and is used to find the correct description and texture
         /// </summary>
-        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3, STONE = 4, WOOD = 5;
+        public const int BUILDING_DEFAULT = 0, BUILDING_RED = 1, BUILDING_BLUE = 2, BUILDING_BARRACK = 3, RESSOURCE_STONE = 4, RESSOURCE_WOOD = 5;
+        //building costs: wood
+        public static int[] BUILDING_COSTS_WOOD = { 200, 0, 0, 100, 0, 0};
+        //building costs: stone
+        public static int[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0 };
         /// <summary>
         /// Array of buildings users are not allowed to build
         /// </summary>
@@ -57,18 +61,14 @@ namespace CodenameProjectTwo
             "Soldiers(if we would have some) are getting trained here!", 
             "STONE -> O <- this is one", 
             "Wood"};
-
-
         /// <summary>
         /// Save the texture of your item here
         /// </summary>
         public static Texture[] BUILDING_TEXTURES = new Texture[BUILDING_TYPE_COUNT];
 
-
         /// <summary>
         /// Count of items buildable. Increase whenever you add one
         /// </summary>
-
         public const int PEOPLE_TYPE_COUNT = 2, PEOPLE_ID_OFFSET = 100;
 
         public const int PEOPLE_SWORDSMAN=101, PEOPLE_PEASANT=100;

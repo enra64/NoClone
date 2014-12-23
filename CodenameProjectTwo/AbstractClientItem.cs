@@ -68,6 +68,7 @@ namespace CodenameProjectTwo {
             Sprite = new Sprite(Texture);
             Sprite.Position = this.Position;
             Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
+            Console.Write("Instantianting " + Name);
         }
 
         /// <summary>
@@ -104,6 +105,16 @@ namespace CodenameProjectTwo {
         /// </summary>
         public FloatRect BoundingRectangle {
             get { return new FloatRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y); }
+        }
+
+        public int WoodCost()
+        {
+            return CGlobal.BUILDING_COSTS_WOOD[Type];
+        }
+
+        public int StoneCost()
+        {
+            return CGlobal.BUILDING_COSTS_STONE[Type];
         }
 
         /// <summary>

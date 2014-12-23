@@ -240,7 +240,7 @@ namespace CodenameProjectTwo
 
         public void UpdateWindowResize()
         {
-            Client.cView.Size = new Vector2f(win.Size.X, win.Size.Y);
+            Client.gameView.Size = new Vector2f(win.Size.X, win.Size.Y);
         }
 
         public void Update()

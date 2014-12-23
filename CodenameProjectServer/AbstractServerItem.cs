@@ -44,6 +44,7 @@ namespace CodenameProjectServer {
         public virtual int TargetID { get; set; }
         public virtual Vector2f Target { get; set; }
         public virtual bool implementAggroOrEffectEffects { get; set; }
+        public virtual bool IsRessource { get; set; }
 
         /*
          * VARIABLES END HERE
@@ -75,7 +76,7 @@ namespace CodenameProjectServer {
         }
 
         /// <summary>
-        /// Draw your building...
+        /// Update your building...
         /// </summary>
         public virtual void Update() { }
 

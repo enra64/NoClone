@@ -34,7 +34,7 @@ namespace CodenameProjectTwo {
             if (checkRect.Contains(e.X, e.Y))
                 sendMouseMessage(GetClickedItemId(e.X, e.Y), e.X, e.Y, true);
             else
-                Client.cView.Move(new Vector2f(-(e.X - mouseMovementStartingPoint.X), -(e.Y - mouseMovementStartingPoint.Y)));
+                Client.gameView.Move(new Vector2f(-(e.X - mouseMovementStartingPoint.X), -(e.Y - mouseMovementStartingPoint.Y)));
             Console.WriteLine(checkRect);
         }
 
@@ -42,17 +42,17 @@ namespace CodenameProjectTwo {
             if (e.Delta < 0) {
                 if (Client.cZoomFactor < 3)
                     Client.cZoomFactor += .05f;
-                Client.cView.Zoom(1.03f);
+                Client.gameView.Zoom(1.03f);
             }
             else {
                 if (Client.cZoomFactor > 0.6f)
                     Client.cZoomFactor -= .05f;
-                Client.cView.Zoom(0.97f);
+                Client.gameView.Zoom(0.97f);
             }
         }
 
         private static bool IsInMenu(float x) {
-            return ((Client.cRenderWindow.Size.X * Client.cInterface.menuPortScale) > x);
+            return ((Client.cRenderWindow.Size.X * Client.cInterface.horizontalMenuSize) > x);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace CodenameProjectTwo {
             }
             else {
                 //check whether we are hovering over an item
-                Client.cInterface.CheckHover(e);
+                Client.cInterface.Hover(e);
             }
 
         }

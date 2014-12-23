@@ -13,14 +13,35 @@ namespace CodenameProjectTwo {
         public int Type { get; set; }
         public List<int> BuildableBy { get; set; }
 
+        private RectangleShape boundingShape;
         /// <summary>
         /// This MenuItem is only accessable from buildings whose id is contained in BuildableBy
         /// </summary>
         public MenuItem(Sprite _sprite, string _description, int _type, List<int> _buildableBy) {
             Sprite = _sprite;
+            boundingShape = new RectangleShape(new Vector2f((float)Sprite.Texture.Size.X * Sprite.Scale.X, 
+                (float) Sprite.Texture.Size.Y * Sprite.Scale.Y));
+            boundingShape.FillColor = Color.Transparent;
+            boundingShape.OutlineThickness = 1;
+            boundingShape.Position = Sprite.Position;
+
             Description = _description;
             Type = _type;
             BuildableBy = _buildableBy;
+        }
+
+        public RectangleShape GreenBoundingShape{
+            get{
+                this.boundingShape.OutlineColor = Color.Blue;
+                return boundingShape;
+            }
+        }
+
+        public RectangleShape RedBoundingShape {
+            get {
+                this.boundingShape.OutlineColor = Color.Red;
+                return boundingShape;
+            }
         }
 
         /// <summary>
@@ -28,6 +49,13 @@ namespace CodenameProjectTwo {
         /// </summary>
         public MenuItem(Sprite _sprite, string _description, int _type) {
             Sprite = _sprite;
+
+            boundingShape = new RectangleShape(new Vector2f((float)Sprite.Texture.Size.X * Sprite.Scale.X,
+                (float)Sprite.Texture.Size.Y * Sprite.Scale.Y));
+            boundingShape.FillColor = Color.Transparent;
+            boundingShape.OutlineThickness = 1;
+            boundingShape.Position = Sprite.Position;
+
             Description = _description;
             Type = _type;
         }

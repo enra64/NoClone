@@ -16,12 +16,12 @@ namespace CodenameProjectTwo
         //public static NetClient netClient {get;private set;}
         //c for current
         public static RenderWindow cRenderWindow { get; private set; }
-        public static View cView{get;private set;}
+        public static View gameView{get;private set;}
         public static UserInterface cInterface { get; private set; }
         public static Sprite cMouseSprite { get; set; }
         public static bool cIsFocused { get; private set; }
-
         public static byte MyFaction { get; set; }
+        public static Ressources.RessourceKeeper MyRessources {get; set;}
         //zoom level
         public static float cZoomFactor = 1;
         //declare map
@@ -75,26 +75,26 @@ namespace CodenameProjectTwo
             if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
                 cRenderWindow.Close();
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
-                cView.Move(new Vector2f(0, -20f * cZoomFactor));
+                gameView.Move(new Vector2f(0, -20f * cZoomFactor));
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
-                cView.Move(new Vector2f(0, 20f * cZoomFactor));
+                gameView.Move(new Vector2f(0, 20f * cZoomFactor));
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
-                cView.Move(new Vector2f(-20f * cZoomFactor, 0));
+                gameView.Move(new Vector2f(-20f * cZoomFactor, 0));
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
-                cView.Move(new Vector2f(20f * cZoomFactor, 0));
+                gameView.Move(new Vector2f(20f * cZoomFactor, 0));
             //zoom out
             if (Keyboard.IsKeyPressed(Keyboard.Key.Q)){
                 if(cZoomFactor < 3)
                     cZoomFactor+=.05f;
                 Console.WriteLine(cZoomFactor);
-                cView.Zoom(1.07f);
+                gameView.Zoom(1.07f);
             }
             //zoom in
             if (Keyboard.IsKeyPressed(Keyboard.Key.E)){
                 if (cZoomFactor > 0.6f)
                     cZoomFactor-=.05f;
                 Console.WriteLine(cZoomFactor);
-                cView.Zoom(.93f);
+                gameView.Zoom(.93f);
             }
         }
 
@@ -108,7 +108,7 @@ namespace CodenameProjectTwo
         }
 
         private static void Draw(){
-            cRenderWindow.SetView(cView);
+            cRenderWindow.SetView(gameView);
             cRenderWindow.Clear();
             //draw tilemap
             map.Draw();
@@ -134,7 +134,8 @@ namespace CodenameProjectTwo
             //first and only call to load content, mandatory to use
             LoadContent();
             //set beginning view.
-            cView = new View(new FloatRect(0, 0, 1366, 768));
+            gameView = new View(new FloatRect(0, 0, 1366, 768));
+
             //set view origin and current in static client global class
             CGlobal.BEGIN_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
@@ -143,6 +144,9 @@ namespace CodenameProjectTwo
 
             //build tilemap
             map = new TileEngine(cRenderWindow, new Vector2u(100, 100), "maps/levelTest1.oel");
+
+            //instance ressourcekeeper
+            MyRessources = new Ressources.RessourceKeeper(MyFaction, 100, 100);
 
             //Console.WriteLine("Write IP and press Enter to connect!");
             //Communication.Connect(Console.ReadLine(), 14242);
@@ -167,7 +171,7 @@ namespace CodenameProjectTwo
             CGlobal.BUILDING_TEXTURES[2] = new Texture("assets/graphics/buildings/hqblue.png");
             CGlobal.BUILDING_TEXTURES[3] = new Texture("assets/graphics/buildings/barrack.png");
             CGlobal.BUILDING_TEXTURES[4] = new Texture("assets/graphics/ressources/stone.png");
-            CGlobal.BUILDING_TEXTURES[5] = new Texture("assets/graphics/ressources/stone.png");
+            CGlobal.BUILDING_TEXTURES[5] = new Texture("assets/graphics/ressources/wood.png");
 
             //load people textures
             CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstBauer.png");
