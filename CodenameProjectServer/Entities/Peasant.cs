@@ -21,7 +21,7 @@ namespace CodenameProjectServer.Entities {
             //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
             if(Server.Sendlist[itemID].Health<=0)
                 return;
-            Server.Sendlist[itemID].Health -= 0.1f;
+            //Server.Sendlist[itemID].Health -= 0.1f;
             if (Server.Sendlist[itemID].IsRessource)
             {
                 if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_WOOD)
