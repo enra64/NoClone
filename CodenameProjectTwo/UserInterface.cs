@@ -17,8 +17,8 @@ namespace CodenameProjectTwo {
         private View menuView;
         private Font menuFont = new Font("assets/ui/ferrum.otf");
         private int maxColumns = 4;
-        private float IconSize;
-        public float horizontalMenuSize;
+        public static float IconSize;
+        public static float horizontalMenuSize;
 
         private RectangleShape hoverBox;
 
@@ -47,6 +47,9 @@ namespace CodenameProjectTwo {
             descriptionBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.Y - 20f) / 3f));
             infoBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.Y - 20f) / 3f));
 
+            //set requested iconsize as early as possible
+            IconSize = (((float)mainBox.Size.X - 20f) / (float)maxColumns);
+            
             //texts
             descBoxText.Color = Color.Black;
             descBoxText.Font = menuFont;
@@ -64,41 +67,32 @@ namespace CodenameProjectTwo {
 
             //load all sprites
             int y = 0, x = 0;
-            IconSize = (((float)mainBox.Size.X - 20f) / (float)maxColumns);
-            //people
-            for (int i = 0; i < CGlobal.PEOPLE_TYPE_COUNT; i++) {
+            /*
+             * PEOPLE
+             */
+            for (int type = 0; type < CGlobal.PEOPLE_TYPE_COUNT; type++) {
                 //create a grid
                 if (x == maxColumns) {
                     x = 0;
                     y++;
                 }
-                //create the menuitems sprite
-                float scale = IconSize / (float)CGlobal.PEOPLE_TEXTURES[i].Size.X;
-                Sprite newSprite = new Sprite(CGlobal.PEOPLE_TEXTURES[i]);
-                newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(textureBox.Position.X + (2f + IconSize) * x + 5f, textureBox.Position.Y + 10f + (10f + IconSize) * y);
-
-                MenuItem newMenuItem = new MenuItem(newSprite, CGlobal.PEOPLE_DESCRIPTIONS[i], i, LoadGrantedBuildings(i));
-
+                MenuItem newMenuItem = new MenuItem(type, LoadGrantedBuildings(type), true, new Vector2f(textureBox.Position.X + (2f + IconSize) * x + 5f, textureBox.Position.Y + 10f + (10f + IconSize) * y));
                 peopleMenuItemList.Add(newMenuItem);
                 x++;
             }
-            //buildings
+            /*
+             * BUILDINGS
+             */
             y = 0;
             x = 0;
-            for (int i = 0; i < CGlobal.BUILDING_TYPE_COUNT; i++) {
-                if (!CGlobal.UNBUILDABLE_BUILDINGS.Contains(i)) {
+            for (int type = 0; type < CGlobal.BUILDING_TYPE_COUNT; type++) {
+                if (!CGlobal.UNBUILDABLE_BUILDINGS.Contains(type)) {
                     //create a grid
                     if (x == maxColumns) {
                         x = 0;
                         y++;
                     }
-                    float scale = IconSize / (float)CGlobal.BUILDING_TEXTURES[i].Size.X;
-                    Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
-                    newSprite.Scale = new Vector2f(scale, scale);
-                    newSprite.Position = new Vector2f(infoBox.Position.X + (2f + IconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + IconSize) * y);
-
-                    MenuItem newMenuItem = new MenuItem(newSprite, CGlobal.BUILDING_DESCRIPTIONS[i], i);
+                    MenuItem newMenuItem = new MenuItem(type, false, new Vector2f(infoBox.Position.X + (2f + IconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + IconSize) * y));
 
                     buildableBuildings.Add(newMenuItem);
                     x++;
@@ -152,7 +146,7 @@ namespace CodenameProjectTwo {
                 //item info string
                 infoBoxText.DisplayedString = Client.cItemList[cItem].Name + '\n' +
                 Client.cItemList[cItem].Health + "% Leben" + '\n' +
-                "ID: " + cItem;
+                "ID: " + cItem + "; Type: " + Client.cItemList[cItem].Type;
             }
         }
 
@@ -250,7 +244,7 @@ namespace CodenameProjectTwo {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         if (HasRessources(m.Type)) {
                             Console.WriteLine("building " + m.Type + " activated");
-                            MouseHandling.buildingChosen = m.Type;
+                            MouseHandling.selectedItems[0] = m.Type;
                         }
                     }
                 }

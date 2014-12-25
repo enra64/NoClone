@@ -10,32 +10,55 @@ using System.Threading.Tasks;
 namespace CodenameProjectTwo {
     static class MouseHandling {
         //handle right-click-mouse-moving
+        private const int NOTHING_SELECTED = -1;
         private static Vector2f mouseMovementStartingPoint;
         private static bool rightButtonClicked = false, leftButtonClicking = false;
-        public static int buildingChosen = -1;
+        public static int lastClickedIstem = -1;
+        public static int[] selectedItems;
 
         private static Vector2f cChosenBuildingSize, dragStartPoint;
         private static Sprite cChosenBuilding;
 
-        public static void mouseRelease(object sender, MouseButtonEventArgs e) {
-            //only do for right mouse button
-            if (rightButtonClicked == false) {
+        public static void mouseRelease(object sender, MouseButtonEventArgs e){
+            if(!rightButtonClicked){
                 leftButtonClicking = false;
-                return;
+                if(Client.dragRect.OutlineThickness > 0){
+                    //undraw dragrect
+                    Client.dragRect.OutlineThickness = 0;
+                    //check what has been clicked
+                    Vector2f translatedPosition = MapMouseToGame(Client.dragRect.Position.X, Client.dragRect.Position.Y);
+                    FloatRect selectionRect = new FloatRect(
+                        translatedPosition.X,
+                        translatedPosition.Y, 
+                        Client.dragRect.Size.X, 
+                        Client.dragRect.Size.Y);
+                    Console.WriteLine("selrect:: left: " + selectionRect.Left + ", top: " + selectionRect.Top);
+                    List<int> selectedPeople=new List<int>();
+                    foreach (AbstractClientItem a in Client.cItemList) {
+                        if (a.Type >= 100) {
+                            Console.WriteLine(a.ID+"left: " + a.Sprite.Position.X + ", top: " + a.Sprite.Position.Y);
+                            if (a.BoundingRectangle.Intersects(selectionRect)){
+
+                                selectedPeople.Add(a.Type);
+                            }
+                        }
+                    }
+                    int mostSelected = -1;
+                    if(selectedPeople.Count > 0)
+                        mostSelected = selectedPeople.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    Console.WriteLine("most: " + mostSelected+", count: " + selectedPeople.Count);
+                }
             }
-            //abort building choosing
-            if (buildingChosen != -1) {
-                buildingChosen = -1;
-                return;
-            }
-            buildingChosen = -1;
-            //check whether the mouse moved significantly or not
-            FloatRect checkRect = new FloatRect(mouseMovementStartingPoint.X - 4f, mouseMovementStartingPoint.Y - 4f, 8f, 8f);
-            if (checkRect.Contains(e.X, e.Y))
+            else if (rightButtonClicked) {
+                //deselect everything
+                if (selectedItems != null) {
+                    Client.cMouseSprite = null;
+                    selectedItems = null;
+                    return;
+                }
+                selectedItems = null;
                 sendMouseMessage(GetClickedItemId(e.X, e.Y), e.X, e.Y, true);
-            else
-                Client.gameView.Move(new Vector2f(-(e.X - mouseMovementStartingPoint.X), -(e.Y - mouseMovementStartingPoint.Y)));
-            Console.WriteLine(checkRect);
+            }
         }
 
         public static void Scrolling(object sender, MouseWheelEventArgs e) {
@@ -52,7 +75,7 @@ namespace CodenameProjectTwo {
         }
 
         private static bool IsInMenu(float x) {
-            return ((Client.cRenderWindow.Size.X * Client.cInterface.horizontalMenuSize) > x);
+            return ((Client.cRenderWindow.Size.X * UserInterface.horizontalMenuSize) > x);
         }
 
         /// <summary>
@@ -68,18 +91,21 @@ namespace CodenameProjectTwo {
             }
             //game view
             else {
+                Console.WriteLine("click x: " + e.X + ", y: " + e.Y);
                 if (e.Button == Mouse.Button.Left) {
                     leftButtonClicking = true;
                     rightButtonClicked = false;
-                    //no building chosen
-                    if (buildingChosen != -1) {
+                    //a building is to be built
+                    if (selectedItems != null && selectedItems.Length == 1) {
                         //send message to server for planting the building
-                        Console.WriteLine("Planting building " + buildingChosen + " at " + e.X + ", " + e.Y);
-                        sendPlantMessage(e.X, e.Y, buildingChosen);
-                        buildingChosen = -1;
+                        Console.WriteLine("Planting building " + selectedItems[0] + " at " + e.X + ", " + e.Y);
+                        sendPlantMessage(e.X, e.Y, selectedItems[0]);
+
+                        //remove buildSelection
+                        selectedItems[0] = NOTHING_SELECTED;
                         Client.cMouseSprite = null;
                     }
-                    //building or nothing clicked
+                    //nonplanting click; identify clicked item
                     else {
                         //check what we clicked
                         Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
@@ -90,18 +116,13 @@ namespace CodenameProjectTwo {
                             Console.WriteLine("item " + clickedItemId + " clicked!");
                             sendMouseMessage(clickedItemId, e.X, e.Y, false);
                         }
-                        //no item identified, write to dragstartpoint for eventual rectangle
-                        else
+                        else//no item identified, write to dragstartpoint for eventual rectangle
                             dragStartPoint = new Vector2f(e.X, e.Y);
                     }
                 }
                 //right mouse button
                 else if (Mouse.IsButtonPressed(Mouse.Button.Right)) {
-                    if (buildingChosen != -1) {
-                        buildingChosen = -1;
-                        Client.cMouseSprite = null;
-                    }
-                    else {
+                    if(selectedItems == null) {
                         rightButtonClicked = true;
                         mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
                     }
@@ -170,16 +191,16 @@ namespace CodenameProjectTwo {
 
         internal static void MouseMoved(object sender, MouseMoveEventArgs e) {
             Vector2f mappedPosition = MapMouseToGame(e.X, e.Y);
-            if (!IsInMenu(e.X) && buildingChosen != -1) {
-                cChosenBuildingSize = new Vector2f(CGlobal.BUILDING_TEXTURES[buildingChosen].Size.X, CGlobal.BUILDING_TEXTURES[buildingChosen].Size.Y);
-                cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[buildingChosen]);
+            if (!IsInMenu(e.X) && selectedItems != null && selectedItems.Length == 1) {
+                cChosenBuildingSize = new Vector2f(CGlobal.BUILDING_TEXTURES[selectedItems[0]].Size.X, CGlobal.BUILDING_TEXTURES[selectedItems[0]].Size.Y);
+                cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[selectedItems[0]]);
                 cChosenBuilding.Color = new Color(255, 255, 255, 120);
                 cChosenBuilding.Position = mappedPosition;
                 Client.cMouseSprite = cChosenBuilding;
                 return;
             }
             else if (!IsInMenu(e.X)) {
-                if (leftButtonClicking) {
+                if (leftButtonClicking){
                     Client.dragRect.OutlineThickness = 2;
                     Client.dragRect.Position = MapMouseToGame(dragStartPoint.X, dragStartPoint.Y);
                     Client.dragRect.Size = new Vector2f(mappedPosition.X - Client.dragRect.Position.X, mappedPosition.Y - Client.dragRect.Position.Y);

@@ -71,7 +71,7 @@ namespace CodenameProjectTwo
         /// </summary>
         public const int PEOPLE_TYPE_COUNT = 2, PEOPLE_ID_OFFSET = 100;
 
-        public const int PEOPLE_SWORDSMAN=101, PEOPLE_PEASANT=100;
+        public const int PEOPLE_PEASANT=100, PEOPLE_SWORDSMAN=101;
 
         /// <summary>
         /// Add a description to your item
