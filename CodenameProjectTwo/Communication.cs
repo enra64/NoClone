@@ -107,6 +107,9 @@ namespace CodenameProjectTwo
                 case CGlobal.PEOPLE_PEASANT:
                     Client.cItemList[_ID] = new Peasant(_type, _faction, _ID, _position, _health);
                     break;
+                case CGlobal.PEOPLE_SWORDMAN:
+                    Client.cItemList[_ID] = new Swordman(_type, _faction, _ID, _position, _health);
+                    break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;

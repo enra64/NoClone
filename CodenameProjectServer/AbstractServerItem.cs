@@ -45,6 +45,7 @@ namespace CodenameProjectServer {
         public virtual Vector2f Target { get; set; }
         public virtual bool implementAggroOrEffectEffects { get; set; }
         public virtual bool IsRessource { get; set; }
+        public virtual bool IsBuilding { get; set; }
 
         /*
          * VARIABLES END HERE

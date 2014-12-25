@@ -57,6 +57,8 @@ namespace CodenameProjectServer
             //instantiate standard people
             InstanceClass(SGlobal.PEOPLE_PEASANT, 1, new Vector2f(200, 300), 100);
 
+            InstanceClass(SGlobal.PEOPLE_SWORDMAN, 1, new Vector2f(200, 300), 100);
+
             //instance ressourcekeeper
             RessourceList.Add(new RessourceKeeper(1, 100, 100));
             RessourceList.Add(new RessourceKeeper(2, 100, 100));
@@ -329,6 +331,9 @@ namespace CodenameProjectServer
                     break;
                 case SGlobal.PEOPLE_PEASANT:
                     Sendlist[_ID] = new Entities.Peasant(_type, _faction, _ID, _position, _health);
+                    break;
+                case SGlobal.PEOPLE_SWORDMAN:
+                    Sendlist[_ID] = new Entities.Swordman(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     success = false;

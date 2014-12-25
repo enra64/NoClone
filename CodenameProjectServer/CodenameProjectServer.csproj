@@ -59,6 +59,7 @@
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
     <Compile Include="Entities\Peasant.cs" />
+    <Compile Include="Entities\Swordman.cs" />
     <Compile Include="Ressources\Stone.cs" />
     <Compile Include="Ressources\Wood.cs" />
     <Compile Include="SInterfaces.cs" />

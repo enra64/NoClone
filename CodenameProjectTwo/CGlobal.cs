@@ -71,7 +71,7 @@ namespace CodenameProjectTwo
         /// </summary>
         public const int PEOPLE_TYPE_COUNT = 2, PEOPLE_ID_OFFSET = 100;
 
-        public const int PEOPLE_SWORDSMAN=101, PEOPLE_PEASANT=100;
+        public const int PEOPLE_SWORDMAN=101, PEOPLE_PEASANT=100;
 
         /// <summary>
         /// Add a description to your item
@@ -91,6 +91,6 @@ namespace CodenameProjectTwo
         /// </summary>
         /// //only the third position is currently not senseless - it is the barrack. 0 and 2 are the standard buildings
         /// //public const int                                             BUILDING_DEFAULT = 0, BUILDING_RED = 1,          BUILDING_BLUE = 2,              BUILDING_BARRACK = 3,           STONE = 4;
-        public static int[][] DISPLAYED_PEOPLE_PER_BUILDING = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDSMAN }, new int[] { -1 }, new int[] { -1 } };
+        public static int[][] DISPLAYED_PEOPLE_PER_BUILDING = new int[][] { new int[] { -1 }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_PEASANT }, new int[] { PEOPLE_SWORDMAN }, new int[] { -1 }, new int[] { -1 } };
     }
 }
