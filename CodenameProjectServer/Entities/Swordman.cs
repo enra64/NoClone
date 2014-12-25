@@ -18,6 +18,7 @@ namespace CodenameProjectServer.Entities
         {
             //do something additional to the standard constructor
             implementAggroOrEffectEffects = true;
+            IsTroop = true;
         }
 
         public override void TakeEffect(int itemID)
@@ -29,6 +30,10 @@ namespace CodenameProjectServer.Entities
             if (Server.Sendlist[itemID].IsBuilding)
             {
                 Server.Sendlist[itemID].Health -= 0.1f; 
+            }
+            if (Server.Sendlist[itemID].IsTroop)
+            {
+                Server.Sendlist[itemID].Health -= 0.5f;
             }
         }
 

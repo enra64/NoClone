@@ -15,6 +15,7 @@ namespace CodenameProjectServer.Entities {
             : base(_type, _faction, _ID, _position, _health) {
             //do something additional to the standard constructor
             implementAggroOrEffectEffects = true;
+            IsTroop = true;
         }
 
         public override void TakeEffect(int itemID) {

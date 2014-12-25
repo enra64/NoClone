@@ -46,6 +46,7 @@ namespace CodenameProjectServer {
         public virtual bool implementAggroOrEffectEffects { get; set; }
         public virtual bool IsRessource { get; set; }
         public virtual bool IsBuilding { get; set; }
+        public virtual bool IsTroop { get; set; }
 
         /*
          * VARIABLES END HERE
