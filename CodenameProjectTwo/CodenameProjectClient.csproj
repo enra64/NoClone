@@ -62,7 +62,7 @@
     <Compile Include="AbstractClientItem.cs" />
     <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Entities\Peasant.cs" />
-    <Compile Include="Entities\Swordman.cs" />
+    <Compile Include="Entities\Swordsman.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
