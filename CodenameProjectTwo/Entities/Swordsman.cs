@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace CodenameProjectTwo
 {
-    class Swordman : AbstractClientItem
+    class Swordsman : AbstractClientItem
     {
 
-        public Swordman(int _type, byte _faction, int _ID, Vector2f _position, float _health)
+        public Swordsman(int _type, byte _faction, int _ID, Vector2f _position, float _health)
             : base(_type, _faction, _ID, _position, _health, true)
         {
             Name = "Garrosh Hellscream";

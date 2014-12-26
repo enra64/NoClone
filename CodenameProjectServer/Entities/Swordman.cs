@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CodenameProjectServer.Entities
 {
-    class Swordman : AbstractServerItem
+    class Swordsman : AbstractServerItem
     {
         private float MovementSpeed = 1;
 
         //call standard constructor of base class, see abstractserveritem
-        public Swordman(int _type, byte _faction, int _ID, Vector2f _position, float _health)
+        public Swordsman(int _type, byte _faction, int _ID, Vector2f _position, float _health)
             : base(_type, _faction, _ID, _position, _health)
         {
             //do something additional to the standard constructor

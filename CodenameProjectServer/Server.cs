@@ -331,7 +331,7 @@ namespace CodenameProjectServer {
                     Sendlist[_ID] = new Entities.Peasant(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.PEOPLE_SWORDMAN:
-                    Sendlist[_ID] = new Entities.Swordman(_type, _faction, _ID, _position, _health);
+                    Sendlist[_ID] = new Entities.Swordsman(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     success = false;
