@@ -191,7 +191,7 @@ namespace CodenameProjectTwo {
 
         internal static void MouseMoved(object sender, MouseMoveEventArgs e) {
             Vector2f mappedPosition = MapMouseToGame(e.X, e.Y);
-            if (!IsInMenu(e.X) && selectedItems != null && selectedItems.Length == 1) {
+            if (!IsInMenu(e.X) && selectedItems != null && selectedItems.Length == 1 && selectedItems[0] != -1) {
                 cChosenBuildingSize = new Vector2f(CGlobal.BUILDING_TEXTURES[selectedItems[0]].Size.X, CGlobal.BUILDING_TEXTURES[selectedItems[0]].Size.Y);
                 cChosenBuilding = new Sprite(CGlobal.BUILDING_TEXTURES[selectedItems[0]]);
                 cChosenBuilding.Color = new Color(255, 255, 255, 120);

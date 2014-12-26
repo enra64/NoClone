@@ -42,7 +42,7 @@ namespace CodenameProjectTwo {
         public virtual float Health { get; set; }
         public virtual Sprite Sprite { get; set; }
         public virtual Texture Texture { get; set; }
-        public virtual Vector2f Size {get; set;}
+        private Vector2f size;
 
         /// <summary>
         /// this could access the cglobal descriptions; the arrayposition will be type
@@ -67,7 +67,6 @@ namespace CodenameProjectTwo {
             Texture = CGlobal.BUILDING_TEXTURES[Type];
             Sprite = new Sprite(Texture);
             Sprite.Position = this.Position;
-            Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
             Console.Write("Instantianting " + Name);
         }
 
@@ -84,7 +83,6 @@ namespace CodenameProjectTwo {
             Texture = CGlobal.PEOPLE_TEXTURES[Type - CGlobal.PEOPLE_ID_OFFSET];
             Sprite = new Sprite(Texture);
             Sprite.Position = this.Position;
-            Size = new Vector2f(Texture.Size.X, Texture.Size.Y);
         }
 
         /// <summary>
@@ -92,6 +90,12 @@ namespace CodenameProjectTwo {
         /// btw dont use umlauts
         /// </summary>
         public string Name { get; set; }
+
+        public Vector2f Size {
+            get {
+                return new Vector2f(Texture.Size.X * Sprite.Scale.X, Texture.Size.Y * Sprite.Scale.Y);
+            }
+        }
 
         /// <summary>
         /// return the center of your building here

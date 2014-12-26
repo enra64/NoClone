@@ -158,6 +158,7 @@ namespace CodenameProjectTwo
 
             //init connection
             Console.WriteLine("Autoconnecting to localhost!");
+            //at this point, the size of every texture is known, not the scale however, which is ultra shitty.
             Communication.Connect("localhost", 14242);
         }
 

@@ -68,12 +68,26 @@ namespace CodenameProjectServer {
         public string Name { get; set; }
 
         public FloatRect aggroRectangle {
-            get { return new FloatRect(this.Position.X - SGlobal.AGGRO_RECT_SIZE / 2, this.Position.Y - SGlobal.AGGRO_RECT_SIZE / 2, SGlobal.AGGRO_RECT_SIZE, SGlobal.AGGRO_RECT_SIZE); }
+            get {
+                SizeKeeper match = SGlobal.SizeList.Find(i => i.Type == this.Type);
+                if (match == null)
+                    return new FloatRect();
+                else
+                    return new FloatRect(this.Position.X - 4, this.Position.Y - 4, match.X + 8, match.Y + 8);
+            }
         }
 
+        /// <summary>
+        /// If the server knows the size of the object, it returns a floatrect slightly larger than the actual size.
+        /// If the server does _not_ know the size, an empty floatrect will be returned; be aware!
+        /// </summary>
         public FloatRect effectiveRectangle {
             get {
-                return new FloatRect(this.Position.X - SGlobal.EFFECTIVE_RECT_SIZE / 2, this.Position.Y - SGlobal.EFFECTIVE_RECT_SIZE / 2, SGlobal.EFFECTIVE_RECT_SIZE, SGlobal.EFFECTIVE_RECT_SIZE);
+                SizeKeeper match = SGlobal.SizeList.Find(i => i.Type == this.Type);
+                if (match == null)
+                    return new FloatRect();
+                else
+                    return new FloatRect(this.Position.X, this.Position.Y, match.X, match.Y);
             }
         }
 
@@ -82,8 +96,18 @@ namespace CodenameProjectServer {
         /// </summary>
         public virtual void Update() { }
 
+        /// <summary>
+        /// called when the smaller target rectangle is hit
+        /// </summary>
+        /// <param name="itemID"></param>
         public virtual void TakeEffect(int itemID) { }
 
+        /// <summary>
+        /// called when the larger rectangle is hit;
+        /// this is allowed to change the target, for example if a swordsman is just
+        /// standing around, and then "sees" an enemy.
+        /// </summary>
+        /// <param name="itemID"></param>
         public virtual void TargetAggro(int itemID) { }
     }
 }

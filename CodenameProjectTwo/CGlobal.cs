@@ -18,7 +18,8 @@ namespace CodenameProjectTwo
             STRING_MESSAGE = 1, 
             GAMESTATE_BROADCAST = 2, 
             PLANT_BUILDING_MESSAGE=3, 
-            CLIENT_IDENTIFICATION_MESSAGE=4;
+            CLIENT_IDENTIFICATION_MESSAGE=4,
+            BOUNDINGSIZE_MESSAGE = 5;
         /// <summary>
         /// DIS BE OF UTMOST IMPORTANCY. More readable in Global.cs.
         /// On each update and during the Initialization (e.g. dont worry about availability)

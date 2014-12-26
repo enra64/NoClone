@@ -38,6 +38,29 @@ namespace CodenameProjectTwo
             //wait for connection success
             Console.WriteLine("Waiting for Connection...");
             while (netClient.ConnectionStatus != NetConnectionStatus.Connected) { }
+
+            //communication established - inform server of item sizes!
+            NetOutgoingMessage om = netClient.CreateMessage();
+            //identify message
+            om.Write(CGlobal.BOUNDINGSIZE_MESSAGE);
+            for (int i = 0; i < CGlobal.PEOPLE_TEXTURES.Length; i++) {
+                om.Write((Int32)i + CGlobal.PEOPLE_ID_OFFSET);//type
+                om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.X);//x size
+                om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.Y);//y size
+            }
+            for (int i = 0; i < CGlobal.BUILDING_TEXTURES.Length; i++) {
+                om.Write((Int32)i);//type
+                om.Write((Int32)CGlobal.BUILDING_TEXTURES[i].Size.X);//x size
+                om.Write((Int32)CGlobal.BUILDING_TEXTURES[i].Size.Y);//y size
+            }
+
+            //casting everything because i am paranoid btw
+            om.Write((Int32) (-1));
+
+            //send
+            netClient.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+            //like, really, send now
+            netClient.FlushSendQueue();
         }
 
         internal static void BroadcastUpdate(NetIncomingMessage msg)

@@ -244,6 +244,8 @@ namespace CodenameProjectTwo {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         if (HasRessources(m.Type)) {
                             Console.WriteLine("building " + m.Type + " activated");
+                            if (MouseHandling.selectedItems == null)
+                                MouseHandling.selectedItems = new int[1];
                             MouseHandling.selectedItems[0] = m.Type;
                         }
                     }

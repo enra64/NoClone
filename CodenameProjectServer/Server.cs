@@ -11,11 +11,9 @@ using System.ComponentModel;
 using CodenameProjectServer.Ressources;
 using System.Diagnostics;
 
-namespace CodenameProjectServer
-{
-    class Server
-    {
-        private const long UNDEFINED_CLIENT=-1;
+namespace CodenameProjectServer {
+    class Server {
+        private const long UNDEFINED_CLIENT = -1;
 
         private static NetServer netServer;
         public static List<AbstractServerItem> Sendlist = new List<AbstractServerItem>();
@@ -27,9 +25,9 @@ namespace CodenameProjectServer
         private static int lastExecutedClick = -1;
         private static Vector2f lastMouseClickPosition;
 
-        private static BackgroundWorker workerThread=new BackgroundWorker();
+        private static BackgroundWorker workerThread = new BackgroundWorker();
 
-        static void Main(string[] args){
+        static void Main(string[] args) {
             //debug, cant distinguish server/client xD
             Console.WriteLine("server");
 
@@ -65,8 +63,7 @@ namespace CodenameProjectServer
 
             //asynchronous server worker
             workerThread.DoWork += new DoWorkEventHandler(
-                delegate(object o, DoWorkEventArgs arg)
-                {
+                delegate(object o, DoWorkEventArgs arg) {
                     #region Serverloop
                     while (true) {
                         #region DoCalculations
@@ -94,10 +91,9 @@ namespace CodenameProjectServer
                         #endregion
                         #region sendCalculations
                         NetIncomingMessage im;
-                        while ((im = netServer.ReadMessage()) != null){
+                        while ((im = netServer.ReadMessage()) != null) {
                             // handle incoming message
-                            switch (im.MessageType)
-                            {
+                            switch (im.MessageType) {
                                 #region UnusedMessageTypes
                                 case NetIncomingMessageType.DebugMessage:
                                 case NetIncomingMessageType.ErrorMessage:
@@ -115,20 +111,17 @@ namespace CodenameProjectServer
                                     string reason = im.ReadString();
                                     Console.WriteLine(NetUtility.ToHexString(im.SenderConnection.RemoteUniqueIdentifier) + " " + status + ": " + reason);
 
-                                    
-                                    if (status == NetConnectionStatus.Connected)
-                                    {
+
+                                    if (status == NetConnectionStatus.Connected) {
                                         //save uid
                                         string hail = "";
-                                        if (clientIdentifier1 == UNDEFINED_CLIENT)
-                                        {
+                                        if (clientIdentifier1 == UNDEFINED_CLIENT) {
                                             clientIdentifier1 = im.SenderConnection.RemoteUniqueIdentifier;
                                             hail = "Client 1 (" + clientIdentifier1 + ")";
-                                            con1=im.SenderConnection;
+                                            con1 = im.SenderConnection;
                                             SendClientIdentification(1);
                                         }
-                                        else if (clientIdentifier2 == UNDEFINED_CLIENT)
-                                        {
+                                        else if (clientIdentifier2 == UNDEFINED_CLIENT) {
                                             clientIdentifier2 = im.SenderConnection.RemoteUniqueIdentifier;
                                             hail = "Client 2 (" + clientIdentifier2 + ")";
                                             con2 = im.SenderConnection;
@@ -144,38 +137,34 @@ namespace CodenameProjectServer
                                 #region DataHandling
                                 case NetIncomingMessageType.Data:
                                     //identify client
-                                    byte client=255;
+                                    byte client = 255;
                                     // incoming chat message from a client
-                                    if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier1){
-                                        Console.Write("client 1: ");
+                                    if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier1) {
                                         client = 1;
                                     }
-                                    else if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier2)
-                                    {
-                                        Console.Write("client 2: ");
+                                    else if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier2) {
                                         client = 2;
                                     }
-                                    else
-                                    {
+                                    else {
                                         Console.WriteLine("unknown client detected - abort message read");
                                         return;
                                     }
                                     //identify message
-                                    switch (im.ReadInt32()){
+                                    switch (im.ReadInt32()) {
                                         case SGlobal.MOUSE_CLICK_MESSAGE:
-                                            int item=im.ReadInt32();
+                                            int item = im.ReadInt32();
                                             //get position
                                             Vector2f clickPosition = new Vector2f(im.ReadFloat(), im.ReadFloat());
                                             //left click: save clicked item
-                                            if (im.ReadBoolean() == false){
-                                                Console.WriteLine("Item "+item+" was clicked! type: "+Sendlist[item].Type);
+                                            if (im.ReadBoolean() == false) {
+                                                Console.WriteLine("Item " + item + " was clicked! type: " + Sendlist[item].Type);
                                                 lastExecutedClick = item;
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else {
                                                 if (lastExecutedClick != -1) {
-                                                    if(item==-1){
-                                                    
+                                                    if (item == -1) {
+
                                                         Console.WriteLine(clickPosition);
                                                         Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
                                                         Sendlist[lastExecutedClick].TargetID = -1;
@@ -188,7 +177,23 @@ namespace CodenameProjectServer
                                                 }
                                             }
                                             break;
-
+                                        case SGlobal.BOUNDINGSIZE_MESSAGE:
+                                            while (im.PeekInt32() != -1) {
+                                                Int32 type = im.ReadInt32();
+                                                Int32 xSize = im.ReadInt32();
+                                                Int32 ySize = im.ReadInt32();
+                                                SizeKeeper match = SGlobal.SizeList.Find(i => i.Type == type);
+                                                if (match == null) {
+                                                    SGlobal.SizeList.Add(new SizeKeeper(type, xSize, ySize));
+                                                }
+                                                else {
+                                                    //check whether we are changing 
+                                                    //a reference here or a local variable
+                                                    match.X = xSize;
+                                                    match.Y = ySize;
+                                                }
+                                            }
+                                            break;
                                         case SGlobal.STRING_MESSAGE:
                                             Console.WriteLine("got string message: " + im.ReadString());
                                             break;
@@ -210,7 +215,7 @@ namespace CodenameProjectServer
                         */
                         //whom to send to
                         List<NetConnection> all = netServer.Connections;
-                        if (all.Count > 0){
+                        if (all.Count > 0) {
                             NetOutgoingMessage om = netServer.CreateMessage();
                             /*
                              Write everything the clients need to know on each update.
@@ -222,7 +227,7 @@ namespace CodenameProjectServer
                             om.Write(SGlobal.GAMESTATE_BROADCAST);
 
                             //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
-                            foreach (SInterfaces.ISendable s in Sendlist){
+                            foreach (SInterfaces.ISendable s in Sendlist) {
                                 //Console.WriteLine("server send");
                                 om.Write(s.Type);
                                 om.Write(s.Faction);
@@ -233,8 +238,7 @@ namespace CodenameProjectServer
                             }
                             //declare broadcast middle
                             om.Write(-42);
-                            foreach (RessourceKeeper r in RessourceList)
-                            {
+                            foreach (RessourceKeeper r in RessourceList) {
                                 om.Write(r.Faction);
                                 om.Write(r.Stone);
                                 om.Write(r.Wood);
@@ -248,7 +252,7 @@ namespace CodenameProjectServer
                         Thread.Sleep(10);
                         //Console.WriteLine("work");
                     }
-                    #endregion
+                        #endregion
                     #endregion
                 });
             workerThread.RunWorkerAsync();
@@ -258,10 +262,8 @@ namespace CodenameProjectServer
             netServer.Shutdown("Requested by user");
         }
 
-        private static void SendClientIdentification(byte which)
-        {
-            if (which == 1)
-            {
+        private static void SendClientIdentification(byte which) {
+            if (which == 1) {
                 //send to first client
                 List<NetConnection> one = netServer.Connections;
                 one.Remove(con2);
@@ -270,8 +272,7 @@ namespace CodenameProjectServer
                 om1.Write((byte)1);
                 netServer.SendMessage(om1, one, NetDeliveryMethod.ReliableUnordered, 0);
             }
-            else if(which == 2)
-            {
+            else if (which == 2) {
                 //send to second client
                 List<NetConnection> two = netServer.Connections;
                 two.Remove(con1);
@@ -280,8 +281,7 @@ namespace CodenameProjectServer
                 om2.Write((byte)2);
                 netServer.SendMessage(om2, two, NetDeliveryMethod.ReliableUnordered, 0);
             }
-            else
-            {
+            else {
                 //send to first client
                 List<NetConnection> one = netServer.Connections;
                 one.Remove(con2);
@@ -303,13 +303,11 @@ namespace CodenameProjectServer
         /// <summary>
         /// use this class to divert the types into the appropriate classes
         /// </summary>
-        internal static void InstanceClass(Int32 _type, byte _faction, Vector2f _position, float _health)
-        {
+        internal static void InstanceClass(Int32 _type, byte _faction, Vector2f _position, float _health) {
             bool success = true;
             int _ID = SGlobal.ID_COUNTER++;
             ElongateList(_ID);
-            switch (_type)
-            {
+            switch (_type) {
                 case SGlobal.BUILDING_DEFAULT:
                     Sendlist[_ID] = new Buildings.Centre(_type, _faction, _ID, _position, _health);
                     break;
@@ -343,10 +341,10 @@ namespace CodenameProjectServer
             if (success)
                 Console.WriteLine("instanced: " + _type + ";player " + _faction);
             else
-                Console.WriteLine('\n'+"Failed to find the correct building type; see Server.cs:InstanceClass"+'\n');
+                Console.WriteLine('\n' + "Failed to find the correct building type; see Server.cs:InstanceClass" + '\n');
         }
 
-        private static void ElongateList(int _ID){
+        private static void ElongateList(int _ID) {
             //if the list size is smaller than the id, elongate it
             if (Sendlist.Count - 1 < _ID)
                 while (Sendlist.Count - 1 < _ID)
@@ -354,8 +352,7 @@ namespace CodenameProjectServer
         }
 
         // called by the UI
-        public static void Shutdown()
-        {
+        public static void Shutdown() {
             netServer.Shutdown("Requested by user");
         }
     }
