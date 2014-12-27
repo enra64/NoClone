@@ -115,9 +115,14 @@ namespace CodenameProjectTwo
 
             //draw all drawable stuff
             for (int i = cItemList.Count - 1; i >= 0; i--){
-                CInterfaces.IDrawable s = cItemList[i];
+                AbstractClientItem s = cItemList[i];
                 if (s != null)
                     s.Draw();
+            }
+            for (int i = cItemList.Count - 1; i >= 0; i--) {
+                AbstractClientItem s = cItemList[i];
+                if (s != null)
+                    s.DrawOutline();
             }
             cInterface.Draw();
             //draw collection rect

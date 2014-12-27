@@ -16,6 +16,14 @@ namespace CodenameProjectServer
             BOUNDINGSIZE_MESSAGE = 5;
         public static Int32 ID_COUNTER = 0;
 
+        public enum Direction {
+            Uhhhh,
+            Top,
+            Left,
+            Bottom,
+            Right
+        }
+
         public static List<SizeKeeper> SizeList = new List<SizeKeeper>();
 
         public const int BUILDING_DEFAULT = 0, BUILDING_BLUE = 1, BUILDING_RED = 2, BUILDING_BARRACK = 3, RESSOURCE_STONE = 4 ,RESSOURCE_WOOD =5, PEOPLE_PEASANT = 100, PEOPLE_SWORDMAN = 101;

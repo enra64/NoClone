@@ -49,6 +49,7 @@ namespace CodenameProjectTwo {
         /// </summary>
         public virtual string Description { get; set; }
 
+        private RectangleShape outline;
         /*
          * VARIABLES END HERE
          */
@@ -58,31 +59,36 @@ namespace CodenameProjectTwo {
         /// Constructor for buildings and ressources
         /// </summary>
         protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health){
-            Type = _type;
-            ID = _ID;
-            Faction = _faction;
-            Position = _position;
-            Health = _health;
-            Description = CGlobal.BUILDING_DESCRIPTIONS[Type];
-            Texture = CGlobal.BUILDING_TEXTURES[Type];
-            Sprite = new Sprite(Texture);
-            Sprite.Position = this.Position;
-            Console.Write("Instantianting " + Name);
+            CommonConstructor(_type, _faction, _ID, _position, _health, false);
         }
 
         /// <summary>
         /// People Constructor
         /// </summary>
         protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health, bool people) {
+            CommonConstructor(_type, _faction, _ID, _position, _health, people);
+        }
+
+        private void CommonConstructor(int _type, byte _faction, int _ID, Vector2f _position, float _health, bool people) {
             Type = _type;
             ID = _ID;
             Faction = _faction;
             Position = _position;
             Health = _health;
-            Description = CGlobal.PEOPLE_DESCRIPTIONS[Type - CGlobal.PEOPLE_ID_OFFSET];
-            Texture = CGlobal.PEOPLE_TEXTURES[Type - CGlobal.PEOPLE_ID_OFFSET];
+            if (people) {
+                Description = CGlobal.PEOPLE_DESCRIPTIONS[Type - CGlobal.PEOPLE_ID_OFFSET];
+                Texture = CGlobal.PEOPLE_TEXTURES[Type - CGlobal.PEOPLE_ID_OFFSET];
+            }
+            else {
+                Description = CGlobal.BUILDING_DESCRIPTIONS[Type];
+                Texture = CGlobal.BUILDING_TEXTURES[Type];
+            }
             Sprite = new Sprite(Texture);
             Sprite.Position = this.Position;
+            outline = new RectangleShape(new Vector2f(Sprite.Scale.X * Texture.Size.X, Sprite.Scale.Y * Texture.Size.Y));
+            outline.OutlineColor = Color.White;
+            outline.FillColor = Color.Transparent;
+            outline.OutlineThickness = 1.5f;
         }
 
         /// <summary>
@@ -102,6 +108,11 @@ namespace CodenameProjectTwo {
         /// </summary>
         public Vector2f Center {
             get { return new Vector2f(this.Position.X + (float)this.Size.X / 2f, this.Position.Y + (float)this.Size.Y / 2f); }
+        }
+
+        public void DrawOutline() {
+            outline.Position = this.Position;
+            Client.cRenderWindow.Draw(outline);
         }
 
         /// <summary>
