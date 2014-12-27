@@ -135,7 +135,7 @@ namespace CodenameProjectTwo {
             x = mappedCoordinates.X;
             y = mappedCoordinates.Y;
             //return the clicked item id if found, -1 otherwise
-            foreach (CInterfaces.IDrawable item in Client.cItemList)
+            foreach (AbstractClientItem item in Client.cItemList)
                 if (item.BoundingRectangle.Contains(x, y))
                     return item.ID;
             return -1;
@@ -146,7 +146,7 @@ namespace CodenameProjectTwo {
             Vector2f convertedMousePosition = MapMouseToGame(x, y);
             //check for collisions
             FloatRect testRectangle = new FloatRect(convertedMousePosition.X, convertedMousePosition.Y, cChosenBuildingSize.X, cChosenBuildingSize.Y);
-            foreach (CInterfaces.IDrawable i in Client.cItemList)
+            foreach (AbstractClientItem i in Client.cItemList)
                 if (i.BoundingRectangle.Intersects(testRectangle))
                     return;
             //create message

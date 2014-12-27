@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectTwo {
-    abstract class AbstractClientItem : CInterfaces.IDrawable {
+    abstract class AbstractClientItem {
          #region variables
         //use like variables
         /// <summary>

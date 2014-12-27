@@ -122,7 +122,6 @@ namespace CodenameProjectServer {
                     return SGlobal.Direction.Left;
 
             //fuck dis
-            //return to save haven
             return SGlobal.Direction.Uhhhh;
         }
 

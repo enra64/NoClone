@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 namespace CodenameProjectServer.Entities {
     class Peasant : AbstractServerItem {
         private float MovementSpeed = 1;
-        private bool cancelMovement = false;
-        private SGlobal.Direction CollisionDirection;
+        private SGlobal.Direction CollisionDirection = SGlobal.Direction.Uhhhh;
 
         //call standard constructor of base class, see abstractserveritem
         public Peasant(int _type, byte _faction, int _ID, Vector2f _position, float _health)
@@ -36,35 +35,62 @@ namespace CodenameProjectServer.Entities {
 
         public override void TargetAggro(int itemID) {
             //dont do anything - this is a building
+            //peasant log:
+            //day 715: they still havent noticed i am a peasant
+            //day 826: I think the default building suspects something. Must destroy him.
+            //         Am thinking about transforming him into another building.
         }
 
         public override void Update() {
                 Vector2f calc = Target;
                 Vector2f diff = new Vector2f(calc.X - Position.X, calc.Y - Position.Y);
-                if (diff.X == 0 && diff.Y == 0) {
+                if (diff.X == 0 && diff.Y == 0)
                     return;
-                }
                 float skalar = (float)Math.Sqrt((diff.X * diff.X) + (diff.Y * diff.Y));
                 diff = new Vector2f(diff.X / skalar, diff.Y / skalar);
                 diff = CancelMovement(diff);
                 Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
-            
+                //clear collisiondirection to avoid bugging
+                CollisionDirection = SGlobal.Direction.Uhhhh;
         }
 
         private Vector2f CancelMovement(Vector2f _nextmove) {
             //abort if unknown direction
-            if (CollisionDirection == null || CollisionDirection == SGlobal.Direction.Uhhhh)
+            if (CollisionDirection == SGlobal.Direction.Uhhhh)
                 return _nextmove;
-            //if we have a collision moving upwards, cancel out that part, if rightwards, cancel out x etc
+            //if we have a collision moving upwards, cancel out y, if rightwards, cancel out x etc
             Vector2f cleanedVector=new Vector2f(_nextmove.X, _nextmove.Y);
-            if (CollisionDirection == SGlobal.Direction.Top && _nextmove.Y < 0)
+            if (CollisionDirection == SGlobal.Direction.Top && _nextmove.Y < 0) {
+                //cancel movement into object
                 cleanedVector.Y = 0;
-            if (CollisionDirection == SGlobal.Direction.Bottom && _nextmove.Y > 0)
+                //speed up the movement along the side, so that we arent
+                //glued to the building
+                if (0 < cleanedVector.X && cleanedVector.X < 2f)
+                    cleanedVector.X = 2f;
+                if (-2f < cleanedVector.X && cleanedVector.X < 0)
+                    cleanedVector.X = -2f;
+            }
+            if (CollisionDirection == SGlobal.Direction.Bottom && _nextmove.Y > 0) {
                 cleanedVector.Y = 0;
-            if (CollisionDirection == SGlobal.Direction.Left && _nextmove.X < 0)
+                if (0 < cleanedVector.X && cleanedVector.X < 2f)
+                    cleanedVector.X = 2f;
+                if (-2f < cleanedVector.X && cleanedVector.X < 0)
+                    cleanedVector.X = - 2f;
+            }
+            if (CollisionDirection == SGlobal.Direction.Left && _nextmove.X < 0) {
                 cleanedVector.X = 0;
-            if (CollisionDirection == SGlobal.Direction.Right && _nextmove.X > 0)
+                if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
+                    cleanedVector.Y = 2f;
+                if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
+                    cleanedVector.Y = -2f;
+            }
+            if (CollisionDirection == SGlobal.Direction.Right && _nextmove.X > 0) {
                 cleanedVector.X = 0;
+                if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
+                    cleanedVector.Y = 2f;
+                if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
+                    cleanedVector.Y = -2f;
+            }
             return cleanedVector;
         }
     }
