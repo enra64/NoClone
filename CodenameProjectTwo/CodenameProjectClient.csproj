@@ -67,7 +67,6 @@
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
     <Compile Include="CGlobal.cs" />
-    <Compile Include="CInterfaces.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Communication.cs" />
     <Compile Include="Ressources\RessourceKeeper.cs" />

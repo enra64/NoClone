@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectServer {
-    abstract class AbstractServerItem : SInterfaces.ISendable {
+    abstract class AbstractServerItem {
         #region variables
         //use like variables
         /// <summary>
@@ -48,6 +48,8 @@ namespace CodenameProjectServer {
         public virtual bool IsBuilding { get; set; }
         public virtual bool IsTroop { get; set; }
 
+        private SGlobal.Direction lastCollisionDirection = SGlobal.Direction.Uhhhh;
+
         /*
          * VARIABLES END HERE
          */
@@ -87,40 +89,63 @@ namespace CodenameProjectServer {
         /// like the person glides along the building. 
         /// we may, however, want not to collide other people.
         /// </summary>
-        public SGlobal.Direction checkCollisionDirection(Int32 itemID){
+        public SGlobal.Direction checkCollisionDirection(Int32 itemID) {
             //create the first three points to save ressources
             Vector2f topLeft = new Vector2f(this.Position.X, this.Position.Y);
             Vector2f topMiddle = new Vector2f(this.Position.X + (float)this.Size.X / 2f, this.Position.Y);
             Vector2f topRight = new Vector2f(this.Position.X + (float)this.Size.X, this.Position.Y);
+            //write collision of middle here
+            if (Server.Sendlist[itemID].effectiveRectangle.Contains(topMiddle.X, topMiddle.Y))
+                lastCollisionDirection = SGlobal.Direction.Top;
             //check top collision
-            if(Server.Sendlist[itemID].effectiveRectangle.Contains(topMiddle.X, topMiddle.Y))
+            if (Server.Sendlist[itemID].effectiveRectangle.Contains(topMiddle.X, topMiddle.Y)
+                    || lastCollisionDirection == SGlobal.Direction.Top)
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topLeft.X, topLeft.Y)
-                    || Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y))
+                    || Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y)) {
+                    lastCollisionDirection = SGlobal.Direction.Top;
                     return SGlobal.Direction.Top;
+                }
 
             //okay its not top, check on right.
             Vector2f middleRight = new Vector2f(this.Position.X + (float)this.Size.X, this.Position.Y + (float)this.Size.Y / 2f);
             Vector2f bottomRight = new Vector2f(this.Position.X + (float)this.Size.X, this.Position.Y + (float)this.Size.Y);
-            if (Server.Sendlist[itemID].effectiveRectangle.Contains(middleRight.X, middleRight.Y))    
+            //write collision of middle here
+            if (Server.Sendlist[itemID].effectiveRectangle.Contains(middleRight.X, middleRight.Y))
+                lastCollisionDirection = SGlobal.Direction.Right;
+            if (Server.Sendlist[itemID].effectiveRectangle.Contains(middleRight.X, middleRight.Y)
+                    || lastCollisionDirection == SGlobal.Direction.Right)
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y)
-                    || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y))
+                    || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y)) {
+                    lastCollisionDirection = SGlobal.Direction.Right;
                     return SGlobal.Direction.Right;
-
+                }
             //fuuuuck check bottom
             Vector2f bottomMiddle = new Vector2f(this.Position.X + (float)this.Size.X / 2f, this.Position.Y + (float)this.Size.Y);
             Vector2f bottomLeft = new Vector2f(this.Position.X, this.Position.Y + (float)this.Size.Y);
+            //write collision of middle here
             if (Server.Sendlist[itemID].effectiveRectangle.Contains(bottomMiddle.X, bottomMiddle.Y))
+                lastCollisionDirection = SGlobal.Direction.Bottom;
+            if (Server.Sendlist[itemID].effectiveRectangle.Contains(bottomMiddle.X, bottomMiddle.Y)
+                    || lastCollisionDirection == SGlobal.Direction.Bottom)
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y)
-                    ||Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y))
+                    || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y)) {
+                    lastCollisionDirection = SGlobal.Direction.Bottom;
                     return SGlobal.Direction.Bottom;
-
+                }
             //omfg check left
             Vector2f middleLeft = new Vector2f(this.Position.X, this.Position.Y + (float)this.Size.Y / 2f);
+            //write collision of middle here
             if (Server.Sendlist[itemID].effectiveRectangle.Contains(middleLeft.X, middleLeft.Y))
+                lastCollisionDirection = SGlobal.Direction.Left;
+            //check whether we collided once or are currently colliding with middle; if yes, check whether left or right edges are touching
+            //also, fuck collision logic
+            if (Server.Sendlist[itemID].effectiveRectangle.Contains(middleLeft.X, middleLeft.Y)
+                    || lastCollisionDirection == SGlobal.Direction.Left)
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topLeft.X, topLeft.Y)
-                    || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y))
+                    || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y)) {
+                    lastCollisionDirection = SGlobal.Direction.Left;
                     return SGlobal.Direction.Left;
-
+                }
             //fuck dis
             return SGlobal.Direction.Uhhhh;
         }
@@ -140,7 +165,7 @@ namespace CodenameProjectServer {
         }
 
         public SizeKeeper Size {
-            get{
+            get {
                 return SGlobal.SizeList.Find(i => i.Type == this.Type);
             }
         }

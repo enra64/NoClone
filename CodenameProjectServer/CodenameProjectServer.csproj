@@ -62,7 +62,6 @@
     <Compile Include="Entities\Swordman.cs" />
     <Compile Include="Ressources\Stone.cs" />
     <Compile Include="Ressources\Wood.cs" />
-    <Compile Include="SInterfaces.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SGlobal.cs" />

@@ -30,7 +30,7 @@ namespace CodenameProjectServer.Entities {
                 if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_STONE)
                     Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
             }
-            CollisionDirection = this.checkCollisionDirection(itemID);
+            CollisionDirection = base.checkCollisionDirection(itemID);
         }
 
         public override void TargetAggro(int itemID) {
@@ -66,30 +66,30 @@ namespace CodenameProjectServer.Entities {
                 //speed up the movement along the side, so that we arent
                 //glued to the building
                 if (0 < cleanedVector.X && cleanedVector.X < 2f)
-                    cleanedVector.X = 2f;
+                    cleanedVector.X = 1.5f;
                 if (-2f < cleanedVector.X && cleanedVector.X < 0)
-                    cleanedVector.X = -2f;
+                    cleanedVector.X = -1.5f;
             }
             if (CollisionDirection == SGlobal.Direction.Bottom && _nextmove.Y > 0) {
                 cleanedVector.Y = 0;
                 if (0 < cleanedVector.X && cleanedVector.X < 2f)
-                    cleanedVector.X = 2f;
+                    cleanedVector.X = 1.5f;
                 if (-2f < cleanedVector.X && cleanedVector.X < 0)
-                    cleanedVector.X = - 2f;
+                    cleanedVector.X = -1.5f;
             }
             if (CollisionDirection == SGlobal.Direction.Left && _nextmove.X < 0) {
                 cleanedVector.X = 0;
                 if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
-                    cleanedVector.Y = 2f;
+                    cleanedVector.Y = 1.5f;
                 if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
-                    cleanedVector.Y = -2f;
+                    cleanedVector.Y = -1.5f;
             }
             if (CollisionDirection == SGlobal.Direction.Right && _nextmove.X > 0) {
                 cleanedVector.X = 0;
                 if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
-                    cleanedVector.Y = 2f;
+                    cleanedVector.Y = 1.5f;
                 if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
-                    cleanedVector.Y = -2f;
+                    cleanedVector.Y = -1.5f;
             }
             return cleanedVector;
         }

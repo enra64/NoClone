@@ -67,7 +67,7 @@ namespace CodenameProjectServer {
                     #region Serverloop
                     while (true) {
                         #region DoCalculations
-                        foreach (SInterfaces.ISendable s in Sendlist)
+                        foreach (AbstractServerItem s in Sendlist)
                             if (s != null)
                                 s.Update();
                         //do intersection calculation; iterate through every item
@@ -227,7 +227,7 @@ namespace CodenameProjectServer {
                             om.Write(SGlobal.GAMESTATE_BROADCAST);
 
                             //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
-                            foreach (SInterfaces.ISendable s in Sendlist) {
+                            foreach (AbstractServerItem s in Sendlist) {
                                 //Console.WriteLine("server send");
                                 om.Write(s.Type);
                                 om.Write(s.Faction);
