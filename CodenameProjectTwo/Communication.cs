@@ -38,12 +38,35 @@ namespace CodenameProjectTwo
             //wait for connection success
             Console.WriteLine("Waiting for Connection...");
             while (netClient.ConnectionStatus != NetConnectionStatus.Connected) { }
+
+            //communication established - inform server of item sizes!
+            NetOutgoingMessage om = netClient.CreateMessage();
+            //identify message
+            om.Write(CGlobal.BOUNDINGSIZE_MESSAGE);
+            for (int i = 0; i < CGlobal.PEOPLE_TEXTURES.Length; i++) {
+                om.Write((Int32)i + CGlobal.PEOPLE_ID_OFFSET);//type
+                om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.X);//x size
+                om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.Y);//y size
+            }
+            for (int i = 0; i < CGlobal.BUILDING_TEXTURES.Length; i++) {
+                om.Write((Int32)i);//type
+                om.Write((Int32)CGlobal.BUILDING_TEXTURES[i].Size.X);//x size
+                om.Write((Int32)CGlobal.BUILDING_TEXTURES[i].Size.Y);//y size
+            }
+
+            //casting everything because i am paranoid btw
+            om.Write((Int32) (-1));
+
+            //send
+            netClient.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+            //like, really, send now
+            netClient.FlushSendQueue();
         }
 
         internal static void BroadcastUpdate(NetIncomingMessage msg)
         {
             //read newest message until all data has been read
-            while (msg.PeekInt32() != -1){
+            while (msg.PeekInt32() != -42){
                 //read message
                 int type = msg.ReadInt32();
                 byte faction = msg.ReadByte();
@@ -64,6 +87,22 @@ namespace CodenameProjectTwo
                 else//instance
                     InstanceClass(type, faction, ID, position, health);
             }
+            //kill broadcast part 1 stop bit
+            msg.ReadInt32();
+            //read ressource states
+            while (msg.PeekInt32() != -1){
+                Byte factionIdentification = msg.ReadByte();
+                //Console.WriteLine("factionident: " + factionIdentification+", soll: "+Client.MyFaction);
+                if (factionIdentification == Client.MyFaction)
+                {
+                    Client.MyRessources.Stone = msg.ReadInt32();
+                    Client.MyRessources.Wood = msg.ReadInt32();
+                }
+                else{
+                    msg.ReadInt32();
+                    msg.ReadInt32();
+                }
+            }
         }
 
         /// <summary>
@@ -71,7 +110,6 @@ namespace CodenameProjectTwo
         /// </summary>
         internal static void InstanceClass(int _type, byte _faction, int _ID, Vector2f _position, float _health)
         {
-            Console.WriteLine("instanced a type " + _type + " of player " + _faction);
             switch (_type)
             {
                 case CGlobal.BUILDING_RED:
@@ -83,16 +121,18 @@ namespace CodenameProjectTwo
                 case CGlobal.BUILDING_BARRACK:
                     Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
-                case CGlobal.STONE:
+                case CGlobal.RESSOURCE_STONE:
                     Client.cItemList[_ID] = new Ressources.Stone(_type, _faction, _ID, _position, _health);
                     break;
-                case CGlobal.PEOPLE_PEASANT:
-                    Client.cItemList[_ID] = new Entities.Peasant(_type, _faction, _ID, _position, _health);
+                case CGlobal.RESSOURCE_WOOD:
+                    Client.cItemList[_ID] = new Ressources.Wood(_type, _faction, _ID, _position, _health);
                     break;
-                    /*Previously in this code:
-                    case CGlobal.STONE:
-                        Client.cItemList[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
-                     */
+                case CGlobal.PEOPLE_PEASANT:
+                    Client.cItemList[_ID] = new Peasant(_type, _faction, _ID, _position, _health);
+                    break;
+                case CGlobal.PEOPLE_SWORDMAN:
+                    Client.cItemList[_ID] = new Swordsman(_type, _faction, _ID, _position, _health);
+                    break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
                     break;
@@ -122,11 +162,12 @@ namespace CodenameProjectTwo
                         Int32 dataType=im.ReadInt32();
                         switch (dataType)
                         {
-                            case CGlobal.GAMESTATE_BROADCAST:
-                                BroadcastUpdate(im);
-                                break;
                             case CGlobal.CLIENT_IDENTIFICATION_MESSAGE:
                                 Client.MyFaction = im.ReadByte();
+                                Console.WriteLine("client ident " + Client.MyFaction);
+                                break;
+                            case CGlobal.GAMESTATE_BROADCAST:
+                                BroadcastUpdate(im);
                                 break;
                         }
                         break;

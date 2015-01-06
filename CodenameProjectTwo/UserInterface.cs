@@ -11,25 +11,34 @@ namespace CodenameProjectTwo {
         private RenderWindow win;
         private RectangleShape mainBox, textureBox, descriptionBox, infoBox;
 
-        //new dogma: use class
         private List<MenuItem> buildableBuildings = new List<MenuItem>(), peopleMenuItemList = new List<MenuItem>();
 
-        private Text descriptionText = new Text(), infoText = new Text();
+        private Text descBoxText = new Text(), infoBoxText = new Text();
         private View menuView;
         private Font menuFont = new Font("assets/ui/ferrum.otf");
         private int maxColumns = 4;
-        private float ItemIconSize;
-        public float menuPortScale { get; private set; }
+        public static float IconSize;
+        public static float horizontalMenuSize;
 
-        public int cItem = -1;
+        private RectangleShape hoverBox;
+
+        /// <summary>
+        /// Value if no item has been clicked
+        /// </summary>
+        internal const int NO_ITEM_SELECTED = -1;
+
+        /// <summary>
+        /// Holds last clicked item id
+        /// </summary>
+        public int cItem = NO_ITEM_SELECTED;
 
         public UserInterface() {
             win = Client.cRenderWindow;
 
             //init view & viewport
-            menuPortScale = .2f;
-            menuView = new View(new FloatRect(0, 0, (float)win.Size.X * menuPortScale, win.Size.Y));
-            menuView.Viewport = new FloatRect(0, 0, menuPortScale, 1);
+            horizontalMenuSize = .2f;
+            menuView = new View(new FloatRect(0, 0, (float)win.Size.X * horizontalMenuSize, win.Size.Y));
+            menuView.Viewport = new FloatRect(0, 0, horizontalMenuSize, 1);
 
 
             //initialize background boxes
@@ -38,11 +47,14 @@ namespace CodenameProjectTwo {
             descriptionBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.Y - 20f) / 3f));
             infoBox = new RectangleShape(new Vector2f(((float)mainBox.Size.X - 10f), ((float)mainBox.Size.Y - 20f) / 3f));
 
+            //set requested iconsize as early as possible
+            IconSize = (((float)mainBox.Size.X - 20f) / (float)maxColumns);
+            
             //texts
-            descriptionText.Color = Color.Black;
-            descriptionText.Font = menuFont;
-            infoText.Color = Color.Black;
-            infoText.Font = menuFont;
+            descBoxText.Color = Color.Black;
+            descBoxText.Font = menuFont;
+            infoBoxText.Color = Color.Black;
+            infoBoxText.Font = menuFont;
 
             //box colors
             infoBox.FillColor = Color.Green;
@@ -51,45 +63,36 @@ namespace CodenameProjectTwo {
             mainBox.FillColor = Color.Black;
 
             //move boxes and text
-            MoveToCurrentPosition();
+            SetBoxPositions();
 
             //load all sprites
             int y = 0, x = 0;
-            ItemIconSize = (((float)mainBox.Size.X - 20f) / (float)maxColumns);
-            //people
-            for (int i = 0; i < CGlobal.PEOPLE_TYPE_COUNT; i++) {
+            /*
+             * PEOPLE
+             */
+            for (int type = 0; type < CGlobal.PEOPLE_TYPE_COUNT; type++) {
                 //create a grid
                 if (x == maxColumns) {
                     x = 0;
                     y++;
                 }
-                //create the menuitems sprite
-                float scale = ItemIconSize / (float)CGlobal.PEOPLE_TEXTURES[i].Size.X;
-                Sprite newSprite = new Sprite(CGlobal.PEOPLE_TEXTURES[i]);
-                newSprite.Scale = new Vector2f(scale, scale);
-                newSprite.Position = new Vector2f(textureBox.Position.X + (2f + ItemIconSize) * x + 5f, textureBox.Position.Y + 10f + (10f + ItemIconSize) * y);
-
-                MenuItem newMenuItem=new MenuItem(newSprite, CGlobal.PEOPLE_DESCRIPTIONS[i], i, LoadGrantedBuildings(i));
-
+                MenuItem newMenuItem = new MenuItem(type, LoadGrantedBuildings(type), true, new Vector2f(textureBox.Position.X + (2f + IconSize) * x + 5f, textureBox.Position.Y + 10f + (10f + IconSize) * y));
                 peopleMenuItemList.Add(newMenuItem);
                 x++;
             }
-            //buildings
+            /*
+             * BUILDINGS
+             */
             y = 0;
             x = 0;
-            for (int i = 0; i < CGlobal.BUILDING_TYPE_COUNT; i++) {
-                if (!CGlobal.UNBUILDABLE_BUILDINGS.Contains(i)) { 
+            for (int type = 0; type < CGlobal.BUILDING_TYPE_COUNT; type++) {
+                if (!CGlobal.UNBUILDABLE_BUILDINGS.Contains(type)) {
                     //create a grid
                     if (x == maxColumns) {
                         x = 0;
                         y++;
                     }
-                    float scale = ItemIconSize / (float)CGlobal.BUILDING_TEXTURES[i].Size.X;
-                    Sprite newSprite = new Sprite(CGlobal.BUILDING_TEXTURES[i]);
-                    newSprite.Scale = new Vector2f(scale, scale);
-                    newSprite.Position = new Vector2f(infoBox.Position.X + (2f + ItemIconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + ItemIconSize) * y);
-                    
-                    MenuItem newMenuItem=new MenuItem(newSprite, CGlobal.BUILDING_DESCRIPTIONS[i], i);
+                    MenuItem newMenuItem = new MenuItem(type, false, new Vector2f(infoBox.Position.X + (2f + IconSize) * x + 5f, infoBox.Position.Y + 10f + (10f + IconSize) * y));
 
                     buildableBuildings.Add(newMenuItem);
                     x++;
@@ -104,33 +107,28 @@ namespace CodenameProjectTwo {
         private List<int> LoadGrantedBuildings(int peopleType) {
             List<int> returnList = new List<int>();
             //iterate through building allowance list
-            for(int currentBuilding=0;currentBuilding<CGlobal.BUILDING_TYPE_COUNT; currentBuilding++){
-                int[] checkArray=CGlobal.DISPLAYED_PEOPLE_PER_BUILDING[currentBuilding];
+            for (int currentBuilding = 0; currentBuilding < CGlobal.BUILDING_TYPE_COUNT; currentBuilding++) {
+                int[] checkArray = CGlobal.DISPLAYED_PEOPLE_PER_BUILDING[currentBuilding];
                 //if the currentbuilding is allowed to spawn people of type peopleType, add them to the returnarray
-                if(checkArray.Contains(peopleType))
+                if (checkArray.Contains(peopleType))
                     returnList.Add(currentBuilding);
             }
             return returnList;
         }
 
-        private void MoveToCurrentPosition() {
+        private void SetBoxPositions() {
+            float margin = 5f;
             //mainbox position is exactly at top left corner
             mainBox.Position = new Vector2f(0, 0);
-
             //texturebox position is at top, but with a margin
-            textureBox.Position = new Vector2f(mainBox.Position.X + 5f, mainBox.Position.Y + 5f);
-
+            textureBox.Position = new Vector2f(mainBox.Position.X + margin, mainBox.Position.Y + margin);
             //desc box is below texturebox
-            descriptionBox.Position = new Vector2f(mainBox.Position.X + 5f, textureBox.Size.Y + textureBox.Position.Y + 5f);
-
+            descriptionBox.Position = new Vector2f(mainBox.Position.X + margin, textureBox.Size.Y + textureBox.Position.Y + margin);
             //infobox is below that
-            infoBox.Position = new Vector2f(mainBox.Position.X + 5f, descriptionBox.Size.Y + descriptionBox.Position.Y + 5f);
-
+            infoBox.Position = new Vector2f(mainBox.Position.X + margin, descriptionBox.Size.Y + descriptionBox.Position.Y + margin);
             //texts
-            descriptionText.Position = new Vector2f(descriptionBox.Position.X + 5f, descriptionBox.Position.Y + 5f);
-            infoText.Position = new Vector2f(infoBox.Position.X + 5f, infoBox.Position.Y + 5f);
-
-            //move sprites to correct positions
+            descBoxText.Position = new Vector2f(descriptionBox.Position.X + margin, descriptionBox.Position.Y + margin);
+            infoBoxText.Position = new Vector2f(infoBox.Position.X + margin, infoBox.Position.Y + margin);
         }
 
         public void Update() {
@@ -141,7 +139,14 @@ namespace CodenameProjectTwo {
              * info=buildings
              */
             if (cItem == -1) {
-
+                //desc text is only filled when hovering above a building
+                descBoxText.DisplayedString = "Holz: " + Client.MyRessources.Wood + ", Stein: " + Client.MyRessources.Stone;
+            }
+            else {
+                //item info string
+                infoBoxText.DisplayedString = Client.cItemList[cItem].Name + '\n' +
+                Client.cItemList[cItem].Health + "% Leben" + '\n' +
+                "ID: " + cItem + "; Type: " + Client.cItemList[cItem].Type;
             }
         }
 
@@ -153,43 +158,45 @@ namespace CodenameProjectTwo {
             win.Draw(descriptionBox);
             win.Draw(infoBox);
 
-            //show building menu
-            if (cItem == -1) {
+            /*
+             * Nothing is clicked, draw usual shit
+             */
+            if (cItem == NO_ITEM_SELECTED) {
                 foreach (MenuItem m in buildableBuildings)
                     m.Draw();
-                win.Draw(descriptionText);
+                if (hoverBox != null)
+                    win.Draw(hoverBox);
+                win.Draw(descBoxText);
             }
-            //a building is clicked, draw its allowed people
-            else{
+            /*
+             * a building is clicked, draw its allowed people
+             */
+            else {
                 foreach (MenuItem m in peopleMenuItemList)
                     if (m.BuildableBy.Contains(Client.cItemList[cItem].Type))
                         m.Draw();
-                win.Draw(descriptionText);
-                win.Draw(infoText);
+                win.Draw(descBoxText);
+                win.Draw(infoBoxText);
             }
-            win.SetView(Client.cView);
+            //switch back to game view
+            win.SetView(Client.gameView);
         }
 
         public void ShowItem(int itemID) {
             cItem = itemID;
-            if (itemID != -1) {
-                //set info texts
-                descriptionText.DisplayedString = DivideAll(Client.cItemList[itemID].Description);
-                //create info string
-                //health, id, type
-                infoText.DisplayedString = Client.cItemList[itemID].Name + '\n' +
-                    Client.cItemList[itemID].Health + "% Leben"+'\n'+
-                    "ID: "+itemID;
-            }
-            else {
-                descriptionText.DisplayedString = "";
+            if (itemID != NO_ITEM_SELECTED) {
+                //set desc texts
+                if (Client.cItemList[itemID].Faction == Client.MyFaction)
+                    descBoxText.DisplayedString = DivideString(Client.cItemList[itemID].Description);
+                else
+                    descBoxText.DisplayedString = "";
             }
         }
 
         /// <summary>
         /// Safety call to divide all x characters
         /// </summary>
-        private string DivideAll(string input) {
+        private string DivideString(string input) {
             int maximumLength = 22;
             if (input.Length < maximumLength)
                 return input;
@@ -205,17 +212,26 @@ namespace CodenameProjectTwo {
         }
 
 
-        internal void CheckHover(MouseMoveEventArgs e) {
-           foreach (MenuItem m in buildableBuildings) {
+        internal void Hover(MouseMoveEventArgs e) {
+            bool hovering = false;
+            foreach (MenuItem m in buildableBuildings) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
-                    descriptionText.DisplayedString = DivideAll(m.Description);
+                    hovering = true;
+                    descBoxText.DisplayedString = DivideString(m.Description + '\n' + "Holzkosten: " + CGlobal.BUILDING_COSTS_WOOD[m.Type] + '\n' + "Steinkosten: " + CGlobal.BUILDING_COSTS_STONE[m.Type]);
+                    if (HasRessources(m.Type))
+                        hoverBox = m.GreenBoundingShape;
+                    else
+                        hoverBox = m.RedBoundingShape;
                 }
             }
             foreach (MenuItem m in peopleMenuItemList) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
-                    descriptionText.DisplayedString = DivideAll(m.Description);
+                    hovering = true;
+                    descBoxText.DisplayedString = DivideString(m.Description);
                 }
             }
+            if (!hovering)
+                hoverBox = null;
         }
 
         /// <summary>
@@ -223,11 +239,15 @@ namespace CodenameProjectTwo {
         /// </summary>
         internal void Click(int X, int Y) {
             //only check for planting buildings if there is currently no building selected
-            if (cItem == -1) {
-                foreach (MenuItem m in buildableBuildings){
+            if (cItem == NO_ITEM_SELECTED) {
+                foreach (MenuItem m in buildableBuildings) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
-                        Console.WriteLine("building " + m.Type + " activated");
-                        MouseHandling.buildingChosen = m.Type;
+                        if (HasRessources(m.Type)) {
+                            Console.WriteLine("building " + m.Type + " activated");
+                            if (MouseHandling.selectedItems == null)
+                                MouseHandling.selectedItems = new int[1];
+                            MouseHandling.selectedItems[0] = m.Type;
+                        }
                     }
                 }
             }
@@ -235,10 +255,21 @@ namespace CodenameProjectTwo {
             else {
                 foreach (MenuItem m in peopleMenuItemList) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
-                        Console.WriteLine("spawn people type " + m.Type);
+                        if (HasRessources(m.Type)) {
+                            Console.WriteLine("spawn people type " + m.Type);
+                        }
                     }
                 }
             }
+        }
+
+        private bool HasRessources(int itemType) {
+            bool returnValue = true;
+            if (Client.MyRessources.Wood < CGlobal.BUILDING_COSTS_WOOD[itemType])
+                returnValue = false;
+            else if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType])
+                returnValue = false;
+            return returnValue;
         }
     }
 }

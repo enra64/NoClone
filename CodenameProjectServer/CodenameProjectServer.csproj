@@ -59,11 +59,14 @@
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
     <Compile Include="Entities\Peasant.cs" />
+    <Compile Include="Entities\Swordman.cs" />
     <Compile Include="Ressources\Stone.cs" />
+    <Compile Include="Ressources\Wood.cs" />
     <Compile Include="SInterfaces.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SGlobal.cs" />
+    <Compile Include="SizeKeeper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -80,6 +83,7 @@
     </Content>
     <Content Include="libsndfile-1.dll" />
     <Content Include="openal32.dll" />
+    <Compile Include="RessourceKeeper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace CodenameProjectServer
 {
@@ -8,11 +8,28 @@ namespace CodenameProjectServer
         /*
          * SERVER GLOBAL FOR SERVER CONTAINING SERVER STUFF; DONT THINK THIS BELONGS TO CLIENT
          */
-        public const int MOUSE_CLICK_MESSAGE = 0, STRING_MESSAGE = 1, GAMESTATE_BROADCAST=2, PLANT_BUILDING_MESSAGE=3, CLIENT_IDENTIFICATION_MESSAGE=4;
+        public const int MOUSE_CLICK_MESSAGE = 0, 
+            STRING_MESSAGE = 1, 
+            GAMESTATE_BROADCAST=2, 
+            PLANT_BUILDING_MESSAGE=3, 
+            CLIENT_IDENTIFICATION_MESSAGE=4,
+            BOUNDINGSIZE_MESSAGE = 5;
         public static Int32 ID_COUNTER = 0;
 
-        public const int BUILDING_DEFAULT = 0, BUILDING_BLUE = 1, BUILDING_RED = 2, BUILDING_BARRACK = 3, RESSOURCE_STONE = 4 , PEOPLE_PEASENT = 100;
+        public enum Direction {
+            Uhhhh,
+            Top,
+            Left,
+            Bottom,
+            Right
+        }
+
+        public static List<SizeKeeper> SizeList = new List<SizeKeeper>();
+
+        public const int BUILDING_DEFAULT = 0, BUILDING_BLUE = 1, BUILDING_RED = 2, BUILDING_BARRACK = 3, RESSOURCE_STONE = 4 ,RESSOURCE_WOOD =5, PEOPLE_PEASANT = 100, PEOPLE_SWORDMAN = 101;
 
         public const int AGGRO_RECT_SIZE = 150, EFFECTIVE_RECT_SIZE = 40;
+
+        public const int RESSOURCE_INCREASE_WOOD = 1, RESSOURCE_INCREASE_STONE = 1;
     }
 }
