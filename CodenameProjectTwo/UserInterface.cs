@@ -256,7 +256,8 @@ namespace CodenameProjectTwo {
             else {
                 foreach (MenuItem m in peopleMenuItemList) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
-                        if (HasRessources(m.Type)) {
+                        Console.WriteLine("ppl ressource check: type "+ m.Type);
+                        if (HasRessources(m.Type)){
                             Console.WriteLine("spawn people type " + m.Type);
                             sendPeoplePlantMessage(m.Type + CGlobal.PEOPLE_ID_OFFSET, cItem);
                         }
@@ -282,10 +283,18 @@ namespace CodenameProjectTwo {
 
         private bool HasRessources(int itemType) {
             bool returnValue = true;
-            if (Client.MyRessources.Wood < CGlobal.BUILDING_COSTS_WOOD[itemType])
-                returnValue = false;
-            else if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType])
-                returnValue = false;
+            if (itemType < CGlobal.PEOPLE_ID_OFFSET) {
+                if (Client.MyRessources.Wood < CGlobal.BUILDING_COSTS_WOOD[itemType])
+                    returnValue = false;
+                else if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType])
+                    returnValue = false;
+            }
+            else {
+                if (Client.MyRessources.Wood < CGlobal.BUILDING_COSTS_WOOD[itemType - CGlobal.PEOPLE_ID_OFFSET])
+                    returnValue = false;
+                else if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType - CGlobal.PEOPLE_ID_OFFSET])
+                    returnValue = false;
+            }
             return returnValue;
         }
     }

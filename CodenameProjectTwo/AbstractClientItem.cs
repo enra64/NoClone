@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodenameProjectTwo {
     abstract class AbstractClientItem {
-         #region variables
+        #region variables
         //use like variables
         /// <summary>
         /// type of the building; you can use either one class for multiple types or
@@ -58,7 +58,7 @@ namespace CodenameProjectTwo {
         /// <summary>
         /// Constructor for buildings and ressources
         /// </summary>
-        protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health){
+        protected AbstractClientItem(int _type, byte _faction, int _ID, Vector2f _position, float _health) {
             CommonConstructor(_type, _faction, _ID, _position, _health, false);
         }
 
@@ -122,20 +122,25 @@ namespace CodenameProjectTwo {
             get { return new FloatRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y); }
         }
 
-        public int WoodCost()
-        {
-            return CGlobal.BUILDING_COSTS_WOOD[Type];
+        public int WoodCost() {
+            if (Type < CGlobal.PEOPLE_ID_OFFSET)
+                return CGlobal.BUILDING_COSTS_WOOD[Type];
+            else
+                return CGlobal.BUILDING_COSTS_WOOD[Type - CGlobal.PEOPLE_ID_OFFSET];
+
         }
 
-        public int StoneCost()
-        {
-            return CGlobal.BUILDING_COSTS_STONE[Type];
+        public int StoneCost() {
+            if (Type < CGlobal.PEOPLE_ID_OFFSET)
+                return CGlobal.BUILDING_COSTS_STONE[Type];
+            else
+                return CGlobal.BUILDING_COSTS_STONE[Type - CGlobal.PEOPLE_ID_OFFSET];
         }
 
         /// <summary>
         /// Draw your building...
         /// </summary>
-        public void Draw(){
+        public void Draw() {
             Sprite.Position = this.Position;
             Client.cRenderWindow.Draw(Sprite);
         }

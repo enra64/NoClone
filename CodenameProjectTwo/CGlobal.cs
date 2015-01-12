@@ -76,6 +76,11 @@ namespace CodenameProjectTwo
 
         public const int PEOPLE_SWORDMAN=101, PEOPLE_PEASANT=100;
 
+        //ppl costs: wood
+        public static int[] PEOPLE_COSTS_WOOD = { 100, 0};
+        //ppl costs: stone
+        public static int[] PEOPLE_COSTS_STONE = { 100, 100};
+
         /// <summary>
         /// Add a description to your item
         /// </summary>

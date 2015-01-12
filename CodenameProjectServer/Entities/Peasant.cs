@@ -20,13 +20,14 @@ namespace CodenameProjectServer.Entities {
         }
 
         public override void TakeEffect(int itemID) {
-            //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
-            if(Server.Sendlist[itemID].Health<=0)
+            if (Health < 0.5f)
                 return;
-            if (Server.Sendlist[itemID].IsRessource)
-            {
+            //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
+            if (Server.Sendlist[itemID].Health <= 0)
+                return;
+            if (Server.Sendlist[itemID].IsRessource) {
                 if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_WOOD)
-                    Server.RessourceList[Faction-1].Wood += SGlobal.RESSOURCE_INCREASE_WOOD;
+                    Server.RessourceList[Faction - 1].Wood += SGlobal.RESSOURCE_INCREASE_WOOD;
                 if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_STONE)
                     Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
             }
@@ -42,16 +43,16 @@ namespace CodenameProjectServer.Entities {
         }
 
         public override void Update() {
-                Vector2f calc = Target;
-                Vector2f diff = new Vector2f(calc.X - Position.X, calc.Y - Position.Y);
-                if (diff.X == 0 && diff.Y == 0)
-                    return;
-                float skalar = (float)Math.Sqrt((diff.X * diff.X) + (diff.Y * diff.Y));
-                diff = new Vector2f(diff.X / skalar, diff.Y / skalar);
-                diff = CancelMovement(diff);
-                Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
-                //clear collisiondirection to avoid bugging
-                CollisionDirection = SGlobal.Direction.Uhhhh;
+            Vector2f calc = Target;
+            Vector2f diff = new Vector2f(calc.X - Position.X, calc.Y - Position.Y);
+            if (diff.X == 0 && diff.Y == 0)
+                return;
+            float skalar = (float)Math.Sqrt((diff.X * diff.X) + (diff.Y * diff.Y));
+            diff = new Vector2f(diff.X / skalar, diff.Y / skalar);
+            diff = CancelMovement(diff);
+            Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
+            //clear collisiondirection to avoid bugging
+            CollisionDirection = SGlobal.Direction.Uhhhh;
         }
 
         private Vector2f CancelMovement(Vector2f _nextmove) {
@@ -59,7 +60,7 @@ namespace CodenameProjectServer.Entities {
             if (CollisionDirection == SGlobal.Direction.Uhhhh)
                 return _nextmove;
             //if we have a collision moving upwards, cancel out y, if rightwards, cancel out x etc
-            Vector2f cleanedVector=new Vector2f(_nextmove.X, _nextmove.Y);
+            Vector2f cleanedVector = new Vector2f(_nextmove.X, _nextmove.Y);
             if (CollisionDirection == SGlobal.Direction.Top && _nextmove.Y < 0) {
                 //cancel movement into object
                 cleanedVector.Y = 0;

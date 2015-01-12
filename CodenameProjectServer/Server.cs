@@ -58,7 +58,7 @@ namespace CodenameProjectServer {
             InstanceClass(SGlobal.PEOPLE_SWORDMAN, 1, new Vector2f(200, 300), 100);
 
             //instance ressourcekeeper
-            RessourceList.Add(new RessourceKeeper(1, 100, 100));
+            RessourceList.Add(new RessourceKeeper(1, 100, 300));
             RessourceList.Add(new RessourceKeeper(2, 100, 100));
 
             //asynchronous server worker
