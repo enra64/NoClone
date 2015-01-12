@@ -72,18 +72,20 @@ namespace CodenameProjectServer {
                                 s.Update();
                         //do intersection calculation; iterate through every item
                         for (int i = Sendlist.Count - 1; i >= 0; i--) {
-                            //only iterate through items that actually would react, like people...
-                            if (Sendlist[i].implementAggroOrEffectEffects) {
-                                //iterate through all other items
-                                for (int j = Sendlist.Count - 1; j >= 0; j--) {
-                                    //dont check yourself
-                                    if (i != j) {
-                                        //the effectiverectangle hit; we have possibly arrived at our destination, or whatever. take action!
-                                        if (Sendlist[i].effectiveRectangle.Intersects(Sendlist[j].effectiveRectangle))
-                                            Sendlist[i].TakeEffect(j);
-                                        //maybe we have an enemy somewhere? check that too.
-                                        else if (Sendlist[i].aggroRectangle.Intersects(Sendlist[j].aggroRectangle))
-                                            Sendlist[i].TargetAggro(j);
+                            if (Sendlist[i] != null) {
+                                //only iterate through items that actually would react, like people...
+                                if (Sendlist[i].implementAggroOrEffectEffects) {
+                                    //iterate through all other items
+                                    for (int j = Sendlist.Count - 1; j >= 0; j--) {
+                                        //dont check yourself
+                                        if (i != j) {
+                                            //the effectiverectangle hit; we have possibly arrived at our destination, or whatever. take action!
+                                            if (Sendlist[i].effectiveRectangle.Intersects(Sendlist[j].effectiveRectangle))
+                                                Sendlist[i].TakeEffect(j);
+                                            //maybe we have an enemy somewhere? check that too.
+                                            else if (Sendlist[i].aggroRectangle.Intersects(Sendlist[j].aggroRectangle))
+                                                Sendlist[i].TargetAggro(j);
+                                        }
                                     }
                                 }
                             }
@@ -152,29 +154,31 @@ namespace CodenameProjectServer {
                                     //identify message
                                     switch (im.ReadInt32()) {
                                         case SGlobal.MOUSE_CLICK_MESSAGE:
+                                            Console.Write("Click Message: ");
                                             int item = im.ReadInt32();
                                             //get position
                                             Vector2f clickPosition = new Vector2f(im.ReadFloat(), im.ReadFloat());
                                             //left click: save clicked item
                                             if (im.ReadBoolean() == false) {
-                                                Console.WriteLine("Item " + item + " was clicked! type: " + Sendlist[item].Type);
+                                                Console.WriteLine("Item " + item + " clicked, Type: " + Sendlist[item].Type);
                                                 lastExecutedClick = item;
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else {
                                                 if (lastExecutedClick != -1) {
                                                     if (item == -1) {
-
-                                                        Console.WriteLine(clickPosition);
-                                                        Sendlist[lastExecutedClick].Target = clickPosition; //Sendlist[item].Position; TODO Arne mach mal XD
+                                                        Sendlist[lastExecutedClick].Target = clickPosition;
                                                         Sendlist[lastExecutedClick].TargetID = -1;
+                                                        Console.WriteLine("Trying to send " + lastExecutedClick + "to position " + clickPosition.ToString());
                                                     }
                                                     else {
-                                                        Console.WriteLine(Sendlist[item].Position);
+                                                        Console.WriteLine("sending lec to Sendlistitem " + item);
                                                         Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
                                                         Sendlist[lastExecutedClick].TargetID = item;
                                                     }
                                                 }
+                                                else
+                                                    Console.WriteLine("abort for lec=-1");
                                             }
                                             break;
                                         case SGlobal.BOUNDINGSIZE_MESSAGE:
@@ -200,6 +204,14 @@ namespace CodenameProjectServer {
                                         case SGlobal.PLANT_BUILDING_MESSAGE:
                                             Console.WriteLine("oh shit boys gotta plant a building now");
                                             InstanceClass(im.ReadInt32(), client, new Vector2f(im.ReadFloat(), im.ReadFloat()), 100f);
+                                            break;
+                                        case SGlobal.SPAWN_PEOPLE_MESSAGE:
+                                            Console.WriteLine("plant people now");
+                                            Int32 spawnType = im.ReadInt32();
+                                            Int32 plantingBuildingID = im.ReadInt32();
+                                            Vector2f plantPosition = new Vector2f(Sendlist[plantingBuildingID].Size.X + Sendlist[plantingBuildingID].Position.X,
+                                                Sendlist[plantingBuildingID].Size.Y + Sendlist[plantingBuildingID].Position.Y);
+                                            InstanceClass(spawnType, Sendlist[plantingBuildingID].Faction, plantPosition, 100);
                                             break;
                                     }
                                     break;
@@ -229,12 +241,17 @@ namespace CodenameProjectServer {
                             //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
                             foreach (AbstractServerItem s in Sendlist) {
                                 //Console.WriteLine("server send");
-                                om.Write(s.Type);
-                                om.Write(s.Faction);
-                                om.Write(s.ID);
-                                om.Write(s.Position.X);
-                                om.Write(s.Position.Y);
-                                om.Write(s.Health);
+                                if (s == null) {
+                                    Console.WriteLine("Uninstanced ServerItem, wtf.");
+                                }
+                                else{
+                                    om.Write(s.Type);
+                                    om.Write(s.Faction);
+                                    om.Write(s.ID);
+                                    om.Write(s.Position.X);
+                                    om.Write(s.Position.Y);
+                                    om.Write(s.Health);
+                                }
                             }
                             //declare broadcast middle
                             om.Write(-42);
@@ -312,7 +329,6 @@ namespace CodenameProjectServer {
                     Sendlist[_ID] = new Buildings.Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_RED:
-                    //check for needed resources
                     Sendlist[_ID] = new Buildings.Centre(_type, _faction, _ID, _position, _health);
                     break;
                 case SGlobal.BUILDING_BLUE:

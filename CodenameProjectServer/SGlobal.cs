@@ -13,7 +13,9 @@ namespace CodenameProjectServer
             GAMESTATE_BROADCAST=2, 
             PLANT_BUILDING_MESSAGE=3, 
             CLIENT_IDENTIFICATION_MESSAGE=4,
-            BOUNDINGSIZE_MESSAGE = 5;
+            BOUNDINGSIZE_MESSAGE = 5,
+            SPAWN_PEOPLE_MESSAGE = 6;
+
         public static Int32 ID_COUNTER = 0;
 
         public enum Direction {

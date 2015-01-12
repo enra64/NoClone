@@ -83,37 +83,40 @@ namespace CodenameProjectTwo {
         /// or send event to server
         /// </summary>
         public static void mouseClick(object sender, MouseButtonEventArgs e) {
+            Console.Write("mouseclick");
             //decide whether menu or game screen
             //menu
-            if (IsInMenu(e.X) && e.Button == Mouse.Button.Left) {
+            if (IsInMenu(e.X)) {
+                if (e.Button == Mouse.Button.Right)
+                    return;
                 Client.cInterface.Click(e.X, e.Y);
                 Console.WriteLine("Menu click");
             }
             //game view
             else {
                 Console.WriteLine("click x: " + e.X + ", y: " + e.Y);
-                if (e.Button == Mouse.Button.Left) {
+                if (e.Button == Mouse.Button.Left){
                     leftButtonClicking = true;
                     rightButtonClicked = false;
                     //a building is to be built
-                    if (selectedItems != null && selectedItems.Length == 1) {
+                    if (selectedItems != null && selectedItems.Length == 1 && selectedItems[0] != -1) {
                         //send message to server for planting the building
                         Console.WriteLine("Planting building " + selectedItems[0] + " at " + e.X + ", " + e.Y);
-                        sendPlantMessage(e.X, e.Y, selectedItems[0]);
+                        sendBuildingPlantMessage(e.X, e.Y, selectedItems[0]);
 
                         //remove buildSelection
                         selectedItems[0] = NOTHING_SELECTED;
                         Client.cMouseSprite = null;
                     }
                     //nonplanting click; identify clicked item
-                    else {
+                    else{
                         //check what we clicked
                         Int32 clickedItemId = GetClickedItemId(e.X, e.Y);
                         //inform ui
                         Client.cInterface.ShowItem(clickedItemId);
                         //if an item was identified, send that to the server
+                        Console.WriteLine("nonplanting left click on item " + clickedItemId);
                         if (clickedItemId != -1) {
-                            Console.WriteLine("item " + clickedItemId + " clicked!");
                             sendMouseMessage(clickedItemId, e.X, e.Y, false);
                         }
                         else//no item identified, write to dragstartpoint for eventual rectangle
@@ -124,6 +127,7 @@ namespace CodenameProjectTwo {
                 else if (Mouse.IsButtonPressed(Mouse.Button.Right)) {
                     if(selectedItems == null) {
                         rightButtonClicked = true;
+                        leftButtonClicking = false;
                         mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
                     }
                 }
@@ -141,7 +145,7 @@ namespace CodenameProjectTwo {
             return -1;
         }
 
-        private static void sendPlantMessage(float x, float y, Int32 type) {
+        private static void sendBuildingPlantMessage(float x, float y, Int32 type) {
             //map mouse position to screen
             Vector2f convertedMousePosition = MapMouseToGame(x, y);
             //check for collisions

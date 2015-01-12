@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Window;
 using SFML.Graphics;
+using Lidgren.Network;
 
 namespace CodenameProjectTwo {
     class UserInterface {
@@ -101,16 +102,16 @@ namespace CodenameProjectTwo {
         }
 
         /// <summary>
-        /// check each building - "who may i build" array for the people we want to spawn; return a list of the buildings allowed to spawn
+        /// check each building - "who may i build" array for the people we 
+        /// want to spawn; return a list of the buildings allowed to spawn
         /// peopleType people
         /// </summary>
         private List<int> LoadGrantedBuildings(int peopleType) {
             List<int> returnList = new List<int>();
             //iterate through building allowance list
             for (int currentBuilding = 0; currentBuilding < CGlobal.BUILDING_TYPE_COUNT; currentBuilding++) {
-                int[] checkArray = CGlobal.DISPLAYED_PEOPLE_PER_BUILDING[currentBuilding];
                 //if the currentbuilding is allowed to spawn people of type peopleType, add them to the returnarray
-                if (checkArray.Contains(peopleType))
+                if (CGlobal.DISPLAYED_PEOPLE_PER_BUILDING[currentBuilding].Contains(peopleType + CGlobal.PEOPLE_ID_OFFSET))
                     returnList.Add(currentBuilding);
             }
             return returnList;
@@ -146,7 +147,7 @@ namespace CodenameProjectTwo {
                 //item info string
                 infoBoxText.DisplayedString = Client.cItemList[cItem].Name + '\n' +
                 Client.cItemList[cItem].Health + "% Leben" + '\n' +
-                "ID: " + cItem + "; Type: " + Client.cItemList[cItem].Type;
+                "ID: " + cItem + "; Type: " + Client.cItemList[cItem].Type + "F: " + Client.cItemList[cItem].Faction;
             }
         }
 
@@ -239,7 +240,7 @@ namespace CodenameProjectTwo {
         /// </summary>
         internal void Click(int X, int Y) {
             //only check for planting buildings if there is currently no building selected
-            if (cItem == NO_ITEM_SELECTED) {
+            if (cItem == NO_ITEM_SELECTED){
                 foreach (MenuItem m in buildableBuildings) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         if (HasRessources(m.Type)) {
@@ -257,10 +258,26 @@ namespace CodenameProjectTwo {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         if (HasRessources(m.Type)) {
                             Console.WriteLine("spawn people type " + m.Type);
+                            sendPeoplePlantMessage(m.Type + CGlobal.PEOPLE_ID_OFFSET, cItem);
                         }
                     }
                 }
             }
+        }
+
+        private static void sendPeoplePlantMessage(Int32 spawnPeople, Int32 itemSpawnerID) {
+            //create message
+            NetOutgoingMessage mes = Communication.netClient.CreateMessage();
+            //identify message as mouseclick
+            mes.Write(CGlobal.SPAWN_PEOPLE_MESSAGE);
+            //write type of people to init
+            mes.Write(spawnPeople);
+            //write id of building to plant next to
+            mes.Write(itemSpawnerID);
+            //send
+            Communication.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
+            //like, really, send now
+            Communication.netClient.FlushSendQueue();
         }
 
         private bool HasRessources(int itemType) {
