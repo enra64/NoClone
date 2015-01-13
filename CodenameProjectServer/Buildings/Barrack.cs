@@ -9,7 +9,7 @@ namespace CodenameProjectServer {
     //works, though - 10/10
     class Barrack : AbstractServerItem {
         public Barrack(int _type, byte _faction, int _ID, Vector2f _position, float _health)
-            : base(_type, _faction, _ID, _position, _health) {
+              : base(_type, _faction, _ID, _position, _health) {
             //do something additional to the standard constructor, in this case disable checking for actions from this item
             implementAggroOrEffectEffects = false;
             IsBuilding = true;

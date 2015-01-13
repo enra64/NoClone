@@ -94,8 +94,9 @@ namespace CodenameProjectTwo {
             }
             //game view
             else {
-                Console.WriteLine("click x: " + e.X + ", y: " + e.Y);
+                Console.Write(" at x: " + e.X + ", y: " + e.Y);//already designated as mouseclick
                 if (e.Button == Mouse.Button.Left){
+                    Console.Write(" left ");
                     leftButtonClicking = true;
                     rightButtonClicked = false;
                     //a building is to be built
@@ -115,7 +116,7 @@ namespace CodenameProjectTwo {
                         //inform ui
                         Client.cInterface.ShowItem(clickedItemId);
                         //if an item was identified, send that to the server
-                        Console.WriteLine("nonplanting left click on item " + clickedItemId);
+                        Console.WriteLine("nonplanting click on item " + clickedItemId);
                         if (clickedItemId != -1) {
                             sendMouseMessage(clickedItemId, e.X, e.Y, false);
                         }
@@ -125,11 +126,16 @@ namespace CodenameProjectTwo {
                 }
                 //right mouse button
                 else if (Mouse.IsButtonPressed(Mouse.Button.Right)) {
-                    if(selectedItems == null) {
+                    Console.Write(" right ");
+                    if (selectedItems == null || true) {
+                        Console.Write(" selectedItems!=null ");
                         rightButtonClicked = true;
                         leftButtonClicking = false;
                         mouseMovementStartingPoint = new Vector2f(e.X, e.Y);
                     }
+                    else
+                        Console.Write("godfuckindammit");//as soon as we build a barrack we always have
+                    //selecteditems == null
                 }
             }
         }
