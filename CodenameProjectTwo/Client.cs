@@ -116,12 +116,12 @@ namespace CodenameProjectTwo
             //draw all drawable stuff
             for (int i = cItemList.Count - 1; i >= 0; i--){
                 AbstractClientItem s = cItemList[i];
-                if (s != null)
+                if (s != null && s.Health > 0)
                     s.Draw();
             }
             for (int i = cItemList.Count - 1; i >= 0; i--) {
                 AbstractClientItem s = cItemList[i];
-                if (s != null)
+                if (s != null && s.Health > 0)
                     s.DrawOutline();
             }
             cInterface.Draw();

@@ -47,6 +47,7 @@ namespace CodenameProjectServer {
         public virtual bool IsRessource { get; set; }
         public virtual bool IsBuilding { get; set; }
         public virtual bool IsTroop { get; set; }
+        public virtual bool IsDead { get; set; }
 
         private SGlobal.Direction lastCollisionDirection = SGlobal.Direction.Uhhhh;
 
@@ -61,6 +62,8 @@ namespace CodenameProjectServer {
             Faction = _faction;
             Position = _position;
             Health = _health;
+            IsDead = false;
+            Target = Position;
         }
 
         /// <summary>
@@ -173,7 +176,13 @@ namespace CodenameProjectServer {
         /// <summary>
         /// Update your building...
         /// </summary>
-        public virtual void Update() { }
+        public void Update() {
+            if (Health <= 0)
+                IsDead = true;
+            internalUpdate();
+        }
+
+        public virtual void internalUpdate() { }
 
         /// <summary>
         /// called when the smaller target rectangle is hit

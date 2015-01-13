@@ -146,7 +146,7 @@ namespace CodenameProjectTwo {
             y = mappedCoordinates.Y;
             //return the clicked item id if found, -1 otherwise
             foreach (AbstractClientItem item in Client.cItemList)
-                if (item.BoundingRectangle.Contains(x, y))
+                if (item.BoundingRectangle.Contains(x, y) && item.Health > 0)
                     return item.ID;
             return -1;
         }

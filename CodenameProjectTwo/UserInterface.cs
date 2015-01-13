@@ -173,11 +173,13 @@ namespace CodenameProjectTwo {
              * a building is clicked, draw its allowed people
              */
             else {
+                win.Draw(infoBoxText);
+                if (Client.cItemList[cItem].Faction != Client.MyFaction)
+                    return;
                 foreach (MenuItem m in peopleMenuItemList)
                     if (m.BuildableBy.Contains(Client.cItemList[cItem].Type))
                         m.Draw();
                 win.Draw(descBoxText);
-                win.Draw(infoBoxText);
             }
             //switch back to game view
             win.SetView(Client.gameView);

@@ -57,6 +57,8 @@ namespace CodenameProjectServer {
 
             InstanceClass(SGlobal.PEOPLE_SWORDMAN, 1, new Vector2f(200, 300), 100);
 
+            InstanceClass(SGlobal.PEOPLE_SWORDMAN, 2, new Vector2f(1000, 1000), 100);
+
             //instance ressourcekeeper
             RessourceList.Add(new RessourceKeeper(1, 100, 300));
             RessourceList.Add(new RessourceKeeper(2, 100, 100));
@@ -68,8 +70,15 @@ namespace CodenameProjectServer {
                     while (true) {
                         #region DoCalculations
                         foreach (AbstractServerItem s in Sendlist)
-                            if (s != null)
+                            if (s != null && s.Health > 0.5)
                                 s.Update();
+                        for (int i = Sendlist.Count - 1; i >= 0; i--) {
+                            if (Sendlist[i] != null) {
+                                Sendlist[i].Update();
+                                if (Sendlist[i].IsDead)
+                                    Sendlist[i] = null;
+                            }
+                        }
                         //do intersection calculation; iterate through every item
                         for (int i = Sendlist.Count - 1; i >= 0; i--) {
                             if (Sendlist[i] != null) {
@@ -78,7 +87,7 @@ namespace CodenameProjectServer {
                                     //iterate through all other items
                                     for (int j = Sendlist.Count - 1; j >= 0; j--) {
                                         //dont check yourself
-                                        if (i != j) {
+                                        if (Sendlist[j] != null && i != j) {
                                             //the effectiverectangle hit; we have possibly arrived at our destination, or whatever. take action!
                                             if (Sendlist[i].effectiveRectangle.Intersects(Sendlist[j].effectiveRectangle))
                                                 Sendlist[i].TakeEffect(j);
@@ -139,13 +148,13 @@ namespace CodenameProjectServer {
                                 #region DataHandling
                                 case NetIncomingMessageType.Data:
                                     //identify client
-                                    byte client = 255;
+                                    byte messageByClient = 255;
                                     // incoming chat message from a client
                                     if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier1) {
-                                        client = 1;
+                                        messageByClient = 1;
                                     }
                                     else if (im.SenderConnection.RemoteUniqueIdentifier == clientIdentifier2) {
-                                        client = 2;
+                                        messageByClient = 2;
                                     }
                                     else {
                                         Console.WriteLine("unknown client detected - abort message read");
@@ -166,16 +175,20 @@ namespace CodenameProjectServer {
                                             //got right click, notify first clicked item of new targetposition
                                             else {
                                                 if (lastExecutedClick != -1) {
-                                                    if (item == -1) {
-                                                        Sendlist[lastExecutedClick].Target = clickPosition;
-                                                        Sendlist[lastExecutedClick].TargetID = -1;
-                                                        Console.WriteLine("Trying to send " + lastExecutedClick + "to position " + clickPosition.ToString());
+                                                    if (Sendlist[lastExecutedClick] != null && Sendlist[lastExecutedClick].Faction == messageByClient) {
+                                                        if (item == -1) {
+                                                            Sendlist[lastExecutedClick].Target = clickPosition;
+                                                            Sendlist[lastExecutedClick].TargetID = -1;
+                                                            Console.WriteLine("Trying to send " + lastExecutedClick + "to position " + clickPosition.ToString());
+                                                        }
+                                                        else {
+                                                            Console.WriteLine("sending lec to Sendlistitem " + item);
+                                                            Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
+                                                            Sendlist[lastExecutedClick].TargetID = item;
+                                                        }
                                                     }
-                                                    else {
-                                                        Console.WriteLine("sending lec to Sendlistitem " + item);
-                                                        Sendlist[lastExecutedClick].Target = Sendlist[item].Position;
-                                                        Sendlist[lastExecutedClick].TargetID = item;
-                                                    }
+                                                    else
+                                                        Console.WriteLine("lol gtfo");
                                                 }
                                                 else
                                                     Console.WriteLine("abort for lec=-1");
@@ -203,15 +216,17 @@ namespace CodenameProjectServer {
                                             break;
                                         case SGlobal.PLANT_BUILDING_MESSAGE:
                                             Console.WriteLine("oh shit boys gotta plant a building now");
-                                            InstanceClass(im.ReadInt32(), client, new Vector2f(im.ReadFloat(), im.ReadFloat()), 100f);
+                                            InstanceClass(im.ReadInt32(), messageByClient, new Vector2f(im.ReadFloat(), im.ReadFloat()), 100f);
                                             break;
                                         case SGlobal.SPAWN_PEOPLE_MESSAGE:
                                             Console.WriteLine("plant people now");
                                             Int32 spawnType = im.ReadInt32();
                                             Int32 plantingBuildingID = im.ReadInt32();
-                                            Vector2f plantPosition = new Vector2f(Sendlist[plantingBuildingID].Size.X + Sendlist[plantingBuildingID].Position.X,
-                                                Sendlist[plantingBuildingID].Size.Y + Sendlist[plantingBuildingID].Position.Y);
-                                            InstanceClass(spawnType, Sendlist[plantingBuildingID].Faction, plantPosition, 100);
+                                            if (Sendlist[plantingBuildingID].Faction == messageByClient) {
+                                                Vector2f plantPosition = new Vector2f(Sendlist[plantingBuildingID].Size.X + Sendlist[plantingBuildingID].Position.X,
+                                                    Sendlist[plantingBuildingID].Size.Y + Sendlist[plantingBuildingID].Position.Y);
+                                                InstanceClass(spawnType, Sendlist[plantingBuildingID].Faction, plantPosition, 100);
+                                            }
                                             break;
                                     }
                                     break;
@@ -240,11 +255,7 @@ namespace CodenameProjectServer {
 
                             //protocol: send the type first, then an unique identifier (see SGlobal.ID_COUNT)
                             foreach (AbstractServerItem s in Sendlist) {
-                                //Console.WriteLine("server send");
-                                if (s == null) {
-                                    Console.WriteLine("Uninstanced ServerItem, wtf.");
-                                }
-                                else{
+                                if(s != null){
                                     om.Write(s.Type);
                                     om.Write(s.Faction);
                                     om.Write(s.ID);
@@ -275,7 +286,6 @@ namespace CodenameProjectServer {
             workerThread.RunWorkerAsync();
             Console.WriteLine("Press enter to kill!");
             Console.ReadLine();
-            //ServerLoop();
             netServer.Shutdown("Requested by user");
         }
 
@@ -318,7 +328,7 @@ namespace CodenameProjectServer {
         }
 
         /// <summary>
-        /// use this class to divert the types into the appropriate classes
+        /// use this method to divert the types into the appropriate classes
         /// </summary>
         internal static void InstanceClass(Int32 _type, byte _faction, Vector2f _position, float _health) {
             bool success = true;

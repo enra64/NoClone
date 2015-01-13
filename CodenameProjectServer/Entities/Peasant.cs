@@ -42,7 +42,7 @@ namespace CodenameProjectServer.Entities {
             //         Am thinking about transforming him into another building.
         }
 
-        public override void Update() {
+        public override void internalUpdate() {
             Vector2f calc = Target;
             Vector2f diff = new Vector2f(calc.X - Position.X, calc.Y - Position.Y);
             if (diff.X == 0 && diff.Y == 0)
