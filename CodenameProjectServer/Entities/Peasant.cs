@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CodenameProjectServer.Entities {
     class Peasant : AbstractServerItem {
         private float MovementSpeed = 1;
-        private SGlobal.Direction CollisionDirection = SGlobal.Direction.Uhhhh;
+        private int effectID;
 
         //call standard constructor of base class, see abstractserveritem
         public Peasant(int _type, byte _faction, int _ID, Vector2f _position, float _health)
@@ -35,7 +35,7 @@ namespace CodenameProjectServer.Entities {
                     Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
                 }
             }
-            CollisionDirection = base.checkCollisionDirection(itemID);
+            effectID = itemID;
         }
 
         public override void TargetAggro(int itemID) {
@@ -52,51 +52,11 @@ namespace CodenameProjectServer.Entities {
             if (diff.X == 0 && diff.Y == 0)
                 return;
             float skalar = (float)Math.Sqrt((diff.X * diff.X) + (diff.Y * diff.Y));
-            diff = new Vector2f(diff.X / skalar, diff.Y / skalar);
-            diff = CancelMovement(diff);
+            CollisionDirection = base.checkCollisionDirection(effectID);
+            diff = base.CancelMovement(new Vector2f(diff.X / skalar, diff.Y / skalar));
             Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
             //clear collisiondirection to avoid bugging
             CollisionDirection = SGlobal.Direction.Uhhhh;
-        }
-
-        private Vector2f CancelMovement(Vector2f _nextmove) {
-            //abort if unknown direction
-            if (CollisionDirection == SGlobal.Direction.Uhhhh)
-                return _nextmove;
-            //if we have a collision moving upwards, cancel out y, if rightwards, cancel out x etc
-            Vector2f cleanedVector = new Vector2f(_nextmove.X, _nextmove.Y);
-            if (CollisionDirection == SGlobal.Direction.Top && _nextmove.Y < 0) {
-                //cancel movement into object
-                cleanedVector.Y = 0;
-                //speed up the movement along the side, so that we arent
-                //glued to the building
-                if (0 < cleanedVector.X && cleanedVector.X < 2f)
-                    cleanedVector.X = 1.5f;
-                if (-2f < cleanedVector.X && cleanedVector.X < 0)
-                    cleanedVector.X = -1.5f;
-            }
-            if (CollisionDirection == SGlobal.Direction.Bottom && _nextmove.Y > 0) {
-                cleanedVector.Y = 0;
-                if (0 < cleanedVector.X && cleanedVector.X < 2f)
-                    cleanedVector.X = 1.5f;
-                if (-2f < cleanedVector.X && cleanedVector.X < 0)
-                    cleanedVector.X = -1.5f;
-            }
-            if (CollisionDirection == SGlobal.Direction.Left && _nextmove.X < 0) {
-                cleanedVector.X = 0;
-                if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
-                    cleanedVector.Y = 1.5f;
-                if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
-                    cleanedVector.Y = -1.5f;
-            }
-            if (CollisionDirection == SGlobal.Direction.Right && _nextmove.X > 0) {
-                cleanedVector.X = 0;
-                if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
-                    cleanedVector.Y = 1.5f;
-                if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
-                    cleanedVector.Y = -1.5f;
-            }
-            return cleanedVector;
         }
     }
 }

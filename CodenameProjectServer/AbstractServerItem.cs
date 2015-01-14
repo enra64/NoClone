@@ -48,6 +48,7 @@ namespace CodenameProjectServer {
         public virtual bool IsBuilding { get; set; }
         public virtual bool IsTroop { get; set; }
         public virtual bool IsDead { get; set; }
+        public virtual SGlobal.Direction CollisionDirection { get; set; }
 
         private SGlobal.Direction lastCollisionDirection = SGlobal.Direction.Uhhhh;
 
@@ -64,6 +65,7 @@ namespace CodenameProjectServer {
             Health = _health;
             IsDead = false;
             Target = Position;
+            CollisionDirection = SGlobal.Direction.Uhhhh;
         }
 
         /// <summary>
@@ -98,14 +100,15 @@ namespace CodenameProjectServer {
             Vector2f topMiddle = new Vector2f(this.Position.X + (float)this.Size.X / 2f, this.Position.Y);
             Vector2f topRight = new Vector2f(this.Position.X + (float)this.Size.X, this.Position.Y);
             //write collision of middle here
-            if (Server.Sendlist[itemID].effectiveRectangle.Contains(topMiddle.X, topMiddle.Y))
-                lastCollisionDirection = SGlobal.Direction.Top;
+            //if (Server.Sendlist[itemID].effectiveRectangle.Contains(topMiddle.X, topMiddle.Y))
+            //    lastCollisionDirection = SGlobal.Direction.Top;
             //check top collision
             if (Server.Sendlist[itemID].effectiveRectangle.Contains(topMiddle.X, topMiddle.Y)
-                    || lastCollisionDirection == SGlobal.Direction.Top)
+                    )
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topLeft.X, topLeft.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Top;
+                    //Console.WriteLine("col: top");
                     return SGlobal.Direction.Top;
                 }
 
@@ -120,6 +123,7 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Right;
+                    Console.WriteLine("col: r");
                     return SGlobal.Direction.Right;
                 }
             //fuuuuck check bottom
@@ -133,6 +137,7 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Bottom;
+                    //Console.WriteLine("col: b");
                     return SGlobal.Direction.Bottom;
                 }
             //omfg check left
@@ -147,10 +152,51 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topLeft.X, topLeft.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Left;
+                    Console.WriteLine("col: l");
                     return SGlobal.Direction.Left;
                 }
             //fuck dis
             return SGlobal.Direction.Uhhhh;
+        }
+
+        internal Vector2f CancelMovement(Vector2f _nextmove) {
+            //abort if unknown direction
+            if (CollisionDirection == SGlobal.Direction.Uhhhh)
+                return _nextmove;
+            //if we have a collision moving upwards, cancel out y, if rightwards, cancel out x etc
+            Vector2f cleanedVector = new Vector2f(_nextmove.X, _nextmove.Y);
+            if (CollisionDirection == SGlobal.Direction.Top && _nextmove.Y < 0) {
+                //cancel movement into object
+                cleanedVector.Y = 0;
+                //speed up the movement along the side, so that we arent
+                //glued to the building
+                if (0 < cleanedVector.X && cleanedVector.X < 2f)
+                    cleanedVector.X = 1.5f;
+                if (-2f < cleanedVector.X && cleanedVector.X < 0)
+                    cleanedVector.X = -1.5f;
+            }
+            else if (CollisionDirection == SGlobal.Direction.Bottom && _nextmove.Y > 0) {
+                cleanedVector.Y = 0;
+                if (0 < cleanedVector.X && cleanedVector.X < 2f)
+                    cleanedVector.X = 1.5f;
+                if (-2f < cleanedVector.X && cleanedVector.X < 0)
+                    cleanedVector.X = -1.5f;
+            }
+            else if (CollisionDirection == SGlobal.Direction.Left && _nextmove.X < 0) {
+                cleanedVector.X = 0;
+                if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
+                    cleanedVector.Y = 1.5f;
+                if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
+                    cleanedVector.Y = -1.5f;
+            }
+            else if (CollisionDirection == SGlobal.Direction.Right && _nextmove.X > 0) {
+                cleanedVector.X = 0;
+                if (0 < cleanedVector.Y && cleanedVector.Y < 2f)
+                    cleanedVector.Y = 1.5f;
+                if (-2f < cleanedVector.Y && cleanedVector.Y < 0)
+                    cleanedVector.Y = -1.5f;
+            }
+            return cleanedVector;
         }
 
         /// <summary>
