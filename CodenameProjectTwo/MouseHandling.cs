@@ -33,9 +33,8 @@ namespace CodenameProjectTwo {
                         Client.dragRect.Position.Y, 
                         Client.dragRect.Size.X, 
                         Client.dragRect.Size.Y);
-                    b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
-                    b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
-                    Client.cRenderWindow.Draw(b);
+                    //b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
+                    //b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
                     Console.WriteLine("selrect:: left: " + selectionRect.Left + ", top: " + selectionRect.Top);
                     List<int> selectedPeopleTypes=new List<int>();
                     List<int> selectedPeopleIDs = new List<int>();
