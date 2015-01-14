@@ -29,6 +29,16 @@ namespace CodenameProjectServer
         public static List<SizeKeeper> SizeList = new List<SizeKeeper>();
 
         public const int BUILDING_DEFAULT = 0, BUILDING_BLUE = 1, BUILDING_RED = 2, BUILDING_BARRACK = 3, RESSOURCE_STONE = 4 ,RESSOURCE_WOOD =5, PEOPLE_PEASANT = 100, PEOPLE_SWORDMAN = 101;
+        //building costs: wood
+        public static int[] BUILDING_COSTS_WOOD = { 200, 0, 0, 100, 0, 0 };
+        //building costs: stone
+        public static int[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0 };
+
+        //ppl costs: wood
+        public static int[] PEOPLE_COSTS_WOOD = { 100, 0 };
+        //ppl costs: stone
+        public static int[] PEOPLE_COSTS_STONE = { 100, 100 };
+
 
         public const int AGGRO_RECT_SIZE = 150, EFFECTIVE_RECT_SIZE = 40;
 

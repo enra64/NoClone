@@ -113,13 +113,21 @@ namespace CodenameProjectTwo
             //draw tilemap
             map.Draw();
 
-            //draw all drawable stuff
-            for (int i = cItemList.Count - 1; i >= 0; i--){
+            //draw buildings
+            for (int i = cItemList.Count - 1; i >= 0; i--) {
                 AbstractClientItem s = cItemList[i];
-                if (s != null && s.Health > 0)
+                if (s != null && s.Health > 0 && s.Type < 100)
                     s.Draw();
             }
+            //draw all people
             for (int i = cItemList.Count - 1; i >= 0; i--) {
+                AbstractClientItem s = cItemList[i];
+                if (s != null && s.Health > 0 && s.Type >= 100)
+                    s.Draw();
+            }
+
+            for (int i = cItemList.Count - 1; i >= 0; i--) {
+                break;
                 AbstractClientItem s = cItemList[i];
                 if (s != null && s.Health > 0)
                     s.DrawOutline();

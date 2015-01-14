@@ -230,6 +230,10 @@ namespace CodenameProjectTwo {
             foreach (MenuItem m in peopleMenuItemList) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
                     hovering = true;
+                    if (HasRessources(m.Type))
+                        hoverBox = m.GreenBoundingShape;
+                    else
+                        hoverBox = m.RedBoundingShape;
                     descBoxText.DisplayedString = DivideString(m.Description);
                 }
             }
@@ -259,7 +263,7 @@ namespace CodenameProjectTwo {
                 foreach (MenuItem m in peopleMenuItemList) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         Console.WriteLine("ppl ressource check: type "+ m.Type);
-                        if (HasRessources(m.Type)){
+                        if (HasRessources(m.Type + CGlobal.PEOPLE_ID_OFFSET)){
                             Console.WriteLine("spawn people type " + m.Type);
                             sendPeoplePlantMessage(m.Type + CGlobal.PEOPLE_ID_OFFSET, cItem);
                         }
@@ -288,13 +292,13 @@ namespace CodenameProjectTwo {
             if (itemType < CGlobal.PEOPLE_ID_OFFSET) {
                 if (Client.MyRessources.Wood < CGlobal.BUILDING_COSTS_WOOD[itemType])
                     returnValue = false;
-                else if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType])
+                if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType])
                     returnValue = false;
             }
             else {
-                if (Client.MyRessources.Wood < CGlobal.BUILDING_COSTS_WOOD[itemType - CGlobal.PEOPLE_ID_OFFSET])
+                if (Client.MyRessources.Wood < CGlobal.PEOPLE_COSTS_WOOD[itemType - CGlobal.PEOPLE_ID_OFFSET])
                     returnValue = false;
-                else if (Client.MyRessources.Stone < CGlobal.BUILDING_COSTS_STONE[itemType - CGlobal.PEOPLE_ID_OFFSET])
+                if (Client.MyRessources.Stone < CGlobal.PEOPLE_COSTS_STONE[itemType - CGlobal.PEOPLE_ID_OFFSET])
                     returnValue = false;
             }
             return returnValue;

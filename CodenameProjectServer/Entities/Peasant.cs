@@ -26,10 +26,14 @@ namespace CodenameProjectServer.Entities {
             if (Server.Sendlist[itemID].Health <= 0)
                 return;
             if (Server.Sendlist[itemID].IsRessource) {
-                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_WOOD)
+                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_WOOD && Server.Sendlist[itemID].Health > 0) {
+                    Server.Sendlist[itemID].Health -= .1f;
                     Server.RessourceList[Faction - 1].Wood += SGlobal.RESSOURCE_INCREASE_WOOD;
-                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_STONE)
+                }
+                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_STONE && Server.Sendlist[itemID].Health > 0) {
+                    Server.Sendlist[itemID].Health -= .1f;
                     Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
+                }
             }
             CollisionDirection = base.checkCollisionDirection(itemID);
         }

@@ -18,5 +18,10 @@ namespace CodenameProjectServer
             Stone = _stones;
             Wood = _wood;
         }
+
+        public void subtract(int stone, int wood){
+            Stone -= stone;
+            Wood -= wood;
+        }
     }
 }

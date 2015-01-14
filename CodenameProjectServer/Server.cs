@@ -85,7 +85,7 @@ namespace CodenameProjectServer {
                                 //only iterate through items that actually would react, like people...
                                 if (Sendlist[i].implementAggroOrEffectEffects) {
                                     //iterate through all other items
-                                    for (int j = Sendlist.Count - 1; j >= 0; j--) {
+                                    for (int j = Sendlist.Count - 1; j >= 0; j--){
                                         //dont check yourself
                                         if (Sendlist[j] != null && i != j) {
                                             //the effectiverectangle hit; we have possibly arrived at our destination, or whatever. take action!
@@ -168,7 +168,7 @@ namespace CodenameProjectServer {
                                             //get position
                                             Vector2f clickPosition = new Vector2f(im.ReadFloat(), im.ReadFloat());
                                             //left click: save clicked item
-                                            if (im.ReadBoolean() == false) {
+                                            if (im.ReadBoolean() == false){
                                                 Console.WriteLine("Item " + item + " clicked, Type: " + Sendlist[item].Type);
                                                 lastExecutedClick = item;
                                             }
@@ -216,7 +216,10 @@ namespace CodenameProjectServer {
                                             break;
                                         case SGlobal.PLANT_BUILDING_MESSAGE:
                                             Console.WriteLine("oh shit boys gotta plant a building now");
-                                            InstanceClass(im.ReadInt32(), messageByClient, new Vector2f(im.ReadFloat(), im.ReadFloat()), 100f);
+                                            Int32 instanceType = im.ReadInt32();
+                                            InstanceClass(instanceType, messageByClient, new Vector2f(im.ReadFloat(), im.ReadFloat()), 100f);
+                                            RessourceList.Find(s => s.Faction == messageByClient).subtract(SGlobal.BUILDING_COSTS_STONE[instanceType], 
+                                                SGlobal.BUILDING_COSTS_WOOD[instanceType]);
                                             break;
                                         case SGlobal.SPAWN_PEOPLE_MESSAGE:
                                             Console.WriteLine("plant people now");
@@ -226,6 +229,8 @@ namespace CodenameProjectServer {
                                                 Vector2f plantPosition = new Vector2f(Sendlist[plantingBuildingID].Size.X + Sendlist[plantingBuildingID].Position.X,
                                                     Sendlist[plantingBuildingID].Size.Y + Sendlist[plantingBuildingID].Position.Y);
                                                 InstanceClass(spawnType, Sendlist[plantingBuildingID].Faction, plantPosition, 100);
+                                                RessourceList.Find(s => s.Faction == messageByClient).subtract(SGlobal.PEOPLE_COSTS_STONE[spawnType - 100],
+                                                    SGlobal.PEOPLE_COSTS_WOOD[spawnType - 100]);
                                             }
                                             break;
                                     }
