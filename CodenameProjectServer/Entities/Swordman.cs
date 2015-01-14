@@ -31,6 +31,7 @@ namespace CodenameProjectServer.Entities {
             if (Server.Sendlist[itemID].IsTroop) {
                 Server.Sendlist[itemID].Health -= 0.5f;
             }
+            CurrentEffectID = itemID;
         }
 
         public override void TargetAggro(int itemID) {
@@ -44,7 +45,7 @@ namespace CodenameProjectServer.Entities {
                 return;
             }
             float skalar = (float)Math.Sqrt((diff.X * diff.X) + (diff.Y * diff.Y));
-            diff = new Vector2f(diff.X / skalar, diff.Y / skalar);
+            diff = base.CancelMovement(new Vector2f(diff.X / skalar, diff.Y / skalar));
             Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
         }
     }

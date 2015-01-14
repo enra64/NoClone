@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace CodenameProjectServer.Entities {
     class Peasant : AbstractServerItem {
         private float MovementSpeed = 1;
-        private int effectID;
 
         //call standard constructor of base class, see abstractserveritem
         public Peasant(int _type, byte _faction, int _ID, Vector2f _position, float _health)
@@ -35,7 +34,7 @@ namespace CodenameProjectServer.Entities {
                     Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
                 }
             }
-            effectID = itemID;
+            CurrentEffectID = itemID;
         }
 
         public override void TargetAggro(int itemID) {
@@ -52,11 +51,8 @@ namespace CodenameProjectServer.Entities {
             if (diff.X == 0 && diff.Y == 0)
                 return;
             float skalar = (float)Math.Sqrt((diff.X * diff.X) + (diff.Y * diff.Y));
-            CollisionDirection = base.checkCollisionDirection(effectID);
             diff = base.CancelMovement(new Vector2f(diff.X / skalar, diff.Y / skalar));
             Position = new Vector2f(Position.X + (diff.X * MovementSpeed), Position.Y + (diff.Y * MovementSpeed));
-            //clear collisiondirection to avoid bugging
-            CollisionDirection = SGlobal.Direction.Uhhhh;
         }
     }
 }

@@ -49,6 +49,7 @@ namespace CodenameProjectServer {
         public virtual bool IsTroop { get; set; }
         public virtual bool IsDead { get; set; }
         public virtual SGlobal.Direction CollisionDirection { get; set; }
+        internal virtual int CurrentEffectID { get; set; }
 
         private SGlobal.Direction lastCollisionDirection = SGlobal.Direction.Uhhhh;
 
@@ -95,6 +96,8 @@ namespace CodenameProjectServer {
         /// we may, however, want not to collide other people.
         /// </summary>
         public SGlobal.Direction checkCollisionDirection(Int32 itemID) {
+            if (this.Size == null)
+                return SGlobal.Direction.Uhhhh;
             //create the first three points to save ressources
             Vector2f topLeft = new Vector2f(this.Position.X, this.Position.Y);
             Vector2f topMiddle = new Vector2f(this.Position.X + (float)this.Size.X / 2f, this.Position.Y);
@@ -223,9 +226,12 @@ namespace CodenameProjectServer {
         /// Update your building...
         /// </summary>
         public void Update() {
+            CollisionDirection = checkCollisionDirection(CurrentEffectID);
             if (Health <= 0)
                 IsDead = true;
             internalUpdate();
+            //clear collisiondirection to avoid bugging
+            CollisionDirection = SGlobal.Direction.Uhhhh;
         }
 
         public virtual void internalUpdate() { }
