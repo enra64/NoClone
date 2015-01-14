@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectServer.Entities {
-    class Peasant : AbstractServerItem {
+    class Stoneguy : AbstractServerItem {
         private float MovementSpeed = 1;
 
         //call standard constructor of base class, see abstractserveritem
-        public Peasant(int _type, byte _faction, int _ID, Vector2f _position, float _health)
+        public Stoneguy(int _type, byte _faction, int _ID, Vector2f _position, float _health)
             : base(_type, _faction, _ID, _position, _health) {
             //do something additional to the standard constructor
             implementAggroOrEffectEffects = true;
@@ -25,9 +25,9 @@ namespace CodenameProjectServer.Entities {
             if (Server.Sendlist[itemID].Health <= 0)
                 return;
             if (Server.Sendlist[itemID].IsRessource) {
-                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_WOOD && Server.Sendlist[itemID].Health > 0) {
+                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_STONE && Server.Sendlist[itemID].Health > 0) {
                     Server.Sendlist[itemID].Health -= .1f;
-                    Server.RessourceList[Faction - 1].Wood += SGlobal.RESSOURCE_INCREASE_WOOD;
+                    Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
                 }
             }
             CurrentEffectID = itemID;

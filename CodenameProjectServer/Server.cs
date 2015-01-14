@@ -24,6 +24,7 @@ namespace CodenameProjectServer {
 
         private static int lastExecutedClick = -1;
         private static Vector2f lastMouseClickPosition;
+        private static List<int> MassSelectionList =new List<int>();
 
         private static BackgroundWorker workerThread = new BackgroundWorker();
 
@@ -95,7 +96,7 @@ namespace CodenameProjectServer {
                             }
                         }
                         #endregion
-                        #region sendCalculations
+                        #region Communication
                         NetIncomingMessage im;
                         while ((im = netServer.ReadMessage()) != null) {
                             // handle incoming message
@@ -164,17 +165,21 @@ namespace CodenameProjectServer {
                                             Vector2f clickPosition = new Vector2f(im.ReadFloat(), im.ReadFloat());
                                             //left click: save clicked item
                                             if (im.ReadBoolean() == false){
-                                                Console.WriteLine("Item " + item + " clicked, Type: " + Sendlist[item].Type);
+                                                MassSelectionList.Clear();
+                                                if(item != -1)
+                                                    Console.WriteLine("Item " + item + " clicked, Type: " + Sendlist[item].Type);
+                                                else
+                                                    Console.WriteLine("item deselected");
                                                 lastExecutedClick = item;
                                             }
                                             //got right click, notify first clicked item of new targetposition
                                             else {
-                                                if (lastExecutedClick != -1) {
+                                                if (lastExecutedClick != -1 && MassSelectionList.Count == 0) {
                                                     if (Sendlist[lastExecutedClick] != null && Sendlist[lastExecutedClick].Faction == messageByClient) {
                                                         if (item == -1) {
                                                             Sendlist[lastExecutedClick].Target = clickPosition;
                                                             Sendlist[lastExecutedClick].TargetID = -1;
-                                                            Console.WriteLine("Trying to send " + lastExecutedClick + "to position " + clickPosition.ToString());
+                                                            Console.WriteLine("Trying to send " + lastExecutedClick + " to position " + clickPosition.ToString());
                                                         }
                                                         else {
                                                             Console.WriteLine("sending lec to Sendlistitem " + item);
@@ -182,11 +187,27 @@ namespace CodenameProjectServer {
                                                             Sendlist[lastExecutedClick].TargetID = item;
                                                         }
                                                     }
-                                                    else
-                                                        Console.WriteLine("lol gtfo");
                                                 }
-                                                else
-                                                    Console.WriteLine("abort for lec=-1");
+                                                else {
+                                                    if (item == -1) {
+                                                        foreach (int i in MassSelectionList) {
+                                                            Sendlist[i].Target = clickPosition;
+                                                            Sendlist[i].TargetID = -1;
+                                                        }
+                                                    }
+                                                    else {
+                                                        foreach (int i in MassSelectionList) {
+                                                            Sendlist[i].Target = Sendlist[item].Position;
+                                                            Sendlist[i].TargetID = item;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        case SGlobal.MASS_SELECTION_MESSAGE:
+                                            MassSelectionList.Clear();
+                                            while (im.PeekInt32() != -44) {
+                                                MassSelectionList.Add(im.ReadInt32());
                                             }
                                             break;
                                         case SGlobal.BOUNDINGSIZE_MESSAGE:
@@ -347,6 +368,9 @@ namespace CodenameProjectServer {
                 case SGlobal.BUILDING_BARRACK:
                     Sendlist[_ID] = new Barrack(_type, _faction, _ID, _position, _health);
                     break;
+                case SGlobal.BUILDING_STONEHACKER:
+                    Sendlist[_ID] = new Buildings.StoneHackerBuilding(_type, _faction, _ID, _position, _health);
+                    break;
                 case SGlobal.RESSOURCE_STONE:
                     Sendlist[_ID] = new Stone(_type, _faction, _ID, _position, _health);
                     break;
@@ -358,6 +382,9 @@ namespace CodenameProjectServer {
                     break;
                 case SGlobal.PEOPLE_SWORDMAN:
                     Sendlist[_ID] = new Entities.Swordsman(_type, _faction, _ID, _position, _health);
+                    break;
+                case SGlobal.PEOPLE_STONEMAN:
+                    Sendlist[_ID] = new Entities.Stoneguy(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     success = false;
