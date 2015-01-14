@@ -44,20 +44,15 @@ namespace CodenameProjectServer {
 
             //instantiate village centers
             //health is normalized to 100!
-            InstanceClass(SGlobal.BUILDING_DEFAULT, 0, new Vector2f(100f, 100f), 100);
-            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(570f, 720f), 100);
-            InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(400f, 200f), 100);
+            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(360, 3200), 100);
+            InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(2900, -1350), 100);
 
             //instantiate ressources
-            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(400f, 600f), 100);
-            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(400f, 400f), 100);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200, 3000), 100);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(800, 2875), 100);
 
-            //instantiate standard people
-            InstanceClass(SGlobal.PEOPLE_PEASANT, 1, new Vector2f(200, 300), 100);
-
-            InstanceClass(SGlobal.PEOPLE_SWORDMAN, 1, new Vector2f(200, 300), 100);
-
-            InstanceClass(SGlobal.PEOPLE_SWORDMAN, 2, new Vector2f(1000, 1000), 100);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2500, -1300), 100);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(2700, -1200), 100);
 
             //instance ressourcekeeper
             RessourceList.Add(new RessourceKeeper(1, 100, 300));

@@ -96,7 +96,7 @@ namespace CodenameProjectServer {
         /// we may, however, want not to collide other people.
         /// </summary>
         public SGlobal.Direction checkCollisionDirection(Int32 itemID) {
-            if (this.Size == null)
+            if (this.Size == null || Server.Sendlist[itemID]==null)
                 return SGlobal.Direction.Uhhhh;
             //create the first three points to save ressources
             Vector2f topLeft = new Vector2f(this.Position.X, this.Position.Y);
@@ -111,7 +111,6 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topLeft.X, topLeft.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Top;
-                    //Console.WriteLine("col: top");
                     return SGlobal.Direction.Top;
                 }
 
@@ -126,7 +125,6 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topRight.X, topRight.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Right;
-                    Console.WriteLine("col: r");
                     return SGlobal.Direction.Right;
                 }
             //fuuuuck check bottom
@@ -140,7 +138,6 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomRight.X, bottomRight.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Bottom;
-                    //Console.WriteLine("col: b");
                     return SGlobal.Direction.Bottom;
                 }
             //omfg check left
@@ -155,7 +152,6 @@ namespace CodenameProjectServer {
                 if (Server.Sendlist[itemID].effectiveRectangle.Contains(topLeft.X, topLeft.Y)
                     || Server.Sendlist[itemID].effectiveRectangle.Contains(bottomLeft.X, bottomLeft.Y)) {
                     lastCollisionDirection = SGlobal.Direction.Left;
-                    Console.WriteLine("col: l");
                     return SGlobal.Direction.Left;
                 }
             //fuck dis
