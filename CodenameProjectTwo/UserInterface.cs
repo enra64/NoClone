@@ -263,7 +263,7 @@ namespace CodenameProjectTwo {
                 foreach (MenuItem m in peopleMenuItemList) {
                     if (m.Sprite.GetGlobalBounds().Contains(X, Y)) {
                         Console.WriteLine("ppl ressource check: type "+ m.Type);
-                        if (HasRessources(m.Type + CGlobal.PEOPLE_ID_OFFSET)){
+                        if (HasRessources(m.Type + CGlobal.PEOPLE_ID_OFFSET) && m.BuildableBy.Contains(Client.cItemList[cItem].Type)){
                             Console.WriteLine("spawn people type " + m.Type);
                             sendPeoplePlantMessage(m.Type + CGlobal.PEOPLE_ID_OFFSET, cItem);
                         }
