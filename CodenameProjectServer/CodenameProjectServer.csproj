@@ -58,6 +58,8 @@
     <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\Centre.cs" />
+    <Compile Include="Buildings\StoneHackerBuilding.cs" />
+    <Compile Include="Entities\Stoneguy.cs" />
     <Compile Include="Entities\Peasant.cs" />
     <Compile Include="Entities\Swordman.cs" />
     <Compile Include="Ressources\Stone.cs" />

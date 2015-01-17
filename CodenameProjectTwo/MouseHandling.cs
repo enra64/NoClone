@@ -18,6 +18,7 @@ namespace CodenameProjectTwo {
 
         private static Vector2f cChosenBuildingSize, dragStartPoint;
         private static Sprite cChosenBuilding;
+        public static RectangleShape b;
 
         public static void mouseRelease(object sender, MouseButtonEventArgs e){
             if(!rightButtonClicked){
@@ -28,25 +29,34 @@ namespace CodenameProjectTwo {
                     //check what has been clicked
                     Vector2f translatedPosition = MapMouseToGame(Client.dragRect.Position.X, Client.dragRect.Position.Y);
                     FloatRect selectionRect = new FloatRect(
-                        translatedPosition.X,
-                        translatedPosition.Y, 
+                        Client.dragRect.Position.X,
+                        Client.dragRect.Position.Y, 
                         Client.dragRect.Size.X, 
                         Client.dragRect.Size.Y);
+                    //b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
+                    //b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
                     Console.WriteLine("selrect:: left: " + selectionRect.Left + ", top: " + selectionRect.Top);
-                    List<int> selectedPeople=new List<int>();
+                    List<int> selectedPeopleTypes=new List<int>();
+                    List<int> selectedPeopleIDs = new List<int>();
                     foreach (AbstractClientItem a in Client.cItemList) {
                         if (a.Type >= 100) {
                             Console.WriteLine(a.ID+"left: " + a.Sprite.Position.X + ", top: " + a.Sprite.Position.Y);
                             if (a.BoundingRectangle.Intersects(selectionRect)){
-
-                                selectedPeople.Add(a.Type);
+                                selectedPeopleTypes.Add(a.Type);
+                                selectedPeopleIDs.Add(a.ID);
                             }
                         }
                     }
                     int mostSelected = -1;
-                    if(selectedPeople.Count > 0)
-                        mostSelected = selectedPeople.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
-                    Console.WriteLine("most: " + mostSelected+", count: " + selectedPeople.Count);
+                    if(selectedPeopleTypes.Count > 0)
+                        mostSelected = selectedPeopleTypes.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    //send all selected to server...
+                    List<int> selected = new List<int>();
+                    foreach (int i in selectedPeopleIDs)
+                        if(Client.cItemList[i] != null && Client.cItemList[i].Type == mostSelected && Client.cItemList[i].Health > 0)
+                            selected.Add(i);
+                    Communication.sendMassSelection(selected);
+                    Console.WriteLine("most: " + mostSelected+", count: " + selectedPeopleTypes.Count);
                 }
             }
             else if (rightButtonClicked) {
@@ -117,11 +127,8 @@ namespace CodenameProjectTwo {
                         Client.cInterface.ShowItem(clickedItemId);
                         //if an item was identified, send that to the server
                         Console.WriteLine("nonplanting click on item " + clickedItemId);
-                        if (clickedItemId != -1) {
-                            sendMouseMessage(clickedItemId, e.X, e.Y, false);
-                        }
-                        else//no item identified, write to dragstartpoint for eventual rectangle
-                            dragStartPoint = new Vector2f(e.X, e.Y);
+                        sendMouseMessage(clickedItemId, e.X, e.Y, false);
+                        dragStartPoint = new Vector2f(e.X, e.Y);
                     }
                 }
                 //right mouse button
@@ -159,9 +166,10 @@ namespace CodenameProjectTwo {
             //map mouse position to screen
             Vector2f convertedMousePosition = MapMouseToGame(x, y);
             //check for collisions
-            FloatRect testRectangle = new FloatRect(convertedMousePosition.X, convertedMousePosition.Y, cChosenBuildingSize.X, cChosenBuildingSize.Y);
+            FloatRect testingRectangle = new FloatRect(convertedMousePosition.X, convertedMousePosition.Y, 
+                cChosenBuildingSize.X, cChosenBuildingSize.Y);
             foreach (AbstractClientItem i in Client.cItemList)
-                if (i.BoundingRectangle.Intersects(testRectangle))
+                if (i.BoundingRectangle.Intersects(testingRectangle))
                     return;
             //create message
             NetOutgoingMessage mes = Communication.netClient.CreateMessage();

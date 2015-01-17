@@ -29,10 +29,12 @@ namespace CodenameProjectServer.Entities {
                     Server.Sendlist[itemID].Health -= .1f;
                     Server.RessourceList[Faction - 1].Wood += SGlobal.RESSOURCE_INCREASE_WOOD;
                 }
-                if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_STONE && Server.Sendlist[itemID].Health > 0) {
-                    Server.Sendlist[itemID].Health -= .1f;
-                    Server.RessourceList[Faction - 1].Stone += SGlobal.RESSOURCE_INCREASE_STONE;
-                }
+            }
+            if (Server.Sendlist[itemID].Health <= 0 || Server.Sendlist[itemID].Faction == this.Faction)
+                return;
+            if (Server.Sendlist[itemID].IsTroop)
+            {
+                Server.Sendlist[itemID].Health -= 0.1f;
             }
             CurrentEffectID = itemID;
         }

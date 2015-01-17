@@ -126,6 +126,9 @@ namespace CodenameProjectTwo
                     s.Draw();
             }
 
+            if(MouseHandling.b != null)
+                cRenderWindow.Draw(MouseHandling.b);
+
             for (int i = cItemList.Count - 1; i >= 0; i--) {
                 break;
                 AbstractClientItem s = cItemList[i];
@@ -186,12 +189,12 @@ namespace CodenameProjectTwo
             CGlobal.BUILDING_TEXTURES[3] = new Texture("assets/graphics/buildings/barrack.png");
             CGlobal.BUILDING_TEXTURES[4] = new Texture("assets/graphics/ressources/stone.png");
             CGlobal.BUILDING_TEXTURES[5] = new Texture("assets/graphics/ressources/wood.png");
+            CGlobal.BUILDING_TEXTURES[6] = new Texture("assets/graphics/buildings/stonehacker.png");
 
             //load people textures
             CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/firstBauer.png");
             CGlobal.PEOPLE_TEXTURES[1] = new Texture("assets/graphics/units/firstPeople.png");
-
-
+            CGlobal.PEOPLE_TEXTURES[2] = new Texture("assets/graphics/units/stonehackerguy.png");
         }
     }
 }

@@ -124,6 +124,9 @@ namespace CodenameProjectTwo
                 case CGlobal.RESSOURCE_STONE:
                     Client.cItemList[_ID] = new Ressources.Stone(_type, _faction, _ID, _position, _health);
                     break;
+                case CGlobal.BUILDING_STONEHACKER:
+                    Client.cItemList[_ID] = new StoneHackerBuilding(_type, _faction, _ID, _position, _health);
+                    break;
                 case CGlobal.RESSOURCE_WOOD:
                     Client.cItemList[_ID] = new Ressources.Wood(_type, _faction, _ID, _position, _health);
                     break;
@@ -132,6 +135,9 @@ namespace CodenameProjectTwo
                     break;
                 case CGlobal.PEOPLE_SWORDMAN:
                     Client.cItemList[_ID] = new Swordsman(_type, _faction, _ID, _position, _health);
+                    break;
+                case CGlobal.PEOPLE_STONEMAN:
+                    Client.cItemList[_ID] = new Stoneguy(_type, _faction, _ID, _position, _health);
                     break;
                 default:
                     Client.cItemList[_ID] = new Building(_type, _faction, _ID, _position, _health);
@@ -177,6 +183,22 @@ namespace CodenameProjectTwo
                 }
                 netClient.Recycle(im);
             }
+        }
+
+        internal static void sendMassSelection(List<int> selected) {
+            //create message
+            NetOutgoingMessage mes = Communication.netClient.CreateMessage();
+            //identify message as mouseclick
+            mes.Write(CGlobal.MASS_SELECTION_MESSAGE);
+            //write id of clicked item
+            foreach(int i in selected)
+                mes.Write(i);
+            //write "left mouse button"
+            mes.Write(-44);
+            //send
+            Communication.netClient.SendMessage(mes, NetDeliveryMethod.ReliableOrdered);
+            //like, really, send now
+            Communication.netClient.FlushSendQueue();
         }
     }
 }
