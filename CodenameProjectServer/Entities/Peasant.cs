@@ -22,7 +22,7 @@ namespace CodenameProjectServer.Entities {
             if (Health < 0.5f)
                 return;
             //okay since this aint no building you should do something here, for example stopping the movement so that the peasant stops glitching or something
-            if (Server.Sendlist[itemID].Health <= 0)
+            if (Server.Sendlist[itemID].Health <= 0 || Server.Sendlist[itemID].Faction == this.Faction)
                 return;
             if (Server.Sendlist[itemID].IsRessource) {
                 if (Server.Sendlist[itemID].Type == SGlobal.RESSOURCE_WOOD && Server.Sendlist[itemID].Health > 0) {
@@ -30,12 +30,9 @@ namespace CodenameProjectServer.Entities {
                     Server.RessourceList[Faction - 1].Wood += SGlobal.RESSOURCE_INCREASE_WOOD;
                 }
             }
-            if (Server.Sendlist[itemID].Health <= 0 || Server.Sendlist[itemID].Faction == this.Faction)
-                return;
             if (Server.Sendlist[itemID].IsTroop)
-            {
                 Server.Sendlist[itemID].Health -= 0.1f;
-            }
+            
             CurrentEffectID = itemID;
         }
 
@@ -43,8 +40,7 @@ namespace CodenameProjectServer.Entities {
             //dont do anything - this is a building
             //peasant log:
             //day 715: they still havent noticed i am a peasant
-            //day 826: I think the default building suspects something. Must destroy him.
-            //         Am thinking about transforming him into another building.
+            //day 826: I think the default building suspects somethi
         }
 
         public override void internalUpdate() {

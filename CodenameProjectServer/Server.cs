@@ -23,7 +23,6 @@ namespace CodenameProjectServer {
         private static NetConnection con1, con2;
 
         private static int lastExecutedClick = -1;
-        private static Vector2f lastMouseClickPosition;
         private static List<int> MassSelectionList =new List<int>();
 
         private static BackgroundWorker workerThread = new BackgroundWorker();
