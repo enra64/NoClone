@@ -158,6 +158,16 @@ namespace CodenameProjectTwo {
                     intfaction = 0;
                 else
                     intfaction = 0;
+
+                if (Type == 100)
+                {
+                    Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 124, intfaction * 173, 124, 173);
+                }
+
+                else if (Type == 101)
+                {
+                    Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 146, intfaction * 184, 146, 184);
+                }
             }
             if (isAnim == false)
             {
@@ -166,15 +176,7 @@ namespace CodenameProjectTwo {
                 DelayUtil.delayUtil(600, () => CGlobal.textureVector.X = 1);
                 DelayUtil.delayUtil(900, () => isAnim = false);
             }
-            if (People && Type == 100)
-            {
-                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 124, intfaction * 173, 124, 173);
-            }
-
-            if (People && Type == 101)
-            {
-                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 146, intfaction * 184, 146, 184);
-            }
+            
         }
 
     }
