@@ -62,6 +62,7 @@
     <Compile Include="AbstractClientItem.cs" />
     <Compile Include="Buildings\Barrack.cs" />
     <Compile Include="Buildings\StoneHackerBuilding.cs" />
+    <Compile Include="DelayUtil.cs" />
     <Compile Include="Entities\Stoneguy.cs" />
     <Compile Include="Entities\Peasant.cs" />
     <Compile Include="Entities\Swordsman.cs" />
