@@ -110,13 +110,6 @@ namespace CodenameProjectTwo
             CGlobal.CURRENT_WINDOW_ORIGIN = cRenderWindow.GetView().Center - new Vector2f((float)cRenderWindow.Size.X / 2f, (float)cRenderWindow.Size.Y / 2f);
             //update ui
             cInterface.Update();
-            if (isAnim == false)
-            {
-                isAnim = true;
-                DelayUtil.delayUtil(150, () => CGlobal.textureVector.X = 1);
-                DelayUtil.delayUtil(300, () => CGlobal.textureVector.X = 0);
-                DelayUtil.delayUtil(450, () => isAnim = false);
-            }
         }
 
         private static void Draw(){
