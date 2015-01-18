@@ -106,6 +106,8 @@ namespace CodenameProjectTwo
         /// </summary>
         public static Texture[] PEOPLE_TEXTURES = new Texture[PEOPLE_TYPE_COUNT];
 
+        public static Vector2i textureVector = new Vector2i(0, 0);
+
         /// <summary>
         /// in x is the id of the building that spawns the menu concerned by this;
         /// in y is an array of people this menu is allowed to show

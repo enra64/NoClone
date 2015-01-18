@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CodenameProjectTwo {
     
     abstract class AbstractClientItem {
-        private Vector2i textureVector = new Vector2i(0, 0);
+
         #region variables
         //use like variables
         /// <summary>
@@ -86,10 +86,7 @@ namespace CodenameProjectTwo {
                 Texture = CGlobal.BUILDING_TEXTURES[Type];
             }
             Sprite = new Sprite(Texture);
-            if (people)
-            {
-                Sprite.TextureRect = new IntRect(textureVector.X * 129, textureVector.Y * 175, 129, 175);
-            }
+            
             Sprite.Position = this.Position;
             outline = new RectangleShape(new Vector2f(Sprite.Scale.X * Texture.Size.X, Sprite.Scale.Y * Texture.Size.Y));
             outline.OutlineColor = Color.White;
@@ -150,5 +147,6 @@ namespace CodenameProjectTwo {
             Sprite.Position = this.Position;
             Client.cRenderWindow.Draw(Sprite);
         }
+
     }
 }
