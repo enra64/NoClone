@@ -48,11 +48,34 @@ namespace CodenameProjectServer {
             InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(2900, -1350), 100);
 
             //instantiate ressources
-            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200, 3000), 100);
-            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(800, 2875), 100);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(200, 3000), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(150, 2814), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(468, 2977), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(333, 2939), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(213, 2635), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(475, 2702), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(650, 2884), 150);
 
-            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2500, -1300), 100);
-            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(2700, -1200), 100);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(800, 2875), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(1079, 2892), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(1384, 2655), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(901, 2566), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(1127, 2379), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(1716, 2508), 150);
+
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2500, -1300), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2939, -974), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2819, -574), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2346, -1048), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2085, -539), 150);
+            InstanceClass(SGlobal.RESSOURCE_STONE, 0, new Vector2f(2484, -825), 150);
+
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(800, 2875), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(2587, -1024), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(2040, -1057), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(1623, -741), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(2159, -769), 150);
+            InstanceClass(SGlobal.RESSOURCE_WOOD, 0, new Vector2f(2632, -422), 150);
 
             //instance ressourcekeeper
             RessourceList.Add(new RessourceKeeper(1, 100, 300));

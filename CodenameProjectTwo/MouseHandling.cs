@@ -43,26 +43,20 @@ namespace CodenameProjectTwo {
                         translatedPosition.Y,
                         translatedSize.X,
                         translatedSize.Y);
-                    b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
-                    b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
+                    //b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
+                    //b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
 
-                    List<int> selectedPeopleTypes=new List<int>();
                     List<int> selectedPeopleIDs = new List<int>();
-                    foreach (AbstractClientItem a in Client.cItemList) {
-                        if (a.Type >= 100) {
-                            //Console.WriteLine(a.ID+"left: " + a.Sprite.Position.X + ", top: " + a.Sprite.Position.Y);
-                            if(selectionRect.Contains(a.Center.X, a.Center.Y)){
+                    foreach (AbstractClientItem a in Client.cItemList) 
+                        if (a.Type >= 100 && selectionRect.Contains(a.Center.X, a.Center.Y))
                                 selectedPeopleIDs.Add(a.ID);
-                            }
-                        }
-                    }
+                    
                     //send all selected to server...
                     List<int> selected = new List<int>();
                     foreach (int i in selectedPeopleIDs)
-                        if(Client.cItemList[i] != null && /*Client.cItemList[i].Type == mostSelected &&*/ Client.cItemList[i].Health > 0)
+                        if(Client.cItemList[i] != null && Client.cItemList[i].Health > 0)
                             selected.Add(i);
                     Communication.sendMassSelection(selected);
-                    Console.WriteLine(", count: " + selectedPeopleTypes.Count);
                 }
             }
             else if (rightButtonClicked) {
@@ -200,6 +194,7 @@ namespace CodenameProjectTwo {
             Vector2f mappedCoordinates = MapMouseToGame(x, y);
             x = mappedCoordinates.X;
             y = mappedCoordinates.Y;
+            Console.WriteLine("x:" + x + " y:" + y);
             //create message
             NetOutgoingMessage mes = Communication.netClient.CreateMessage();
             //identify message as mouseclick
