@@ -27,36 +27,42 @@ namespace CodenameProjectTwo {
                     //undraw dragrect
                     Client.dragRect.OutlineThickness = 0;
                     //check what has been clicked
-                    Vector2f translatedPosition = MapMouseToGame(Client.dragRect.Position.X, Client.dragRect.Position.Y);
+                    Vector2f translatedPosition = Client.dragRect.Position;
+                    Vector2f translatedSize = Client.dragRect.Size;
+                    //invert on negative size values because sfml shits on how to do math
+                    if (translatedSize.X < 0) {
+                        translatedSize.X = -translatedSize.X;
+                        translatedPosition.X -= translatedSize.X;
+                    }
+                    if (translatedSize.Y < 0) {
+                        translatedSize.Y = -translatedSize.Y;
+                        translatedPosition.Y -= translatedSize.Y;
+                    }
                     FloatRect selectionRect = new FloatRect(
-                        Client.dragRect.Position.X,
-                        Client.dragRect.Position.Y, 
-                        Client.dragRect.Size.X, 
-                        Client.dragRect.Size.Y);
-                    //b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
-                    //b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
-                    Console.WriteLine("selrect:: left: " + selectionRect.Left + ", top: " + selectionRect.Top);
+                        translatedPosition.X,
+                        translatedPosition.Y,
+                        translatedSize.X,
+                        translatedSize.Y);
+                    b = new RectangleShape(new Vector2f(selectionRect.Width, selectionRect.Height));
+                    b.Position = new Vector2f(selectionRect.Left, selectionRect.Top);
+
                     List<int> selectedPeopleTypes=new List<int>();
                     List<int> selectedPeopleIDs = new List<int>();
                     foreach (AbstractClientItem a in Client.cItemList) {
                         if (a.Type >= 100) {
-                            Console.WriteLine(a.ID+"left: " + a.Sprite.Position.X + ", top: " + a.Sprite.Position.Y);
-                            if (a.BoundingRectangle.Intersects(selectionRect)){
-                                selectedPeopleTypes.Add(a.Type);
+                            //Console.WriteLine(a.ID+"left: " + a.Sprite.Position.X + ", top: " + a.Sprite.Position.Y);
+                            if(selectionRect.Contains(a.Center.X, a.Center.Y)){
                                 selectedPeopleIDs.Add(a.ID);
                             }
                         }
                     }
-                    int mostSelected = -1;
-                    if(selectedPeopleTypes.Count > 0)
-                        mostSelected = selectedPeopleTypes.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
                     //send all selected to server...
                     List<int> selected = new List<int>();
                     foreach (int i in selectedPeopleIDs)
-                        if(Client.cItemList[i] != null && Client.cItemList[i].Type == mostSelected && Client.cItemList[i].Health > 0)
+                        if(Client.cItemList[i] != null && /*Client.cItemList[i].Type == mostSelected &&*/ Client.cItemList[i].Health > 0)
                             selected.Add(i);
                     Communication.sendMassSelection(selected);
-                    Console.WriteLine("most: " + mostSelected+", count: " + selectedPeopleTypes.Count);
+                    Console.WriteLine(", count: " + selectedPeopleTypes.Count);
                 }
             }
             else if (rightButtonClicked) {
