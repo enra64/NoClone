@@ -58,6 +58,7 @@ namespace CodenameProjectTwo {
         #endregion
         bool isAnim = false;
         bool People;
+        int intfaction;
         /// <summary>
         /// Constructor for buildings and ressources
         /// </summary>
@@ -149,22 +150,30 @@ namespace CodenameProjectTwo {
             Sprite.Position = this.Position;
             Client.cRenderWindow.Draw(Sprite);
 
-            
+            if (People)
+            {
+                if (Faction == 1)
+                    intfaction = 1;
+                else if (Faction == 2)
+                    intfaction = 0;
+                else
+                    intfaction = 0;
+            }
             if (isAnim == false)
             {
                 isAnim = true;
-                DelayUtil.delayUtil(150, () => CGlobal.textureVector.X = 1);
                 DelayUtil.delayUtil(300, () => CGlobal.textureVector.X = 0);
-                DelayUtil.delayUtil(450, () => isAnim = false);
+                DelayUtil.delayUtil(600, () => CGlobal.textureVector.X = 1);
+                DelayUtil.delayUtil(900, () => isAnim = false);
             }
             if (People && Type == 100)
             {
-                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 124, CGlobal.textureVector.Y * 173, 124, 173);
+                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 124, intfaction * 173, 124, 173);
             }
 
             if (People && Type == 101)
             {
-                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 146, CGlobal.textureVector.Y * 184, 146, 184);
+                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 146, intfaction * 184, 146, 184);
             }
         }
 
