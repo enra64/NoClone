@@ -53,6 +53,6 @@ namespace CodenameProjectServer
 
         public const int AGGRO_RECT_SIZE = 150, EFFECTIVE_RECT_SIZE = 40;
 
-        public const float RESSOURCE_INCREASE_WOOD = 0.5f, RESSOURCE_INCREASE_STONE = 0.5f;
+        public const int RESSOURCE_INCREASE_WOOD = 1, RESSOURCE_INCREASE_STONE = 1;
     }
 }
