@@ -90,9 +90,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\graphics\buildings\barrack_old.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\graphics\buildings\barrack.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
