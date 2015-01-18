@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CodenameProjectTwo {
     
     abstract class AbstractClientItem {
-        private Vector2i textureVector = new Vector2i(0, 0);
+
         #region variables
         //use like variables
         /// <summary>
@@ -56,7 +56,8 @@ namespace CodenameProjectTwo {
          * VARIABLES END HERE
          */
         #endregion
-
+        bool isAnim = false;
+        bool People;
         /// <summary>
         /// Constructor for buildings and ressources
         /// </summary>
@@ -77,6 +78,7 @@ namespace CodenameProjectTwo {
             Faction = _faction;
             Position = _position;
             Health = _health;
+            People = people;
             if (people) {
                 Description = CGlobal.PEOPLE_DESCRIPTIONS[Type - CGlobal.PEOPLE_ID_OFFSET];
                 Texture = CGlobal.PEOPLE_TEXTURES[Type - CGlobal.PEOPLE_ID_OFFSET];
@@ -86,10 +88,7 @@ namespace CodenameProjectTwo {
                 Texture = CGlobal.BUILDING_TEXTURES[Type];
             }
             Sprite = new Sprite(Texture);
-            if (people)
-            {
-                Sprite.TextureRect = new IntRect(textureVector.X * 129, textureVector.Y * 175, 129, 175);
-            }
+            
             Sprite.Position = this.Position;
             outline = new RectangleShape(new Vector2f(Sprite.Scale.X * Texture.Size.X, Sprite.Scale.Y * Texture.Size.Y));
             outline.OutlineColor = Color.White;
@@ -149,6 +148,20 @@ namespace CodenameProjectTwo {
         public void Draw() {
             Sprite.Position = this.Position;
             Client.cRenderWindow.Draw(Sprite);
+
+            
+            if (isAnim == false)
+            {
+                isAnim = true;
+                DelayUtil.delayUtil(150, () => CGlobal.textureVector.X = 1);
+                DelayUtil.delayUtil(300, () => CGlobal.textureVector.X = 0);
+                DelayUtil.delayUtil(450, () => isAnim = false);
+            }
+            if (People)
+            {
+                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 124, CGlobal.textureVector.Y * 173, 124, 173);
+            }
         }
+
     }
 }

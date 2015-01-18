@@ -27,6 +27,7 @@ namespace CodenameProjectTwo
         //declare map
         public static TileEngine map;
 
+
         //drag rectangle
         public static RectangleShape dragRect;
 
@@ -98,7 +99,11 @@ namespace CodenameProjectTwo
             }
         }
 
+        static bool isAnim = false;
+
+
         private static void Update(){
+
             //check for keys
             KeyCheck();
             //update offset
