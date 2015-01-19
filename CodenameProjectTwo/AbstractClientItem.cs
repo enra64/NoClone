@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectTwo {
-
+    
     abstract class AbstractClientItem {
 
         #region variables
@@ -89,7 +89,7 @@ namespace CodenameProjectTwo {
                 Texture = CGlobal.BUILDING_TEXTURES[Type];
             }
             Sprite = new Sprite(Texture);
-
+            
             Sprite.Position = this.Position;
             outline = new RectangleShape(new Vector2f(Sprite.Scale.X * Texture.Size.X, Sprite.Scale.Y * Texture.Size.Y));
             outline.OutlineColor = Color.White;
