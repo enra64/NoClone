@@ -24,6 +24,8 @@ namespace CodenameProjectTwo {
         private static Sprite uiSprite;
         private static Texture uiTexture;
 
+        private static String hoverDescText;
+
         private RectangleShape hoverBox;
 
         /// <summary>
@@ -127,7 +129,7 @@ namespace CodenameProjectTwo {
         private void SetBoxPositions() {
             float margin = 5f;
             //mainbox position is exactly at top left corner
-            mainBox.Position = new Vector2f(0, 0);
+            mainBox.Position = new Vector2f(7, 0);
             //texturebox position is at top, but with a margin
             textureBox.Position = new Vector2f(mainBox.Position.X + margin, mainBox.Position.Y + margin);
             //desc box is below texturebox
@@ -148,7 +150,7 @@ namespace CodenameProjectTwo {
              */
             if (cItem == -1) {
                 //desc text is only filled when hovering above a building
-                descBoxText.DisplayedString = "Holz: " + Client.MyRessources.Wood + ", Stein: " + Client.MyRessources.Stone;
+                descBoxText.DisplayedString = "Holz: " + Convert.ToInt32(Client.MyRessources.Wood) + ", Stein: " + Convert.ToInt32(Client.MyRessources.Stone);
             }
             else {
                 //item info string
@@ -161,11 +163,6 @@ namespace CodenameProjectTwo {
         public void Draw() {
             win.SetView(menuView);
             //standard background boxes
-            win.Draw(mainBox);
-            win.Draw(textureBox);
-            win.Draw(descriptionBox);
-            win.Draw(infoBox);
-
             win.Draw(uiSprite);
 
             /*
@@ -176,6 +173,8 @@ namespace CodenameProjectTwo {
                     m.Draw();
                 if (hoverBox != null)
                     win.Draw(hoverBox);
+                if (hoverDescText != "")
+                    descBoxText.DisplayedString = hoverDescText;
                 win.Draw(descBoxText);
             }
             /*
@@ -188,6 +187,10 @@ namespace CodenameProjectTwo {
                 foreach (MenuItem m in peopleMenuItemList)
                     if (m.BuildableBy.Contains(Client.cItemList[cItem].Type))
                         m.Draw();
+                if (hoverBox != null)
+                    win.Draw(hoverBox);
+                if (hoverDescText != "")
+                    descBoxText.DisplayedString = hoverDescText;
                 win.Draw(descBoxText);
             }
             //switch back to game view
@@ -229,7 +232,8 @@ namespace CodenameProjectTwo {
             foreach (MenuItem m in buildableBuildings) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
                     hovering = true;
-                    descBoxText.DisplayedString = DivideString(m.Description + '\n' + "Holzkosten: " + CGlobal.BUILDING_COSTS_WOOD[m.Type] + '\n' + "Steinkosten: " + CGlobal.BUILDING_COSTS_STONE[m.Type]);
+                    hoverDescText = DivideString(m.Description) + "Holzkosten: " + 
+                        CGlobal.BUILDING_COSTS_WOOD[m.Type] + '\n' + "Steinkosten: " + CGlobal.BUILDING_COSTS_STONE[m.Type];
                     if (HasRessources(m.Type))
                         hoverBox = m.GreenBoundingShape;
                     else
@@ -239,15 +243,18 @@ namespace CodenameProjectTwo {
             foreach (MenuItem m in peopleMenuItemList) {
                 if (m.Sprite.GetGlobalBounds().Contains(e.X, e.Y)) {
                     hovering = true;
+                    hoverDescText = DivideString(m.Description) + "Holzkosten: " +
+                        CGlobal.PEOPLE_COSTS_WOOD[m.Type] + '\n' + "Steinkosten: " + CGlobal.PEOPLE_COSTS_STONE[m.Type];
                     if (HasRessources(m.Type))
                         hoverBox = m.GreenBoundingShape;
                     else
                         hoverBox = m.RedBoundingShape;
-                    descBoxText.DisplayedString = DivideString(m.Description);
                 }
             }
-            if (!hovering)
+            if (!hovering) {
+                hoverDescText = "";
                 hoverBox = null;
+            }
         }
 
         /// <summary>

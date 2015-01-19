@@ -128,7 +128,7 @@ namespace CodenameProjectTwo {
             get { return new FloatRect(this.Position.X, this.Position.Y, this.Size.X, this.Size.Y); }
         }
 
-        public int WoodCost() {
+        public float WoodCost() {
             if (Type < CGlobal.PEOPLE_ID_OFFSET)
                 return CGlobal.BUILDING_COSTS_WOOD[Type];
             else
@@ -136,7 +136,7 @@ namespace CodenameProjectTwo {
 
         }
 
-        public int StoneCost() {
+        public float StoneCost() {
             if (Type < CGlobal.PEOPLE_ID_OFFSET)
                 return CGlobal.BUILDING_COSTS_STONE[Type];
             else

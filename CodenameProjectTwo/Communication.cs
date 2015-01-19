@@ -97,8 +97,8 @@ namespace CodenameProjectTwo
                 //Console.WriteLine("factionident: " + factionIdentification+", soll: "+Client.MyFaction);
                 if (factionIdentification == Client.MyFaction)
                 {
-                    Client.MyRessources.Stone = msg.ReadInt32();
-                    Client.MyRessources.Wood = msg.ReadInt32();
+                    Client.MyRessources.Stone = msg.ReadFloat();
+                    Client.MyRessources.Wood = msg.ReadFloat();
                 }
                 else{
                     msg.ReadInt32();

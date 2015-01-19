@@ -8,11 +8,11 @@ namespace CodenameProjectTwo.Ressources
 {
     class RessourceKeeper
     {
-		public int Wood {get; set;}
-		public int Stone {get; set;}
+        public float Wood { get; set; }
+        public float Stone { get; set; }
 		public byte Faction {get; set;}
 
-        public RessourceKeeper(byte _faction, int _stones, int _wood)
+        public RessourceKeeper(byte _faction, float _stones, float _wood)
         {
             Faction = _faction;
             Stone = _stones;

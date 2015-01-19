@@ -41,18 +41,17 @@ namespace CodenameProjectServer
             PEOPLE_SWORDMAN = 101,
             PEOPLE_STONEMAN = 102;
         //building costs: wood
-        public static int[] BUILDING_COSTS_WOOD = { 200, 0, 0, 100, 0, 0, 400 };
+        public static float[] BUILDING_COSTS_WOOD = { 200, 0, 0, 400, 0, 0, 200 };
         //building costs: stone
-        public static int[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0, 0 };
-
+        public static float[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0, 0 };
         //ppl costs: wood
-        public static int[] PEOPLE_COSTS_WOOD = { 100, 0, 200 };
+        public static float[] PEOPLE_COSTS_WOOD = { 75, 150, 75 };
         //ppl costs: stone
-        public static int[] PEOPLE_COSTS_STONE = { 0, 100, 0 };
+        public static float[] PEOPLE_COSTS_STONE = { 0, 100, 0 };
 
 
         public const int AGGRO_RECT_SIZE = 150, EFFECTIVE_RECT_SIZE = 40;
 
-        public const int RESSOURCE_INCREASE_WOOD = 1, RESSOURCE_INCREASE_STONE = 1;
+        public const float RESSOURCE_INCREASE_WOOD = 0.09f, RESSOURCE_INCREASE_STONE = 0.09f;
     }
 }

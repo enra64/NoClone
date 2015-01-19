@@ -58,11 +58,13 @@ namespace CodenameProjectTwo
             PEOPLE_PEASANT = 100,
             PEOPLE_SWORDMAN = 101,
             PEOPLE_STONEMAN = 102;
-        
+
         //building costs: wood
-        public static int[] BUILDING_COSTS_WOOD = { 200, 0, 0, 100, 0, 0, 400 };
+        public static float[] BUILDING_COSTS_WOOD = { 200, 0, 0, 400, 0, 0, 200 };
         //building costs: stone
-        public static int[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0, 0 };
+        public static float[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0, 0 };
+
+
         /// <summary>
         /// Array of buildings users are not allowed to build
         /// </summary>
@@ -89,9 +91,9 @@ namespace CodenameProjectTwo
         public const int PEOPLE_TYPE_COUNT = 3, PEOPLE_ID_OFFSET = 100;
 
         //ppl costs: wood
-        public static int[] PEOPLE_COSTS_WOOD = { 100, 0, 200 };
+        public static float[] PEOPLE_COSTS_WOOD = { 75, 150, 75 };
         //ppl costs: stone
-        public static int[] PEOPLE_COSTS_STONE = { 0, 100, 0 };
+        public static float[] PEOPLE_COSTS_STONE = { 0, 100, 0 };
 
         /// <summary>
         /// Add a description to your item
