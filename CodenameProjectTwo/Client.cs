@@ -199,7 +199,7 @@ namespace CodenameProjectTwo
             //load people textures
             CGlobal.PEOPLE_TEXTURES[0] = new Texture("assets/graphics/units/Bauer.png");
             CGlobal.PEOPLE_TEXTURES[1] = new Texture("assets/graphics/units/soldier.png");
-            CGlobal.PEOPLE_TEXTURES[2] = new Texture("assets/graphics/units/stoneman.png");
+            CGlobal.PEOPLE_TEXTURES[2] = new Texture("assets/graphics/units/stonepeople.png");
         }
     }
 }
