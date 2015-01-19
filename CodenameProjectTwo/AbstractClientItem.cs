@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CodenameProjectTwo {
-    
+
     abstract class AbstractClientItem {
 
         #region variables
@@ -89,7 +89,7 @@ namespace CodenameProjectTwo {
                 Texture = CGlobal.BUILDING_TEXTURES[Type];
             }
             Sprite = new Sprite(Texture);
-            
+
             Sprite.Position = this.Position;
             outline = new RectangleShape(new Vector2f(Sprite.Scale.X * Texture.Size.X, Sprite.Scale.Y * Texture.Size.Y));
             outline.OutlineColor = Color.White;
@@ -150,8 +150,7 @@ namespace CodenameProjectTwo {
             Sprite.Position = this.Position;
             Client.cRenderWindow.Draw(Sprite);
 
-            if (People)
-            {
+            if (People) {
                 if (Faction == 1)
                     intfaction = 1;
                 else if (Faction == 2)
@@ -159,22 +158,28 @@ namespace CodenameProjectTwo {
                 else
                     intfaction = 0;
             }
-            if (isAnim == false)
-            {
+            if (isAnim == false) {
                 isAnim = true;
                 DelayUtil.delayUtil(300, () => CGlobal.textureVector.X = 0);
                 DelayUtil.delayUtil(600, () => CGlobal.textureVector.X = 1);
                 DelayUtil.delayUtil(900, () => isAnim = false);
             }
-            if (People && Type == 100)
-            {
+            if (People && Type == 102){
+                //137 173
+                if (CGlobal.textureVector.X == 0)
+                    Sprite.TextureRect = new IntRect(0, intfaction * 173, 137, 173);
+                else
+                    Sprite.TextureRect = new IntRect(138, intfaction * 173, 110, 173);
+            }
+
+            if (People && Type == 100) {
                 Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 124, intfaction * 173, 124, 173);
             }
 
-            if (People && Type == 101)
-            {
+            if (People && Type == 101) {
                 Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 146, intfaction * 184, 146, 184);
             }
+
         }
 
     }
