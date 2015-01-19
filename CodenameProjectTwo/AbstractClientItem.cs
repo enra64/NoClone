@@ -160,8 +160,8 @@ namespace CodenameProjectTwo {
             }
             if (isAnim == false) {
                 isAnim = true;
-                DelayUtil.delayUtil(300, () => CGlobal.textureVector.X = 0);
-                DelayUtil.delayUtil(600, () => CGlobal.textureVector.X = 1);
+                DelayUtil.delayUtil(300, () => CGlobal.textureVector.X = 1);
+                DelayUtil.delayUtil(600, () => CGlobal.textureVector.X = 0);
                 DelayUtil.delayUtil(900, () => isAnim = false);
             }
             if (People) {
