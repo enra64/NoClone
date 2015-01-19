@@ -44,7 +44,7 @@ namespace CodenameProjectServer {
 
             //instantiate village centers
             //health is normalized to 100!
-            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(360, 3200), 100);
+            InstanceClass(SGlobal.BUILDING_RED, 1, new Vector2f(260, 3110), 100);
             InstanceClass(SGlobal.BUILDING_BLUE, 2, new Vector2f(2900, -1350), 100);
 
             //instantiate ressources
