@@ -72,12 +72,12 @@ namespace CodenameProjectTwo
         /// </summary>
         public static String[] BUILDING_DESCRIPTIONS = new string[] { 
             "I am the default Building", 
-            "You are the proud leader of the Red Army! Soon^TM you can conquer those blue assholes!", 
-            "You are the proud leader of the Blue Armada! Soon^TM you can conquer those red faggots!", 
-            "Soldiers(if we would have some) are getting trained here!", 
-            "STONE -> O <- this is one", 
-            "Wood",
-            "Houses the guy that gets stone."};
+            "You are the proud leader of the Red Army! You have to fight against the blue oppressors!", 
+            "You are the proud leader of the Blue Armada! You have to fight against the red conquerors!", 
+            "Soldiers are getting their basic \"Training\" here!", 
+            "Stone! This stuff is everywhere!", 
+            "A Tree! Maybe someday this one will march against Isengart...",
+            "The stone people live here! Nobody knows where they come from!"};
         /// <summary>
         /// Save the texture of your item here
         /// </summary>
