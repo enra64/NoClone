@@ -45,8 +45,10 @@ namespace CodenameProjectTwo
             om.Write(CGlobal.BOUNDINGSIZE_MESSAGE);
             for (int i = 0; i < CGlobal.PEOPLE_TEXTURES.Length; i++) {
                 om.Write((Int32)i + CGlobal.PEOPLE_ID_OFFSET);//type
-                om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.X);//x size
-                om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.Y);//y size
+                //om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.X);//x size
+                //om.Write((Int32)CGlobal.PEOPLE_TEXTURES[i].Size.Y);//y size
+                om.Write((Int32)115);//x size
+                om.Write((Int32)150);//y size
             }
             for (int i = 0; i < CGlobal.BUILDING_TEXTURES.Length; i++) {
                 om.Write((Int32)i);//type

@@ -83,6 +83,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="assets\graphics\units\bauern.psd" />
+    <None Include="assets\graphics\units\soldiers.psd" />
     <None Include="assets\graphics\units\stonepeople.psd" />
     <None Include="assets\ui\ferrum.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

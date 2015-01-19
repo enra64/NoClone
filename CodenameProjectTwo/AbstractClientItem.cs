@@ -164,13 +164,9 @@ namespace CodenameProjectTwo {
                 DelayUtil.delayUtil(600, () => CGlobal.textureVector.X = 1);
                 DelayUtil.delayUtil(900, () => isAnim = false);
             }
-            if (People && Type == 102 || People && Type == 100) {
-                //137 173 total:249
-                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 140, intfaction * 200, 140, 200);
-            }
-
-            if (People && Type == 101) {
-                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 146, intfaction * 184, 146, 184);
+            if (People) {
+                //130 170
+                Sprite.TextureRect = new IntRect(CGlobal.textureVector.X * 115, intfaction * 151, 115, 150);
             }
 
         }
