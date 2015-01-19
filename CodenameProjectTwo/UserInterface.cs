@@ -21,6 +21,9 @@ namespace CodenameProjectTwo {
         public static float IconSize;
         public static float horizontalMenuSize;
 
+        private static Sprite uiSprite;
+        private static Texture uiTexture;
+
         private RectangleShape hoverBox;
 
         /// <summary>
@@ -35,6 +38,10 @@ namespace CodenameProjectTwo {
 
         public UserInterface() {
             win = Client.cRenderWindow;
+            uiTexture = new Texture("assets/ui/uilist.png");
+            uiSprite = new Sprite(uiTexture);
+            uiSprite.Position = new Vector2f(0, 0);
+            uiSprite.Scale = new Vector2f(273.3f / (float)uiTexture.Size.X, 768f / (float)uiTexture.Size.Y);
 
             //init view & viewport
             horizontalMenuSize = .2f;
@@ -158,6 +165,8 @@ namespace CodenameProjectTwo {
             win.Draw(textureBox);
             win.Draw(descriptionBox);
             win.Draw(infoBox);
+
+            win.Draw(uiSprite);
 
             /*
              * Nothing is clicked, draw usual shit
