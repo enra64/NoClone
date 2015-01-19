@@ -116,7 +116,7 @@
     <Content Include="assets\graphics\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\uilist.png">
+    <Content Include="assets\ui\uilist.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\units\bauer.png">
