@@ -37,15 +37,16 @@ namespace CodenameProjectServer
             RESSOURCE_STONE = 4,
             RESSOURCE_WOOD =5,
             BUILDING_STONEHACKER = 6,
-            PEOPLE_PEASANT = 100, 
+            PEOPLE_PEASANT = 100,
             PEOPLE_SWORDMAN = 101,
             PEOPLE_STONEMAN = 102;
         //building costs: wood
         public static float[] BUILDING_COSTS_WOOD = { 200, 0, 0, 400, 0, 0, 200 };
         //building costs: stone
         public static float[] BUILDING_COSTS_STONE = { 0, 0, 0, 300, 0, 0, 0 };
+
         //ppl costs: wood
-        public static float[] PEOPLE_COSTS_WOOD = { 75, 150, 75 };
+        public static float[] PEOPLE_COSTS_WOOD = { 75, 150, 100 };
         //ppl costs: stone
         public static float[] PEOPLE_COSTS_STONE = { 0, 100, 0 };
 
